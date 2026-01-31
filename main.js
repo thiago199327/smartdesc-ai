@@ -1,5 +1,5 @@
 // SmartDesc AI - Versão Ultra-Estável (Gemini Pro)
-const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY") || "SUA_CHAVE_AQUI";
+const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY") || "AIzaSyBnkvLXb8GX8bYJJVoNYfFfICCH7TIRpBE";
 
 Deno.serve(async (req) => {
   const headers = {
@@ -48,3 +48,4 @@ Deno.serve(async (req) => {
     headers: { "content-type": "text/plain; charset=utf-8" },
   });
 });
+
