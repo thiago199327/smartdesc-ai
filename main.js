@@ -1,5 +1,5 @@
-// SmartDesc AI - Motor de Elite (Atualizado para os modelos de 2026)
-const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY") || "SUA_CHAVE_AQUI";
+// SmartDesc AI - Versão Segura (Cofre Ativado 🔒)
+const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
 
 Deno.serve(async (req) => {
   const headers = {
@@ -15,38 +15,34 @@ Deno.serve(async (req) => {
     try {
       const { productName } = await req.json();
       
-      // ATENÇÃO: Mudamos para o gemini-2.5-flash, que é o padrão atual de 2026
-      const url = `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+      if (!GEMINI_API_KEY) {
+        return new Response(JSON.stringify({ description: "Erro: Chave não configurada no painel do Deno." }), { headers });
+      }
+
+      // Usando o modelo estável de 2026
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
       
       const response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          contents: [{ 
-            parts: [{ text: `Você é um mestre em vendas e SEO. Crie uma descrição curta, matadora e com emojis para: ${productName}` }] 
-          }]
+          contents: [{ parts: [{ text: `Crie uma descrição curta e persuasiva para: ${productName}` }] }]
         }),
       });
 
       const data = await response.json();
 
       if (data.error) {
-        return new Response(JSON.stringify({ description: "Aviso do Google: " + data.error.message }), { headers });
+        return new Response(JSON.stringify({ description: "Erro no Google: " + data.error.message }), { headers });
       }
 
-      if (data.candidates && data.candidates[0].content) {
-        const description = data.candidates[0].content.parts[0].text;
-        return new Response(JSON.stringify({ description }), { headers });
-      } else {
-        return new Response(JSON.stringify({ description: "A IA está recarregando as energias... tente de novo!" }), { headers });
-      }
+      const description = data.candidates[0].content.parts[0].text;
+      return new Response(JSON.stringify({ description }), { headers });
 
     } catch (err) {
-      return new Response(JSON.stringify({ description: "Erro no motor. Verifique a chave no painel do Deno." }), { headers });
+      return new Response(JSON.stringify({ description: "O motor deu um soluço. Tente novamente!" }), { headers });
     }
   }
 
-  return new Response("O motor do império está pronto para 2026! 🚀", {
-    headers: { "content-type": "text/plain; charset=utf-8" },
-  });
+  return new Response("Segurança máxima ativada! 🔒🚀", { headers: { "content-type": "text/plain" } });
 });
