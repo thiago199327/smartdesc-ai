@@ -1,4 +1,4 @@
-// SmartDesc AI - Motor Estável (Versão Anti-Bloqueio) 🔒
+// SmartDesc AI - Edição Especial Gemini 3 🌌
 const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
 
 Deno.serve(async (req) => {
@@ -15,43 +15,32 @@ Deno.serve(async (req) => {
     try {
       const { productName } = await req.json();
       
-      if (!GEMINI_API_KEY) {
-        return new Response(JSON.stringify({ description: "Erro: Configure a chave no Deno!" }), { headers });
-      }
+      if (!GEMINI_API_KEY) return new Response(JSON.stringify({ description: "Erro: Chave ausente." }), { headers });
 
-      // Usando o 1.5-flash que é o mais generoso no Free Tier
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+      // O modelo mais novo que você acabou de descobrir!
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_API_KEY}`;
       
       const response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          contents: [{ 
-            parts: [{ text: `Escreva uma descrição de venda curta, persuasiva e com emojis para: ${productName}` }] 
-          }]
+          contents: [{ parts: [{ text: `Você é uma IA de elite. Crie uma descrição de venda perfeita para: ${productName}` }] }]
         }),
       });
 
       const data = await response.json();
 
       if (data.error) {
-        // Se o erro de quota persistir, ele vai avisar aqui
-        return new Response(JSON.stringify({ description: "Google diz: " + data.error.message }), { headers });
+        return new Response(JSON.stringify({ description: "Aviso: " + data.error.message }), { headers });
       }
 
-      if (data.candidates && data.candidates[0].content) {
-        const description = data.candidates[0].content.parts[0].text;
-        return new Response(JSON.stringify({ description }), { headers });
-      } else {
-        return new Response(JSON.stringify({ description: "A IA deu um soluço. Tente de novo!" }), { headers });
-      }
+      const description = data.candidates[0].content.parts[0].text;
+      return new Response(JSON.stringify({ description }), { headers });
 
     } catch (err) {
-      return new Response(JSON.stringify({ description: "Erro no motor. Verifique os logs." }), { headers });
+      return new Response(JSON.stringify({ description: "Erro ao conectar com o Gemini 3." }), { headers });
     }
   }
 
-  return new Response("Motor SmartDesc Online! 💸", {
-    headers: { "content-type": "text/plain; charset=utf-8" },
-  });
+  return new Response("SmartDesc AI rodando no motor do futuro! ⚡", { headers: { "content-type": "text/plain" } });
 });
