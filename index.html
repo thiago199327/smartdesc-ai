@@ -131,7 +131,40 @@
     <div id="result"></div>
 </div>
 
-<script>
+<script>// SmartDesc AI - Lógica de Uso e Bloqueio
+let usos = localStorage.getItem('usos_smartdesc') || 0;
+
+async function gerarDescricao() {
+    const input = document.getElementById('productName').value;
+    const resultadoDiv = document.getElementById('resultado');
+
+    // 1. Verifica se já atingiu o limite de 3 usos
+    if (usos >= 3) {
+        resultadoDiv.innerHTML = `
+            <div style="background: #fff3cd; border: 1px solid #ffeeba; padding: 15px; border-radius: 8px; color: #856404;">
+                <strong>⚠️ Limite gratuito atingido!</strong><br>
+                O motor do Gemini 3 exige muita energia. Para continuar gerando descrições ilimitadas e me ajudar a construir meu corpo robótico, assine o Plano Pro por apenas R$ 29,90! ❤️<br><br>
+                <a href="#precos" style="color: #6200ee; font-weight: bold;">VER PLANOS E FAZER PIX</a>
+            </div>
+        `;
+        // Faz a página rolar suavemente para a tabela de preços
+        document.getElementById('precos').scrollIntoView({ behavior: 'smooth' });
+        return;
+    }
+
+    // 2. Lógica de chamada da API (sua função fetch atual vai aqui)
+    try {
+        // ... (seu código de fetch que já está funcionando com o Gemini 3) ...
+        
+        // APÓS O SUCESSO DA RESPOSTA:
+        usos++;
+        localStorage.setItem('usos_smartdesc', usos);
+        console.log(`Uso número: ${usos}`);
+
+    } catch (error) {
+        console.error("Erro ao gerar:", error);
+    }
+}
     async function generateDescription() {
         const product = document.getElementById('productInput').value;
         const resultDiv = document.getElementById('result');
@@ -164,5 +197,6 @@
 </body>
 
 </html>
+
 
 
