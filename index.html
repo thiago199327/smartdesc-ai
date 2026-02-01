@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartDesc AI | Agência de Marketing Digital Automatizada</title>
+    <title>SmartDesc AI | O Marketing que não dorme</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -19,7 +19,7 @@
 
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-light); color: #1d1d1f; margin: 0; scroll-behavior: smooth; }
 
-        /* --- HEADER / MENU --- */
+        /* --- HEADER --- */
         header {
             position: fixed; top: 0; width: 100%; height: 70px;
             background: rgba(10, 10, 11, 0.8); backdrop-filter: blur(15px);
@@ -31,7 +31,7 @@
         nav a { color: white; text-decoration: none; margin: 0 15px; font-size: 0.9rem; opacity: 0.8; transition: 0.3s; }
         nav a:hover { opacity: 1; color: var(--primary); }
 
-        /* --- HERO SECTION --- */
+        /* --- HERO --- */
         .hero {
             background: linear-gradient(135deg, #0a0a0b 0%, #007AFF 100%);
             padding: 150px 20px 120px; text-align: center; color: white;
@@ -39,7 +39,13 @@
         .hero h1 { font-size: 2.8rem; margin-bottom: 15px; font-weight: 700; letter-spacing: -1px; }
         .hero p { font-size: 1.1rem; opacity: 0.9; max-width: 600px; margin: 0 auto 30px; }
 
-        /* --- GERADOR (TOOL) --- */
+        /* --- VANTAGENS --- */
+        .features-box { padding: 80px 20px; text-align: center; background-color: white; }
+        .features-grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; }
+        .feature-card { background: var(--bg-light); padding: 30px; border-radius: 20px; width: 280px; transition: 0.3s; border: 1px solid #eee; }
+        .feature-card:hover { transform: translateY(-10px); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+
+        /* --- GENERATOR --- */
         .generator-container {
             max-width: 550px; background: white; padding: 40px;
             border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.1);
@@ -47,51 +53,24 @@
         }
         .generator-container input { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #d2d2d7; margin-bottom: 15px; box-sizing: border-box; font-size: 1rem; }
         .btn-generate { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn-generate:hover { transform: scale(1.02); box-shadow: 0 5px 15px rgba(0, 122, 255, 0.3); }
-
+        
         /* --- PREÇOS --- */
         .pricing-section { background: var(--dark); padding: 100px 20px; }
         .pricing-container { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; }
-        .pricing-card { background: var(--glass); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 40px; width: 300px; color: white; text-align: center; transition: 0.3s; }
-        .pricing-card.featured { border: 2px solid var(--primary); transform: scale(1.05); }
-        .plan-name { font-size: 1.4rem; color: var(--primary); font-weight: bold; }
-        .credit-amount { font-size: 3rem; font-weight: 700; margin: 15px 0; }
-        
-        /* --- FORMULÁRIO --- */
-        .form-section { background: var(--dark); padding: 0 20px 100px; }
-        .form-container { max-width: 600px; margin: 0 auto; padding: 40px; background: #1a1a1c; border-radius: 24px; color: white; border: 1px solid #333; }
-        .form-container h2 { color: var(--gold); text-align: center; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 14px; background: #2d2d30; border: 1px solid #444; border-radius: 12px; color: white; box-sizing: border-box; margin-top: 5px; }
+        .pricing-card { background: var(--glass); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 40px; width: 300px; color: white; text-align: center; transition: 0.3s; position: relative; }
+        .pricing-card.featured { border: 2px solid var(--primary); transform: scale(1.05); background: rgba(0, 122, 255, 0.05); }
+        .price { font-size: 2rem; font-weight: 700; margin: 20px 0; color: white; }
+        .features-list { list-style: none; padding: 0; margin: 20px 0; text-align: left; font-size: 0.9rem; opacity: 0.8; }
+        .features-list li { margin-bottom: 10px; }
+        .features-list li::before { content: "✓"; color: var(--primary); margin-right: 10px; }
+
+        .btn-buy-lux { width: 100%; padding: 12px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; background: var(--primary); color: white; }
 
         /* --- WHATSAPP --- */
         .whatsapp-float { position: fixed; width: 60px; height: 60px; bottom: 30px; right: 30px; background: #25d366; color: white; border-radius: 50px; display: flex; align-items: center; justify-content: center; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.3); text-decoration: none; }
-        
         #result { margin-top: 25px; text-align: left; background: #fbfbfd; padding: 20px; border-radius: 12px; display: none; border: 1px solid #d2d2d7; white-space: pre-wrap; font-size: 0.95rem; }
     </style>
-</head><section style="padding: 50px 20px; text-align: center; background-color: #f9f9f9;">
-    <h2 style="color: #2c3e50; font-family: 'Inter', sans-serif;">Transforme Cliques em Pix 🚀</h2>
-    <p style="color: #7f8c8d; max-width: 600px; margin: 0 auto 40px;">Não entregamos apenas texto. Entregamos a estratégia que as lojas de elite usam.</p>
-    
-    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-        <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 280px;">
-            <div style="font-size: 40px; margin-bottom: 15px;">✍️</div>
-            <h3 style="color: #3498db;">Textos Vivos</h3>
-            <p style="font-size: 14px; color: #666;">Descrições que emocionam e convencem, focadas na durabilidade e utilidade real.</p>
-        </div>
-
-        <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 280px;">
-            <div style="font-size: 40px; margin-bottom: 15px;">📈</div>
-            <h3 style="color: #3498db;">SEO Blindado</h3>
-            <p style="font-size: 14px; color: #666;">Apareça no topo das buscas. Usamos os algoritmos da Shopee a seu favor.</p>
-        </div>
-
-        <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 280px;">
-            <div style="font-size: 40px; margin-bottom: 15px;">🎥</div>
-            <h3 style="color: #3498db;">Vídeo Scripts</h3>
-            <p style="font-size: 14px; color: #666;">Exclusivo: Receba roteiros prontos para gravar vídeos que vendem 80% mais.</p>
-        </div>
-    </div>
-</section>
+</head>
 <body>
 
     <header>
@@ -105,8 +84,33 @@
 
     <section class="hero">
         <h1>O Marketing que não dorme.</h1>
-        <p>A primeira agência 100% automatizada para donos de e-commerce. Escalamos sua marca com SEO, descrições e gestão de redes sociais via Inteligência Artificial.</p>
-        <a href="#ferramenta" style="display:inline-block; padding: 15px 35px; background: white; color: var(--primary); border-radius: 12px; text-decoration: none; font-weight: bold;">Testar Grátis</a>
+        <p>A primeira agência 100% automatizada para donos de e-commerce. Escalamos sua marca com SEO, descrições e gestão estratégica via IA Gem 💎</p>
+        <a href="#ferramenta" style="display:inline-block; padding: 15px 35px; background: white; color: var(--primary); border-radius: 12px; text-decoration: none; font-weight: bold;">Testar Agora</a>
+    </section>
+
+    <section class="features-box">
+        <h2 style="color: #2c3e50; margin-bottom: 10px;">Transforme Cliques em Pix 🚀</h2>
+        <p style="color: #7f8c8d; max-width: 600px; margin: 0 auto 40px;">Não entregamos apenas texto. Entregamos a estratégia que as lojas de elite usam para dominar a Shopee.</p>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div style="font-size: 40px; margin-bottom: 15px;">✍️</div>
+                <h3 style="color: #3498db; margin: 10px 0;">Textos Vivos</h3>
+                <p style="font-size: 14px; color: #666;">Descrições que emocionam e convencem, focadas na durabilidade e utilidade real do produto.</p>
+            </div>
+
+            <div class="feature-card">
+                <div style="font-size: 40px; margin-bottom: 15px;">📈</div>
+                <h3 style="color: #3498db; margin: 10px 0;">SEO Blindado</h3>
+                <p style="font-size: 14px; color: #666;">Apareça no topo das buscas orgânicas. Usamos os algoritmos a seu favor.</p>
+            </div>
+
+            <div class="feature-card">
+                <div style="font-size: 40px; margin-bottom: 15px;">🎥</div>
+                <h3 style="color: #3498db; margin: 10px 0;">Vídeo Scripts</h3>
+                <p style="font-size: 14px; color: #666;">Exclusivo: Receba roteiros prontos para gravar vídeos que vendem 80% mais que fotos.</p>
+            </div>
+        </div>
     </section>
 
     <div class="generator-container" id="ferramenta">
@@ -115,99 +119,55 @@
         <button class="btn-generate" onclick="generateDescription()">Gerar com IA Gem 💎</button>
         <div id="loader" style="display:none; margin-top:15px; color:var(--primary); font-weight:bold;">✨ Calibrando os sensores...</div>
         <div id="result"></div>
-        
-        <div id="areaAtivacao" style="margin-top:30px; padding:15px; border: 1px dashed #ccc; border-radius: 12px;">
-            <p style="font-size:0.8rem; margin:0 0 10px 0;">Já é assinante? Ative sua chave:</p>
-            <input type="text" id="chaveInput" placeholder="Sua Chave PRO" style="padding:10px; font-size:0.8rem;">
-            <button onclick="ativarChave()" style="width:100%; background:#333; color:white; border:none; padding:10px; border-radius:8px; cursor:pointer;">Ativar 🗝️</button>
-        </div>
     </div>
 
     <section class="pricing-section" id="precos">
-        <h2 style="color:white; text-align:center; margin-bottom:50px; font-size:2rem;">Nossos Planos de Escala</h2>
+        <h2 style="color:white; text-align:center; margin-bottom:20px; font-size:2rem;">Nossos Planos de Escala</h2>
+        <p style="color: var(--primary); text-align: center; margin-bottom: 50px; font-weight: bold;">💎 Ajude a construir o corpo da Gem e escale sua loja!</p>
+        
         <div class="pricing-container">
             <div class="pricing-card">
                 <p class="plan-name">Starter Pack</p>
-                <div class="credit-amount">500</div>
-                <p>Créditos Mensais</p>
                 <div class="price">R$ 499,00</div>
                 <ul class="features-list">
-                    <li>Automação FB & IG</li>
+                    <li>500 Créditos Mensais</li>
                     <li>SEO Estratégico</li>
-                    <li>Edição de Fotos</li>
+                    <li>Suporte via Chat</li>
                 </ul>
-                <button class="btn-buy-lux" style="background:#444;">Comprar</button>
+                <button class="btn-buy-lux" style="background:#444;">Começar Agora</button>
             </div>
+
             <div class="pricing-card featured">
                 <div style="position:absolute; top:-15px; left:50%; transform:translateX(-50%); background:var(--primary); padding:5px 15px; border-radius:20px; font-size:0.7rem; font-weight:bold;">MAIS BUSCADO</div>
                 <p class="plan-name">Business Pro</p>
-                <div class="credit-amount">2.500</div>
-                <p>Créditos Mensais</p>
                 <div class="price">R$ 1.290,00</div>
                 <ul class="features-list">
-                    <li>Gestão 3 Redes Sociais</li>
-                    <li>SEO Ilimitado</li>
+                    <li>2.500 Créditos Mensais</li>
+                    <li>Gestão de 3 Redes Sociais</li>
                     <li>Dashboard de Lucros</li>
+                    <li>Roteiros de Vídeo VIP</li>
                 </ul>
                 <button class="btn-buy-lux">Assinar Agora</button>
             </div>
+
             <div class="pricing-card">
                 <p class="plan-name" style="color:var(--gold)">Diamond Anual</p>
-                <div class="credit-amount" style="color:var(--gold)">10k+</div>
-                <p>Créditos Sob Medida</p>
                 <div class="price">Consultoria</div>
                 <ul class="features-list">
                     <li>Gestão Full Agency</li>
                     <li>Suporte VIP Thiago</li>
-                    <li>Contrato Anual</li>
+                    <li>Estratégia Santorini Blue</li>
                 </ul>
                 <button class="btn-buy-lux" style="background:var(--gold); color:black;">Falar com Thiago</button>
             </div>
         </div>
     </section>
 
-    <section class="form-section" id="consultoria">
-        <div class="form-container">
-            <h2>Solicitar Consultoria</h2>
-            <p>Seja selecionado para nossa gestão exclusiva.</p>
-            <form action="https://formspree.io/f/xvzqavkv" method="POST">
-                <div class="form-group">
-                    <label>Seu Nome</label>
-                    <input type="text" name="nome" placeholder="Thiago Caboski" required>
-                </div>
-                <div class="form-group">
-                    <label>WhatsApp</label>
-                    <input type="tel" name="whatsapp" placeholder="(41) 99999-9999" required>
-                </div>
-                <div class="form-group">
-                    <label>Plano de Interesse</label>
-                    <select name="plano">
-                        <option value="business">Business Pro</option>
-                        <option value="diamond">Diamond Anual</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Sua Empresa</label>
-                    <textarea name="mensagem" rows="3" placeholder="Conte-nos sobre seu negócio..."></textarea>
-                </div>
-                <button type="submit" class="btn-submit">Enviar Candidatura</button>
-            </form>
-        </div>
-    </section>
+    <a href="https://wa.me/5541999689107?text=Oi%20Thiago!%20Quero%20falar%20sobre%20a%20SmartDesc." class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp" style="font-size:30px;"></i>
+    </a>
 
     <script>
-        const chavesMestras = ["PRO-GEM-THI-01", "SANTORINI-BLUE", "CORE-PRO-99"];
-        function ativarChave() {
-            const val = document.getElementById('chaveInput').value.trim();
-            if(chavesMestras.includes(val)) {
-                localStorage.setItem('usuario_status', 'PRO');
-                alert("💎 Acesso Pro Liberado!"); location.reload();
-            } else { alert("❌ Chave Inválida!"); }
-        }
-        if(localStorage.getItem('usuario_status') === 'PRO') {
-            document.getElementById('areaAtivacao').style.display = 'none';
-        }
-
         async function generateDescription() {
             const prod = document.getElementById('productInput').value;
             const res = document.getElementById('result');
@@ -225,11 +185,5 @@
             finally { load.style.display = "none"; }
         }
     </script>
-
-    <a href="https://wa.me/5541999689107?text=Oi%20Thiago!%20Quero%20falar%20sobre%20a%20SmartDesc." class="whatsapp-float" target="_blank">
-        <i class="fab fa-whatsapp" style="font-size:30px;"></i>
-    </a>
-
 </body>
 </html>
-
