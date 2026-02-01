@@ -95,7 +95,138 @@
             display: none;
         }
     </style>
-</head>
+</head><style>
+    :root {
+        --primary-blue: #007AFF;
+        --dark-bg: #0a0a0b;
+        --glass-bg: rgba(255, 255, 255, 0.05);
+        --accent-gold: #ffcf4b;
+    }
+
+    .pricing-container {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        padding: 50px 20px;
+        background-color: var(--dark-bg);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        flex-wrap: wrap;
+    }
+
+    .pricing-card {
+        background: var(--glass-bg);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 40px;
+        width: 300px;
+        text-align: center;
+        transition: transform 0.3s ease, border-color 0.3s ease;
+        backdrop-filter: blur(10px);
+        color: white;
+    }
+
+    .pricing-card:hover {
+        transform: translateY(-10px);
+        border-color: var(--primary-blue);
+    }
+
+    .pricing-card.featured {
+        border: 2px solid var(--primary-blue);
+        position: relative;
+        scale: 1.05;
+    }
+
+    .featured-label {
+        position: absolute;
+        top: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--primary-blue);
+        padding: 5px 20px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .plan-name { font-size: 1.5rem; margin-bottom: 10px; opacity: 0.8; }
+    .credit-amount { font-size: 3rem; font-weight: bold; color: var(--primary-blue); }
+    .price { font-size: 1.2rem; margin: 20px 0; font-weight: 300; }
+    
+    .features-list {
+        text-align: left;
+        list-style: none;
+        padding: 0;
+        margin: 30px 0;
+        font-size: 0.9rem;
+    }
+
+    .features-list li { margin-bottom: 12px; display: flex; align-items: center; }
+    .features-list li::before { content: "✓"; color: var(--primary-blue); margin-right: 10px; font-weight: bold; }
+
+    .btn-buy {
+        background: var(--primary-blue);
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 10px;
+        font-weight: bold;
+        cursor: pointer;
+        width: 100%;
+        transition: background 0.3s;
+    }
+
+    .btn-buy:hover { background: #0056b3; }
+    
+    .diamond-text { color: var(--accent-gold) !important; }
+</style>
+
+<section class="pricing-container">
+    <div class="pricing-card">
+        <h3 class="plan-name">Starter Pack</h3>
+        <div class="credit-amount">500</div>
+        <p>Créditos Inteligentes</p>
+        <div class="price">R$ 499,00 /mês</div>
+        <ul class="features-list">
+            <li>Automação FB & Instagram</li>
+            <li>SEO para 20 Produtos</li>
+            <li>Edição de Imagem Básica</li>
+            <li>Suporte via Chat</li>
+        </ul>
+        <button class="btn-buy">Adquirir Créditos</button>
+    </div>
+
+    <div class="pricing-card featured">
+        <div class="featured-label">Mais Popular</div>
+        <h3 class="plan-name">Business Pro</h3>
+        <div class="credit-amount">2.500</div>
+        <p>Créditos Inteligentes</p>
+        <div class="price">R$ 1.290,00 /mês</div>
+        <ul class="features-list">
+            <li>Gestão de 3 Redes Sociais</li>
+            <li>SEO Ilimitado para Marketplaces</li>
+            <li>Criação de Cenários em IA</li>
+            <li>Relatório Semanal de Lucros</li>
+            <li>Dashboard Exclusivo</li>
+        </ul>
+        <button class="btn-buy">Assinar Agora</button>
+    </div>
+
+    <div class="pricing-card">
+        <h3 class="plan-name diamond-text">Diamond Anual</h3>
+        <div class="credit-amount diamond-text">10k+</div>
+        <p>Créditos Sob Medida</p>
+        <div class="price">Sob Consulta</div>
+        <ul class="features-list">
+            <li>Gestão Full Agency (FB, IG, Amazon)</li>
+            <li>Contrato Anual com Garantia</li>
+            <li>Estrategista de Marketing Dedicado</li>
+            <li>Postagens Diárias Automáticas</li>
+            <li>Taxa de Implementação Grátis</li>
+        </ul>
+        <button class="btn-buy" style="background: var(--accent-gold); color: black;">Falar com Thiago</button>
+    </div>
+</section>
 <body>
 
 <section id="precos" style="text-align: center; padding: 40px 20px; background: #f4f4f9;">
@@ -237,3 +368,4 @@
 
 </body>
 </html>
+
