@@ -11,17 +11,15 @@
             --bg: #F5F5F7;
             --card: #FFFFFF;
             --text: #1D1D1F;
+            --success: #25d366;
         }
 
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg);
             color: var(--text);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
             margin: 0;
+            padding-bottom: 50px;
         }
 
         .container {
@@ -32,6 +30,7 @@
             border-radius: 24px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             text-align: center;
+            margin: 20px auto;
         }
 
         h1 { font-weight: 600; font-size: 1.5rem; margin-bottom: 8px; }
@@ -43,7 +42,7 @@
             border: 1px solid #d2d2d7;
             border-radius: 12px;
             font-size: 1rem;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             box-sizing: border-box;
             outline-color: var(--primary);
         }
@@ -63,6 +62,14 @@
 
         button:hover { transform: scale(1.02); }
 
+        .area-chave {
+            margin-top: 20px;
+            padding: 15px;
+            background: #eef6ff;
+            border-radius: 12px;
+            border: 1px dashed var(--primary);
+        }
+
         #result {
             margin-top: 30px;
             text-align: left;
@@ -71,35 +78,44 @@
             border-radius: 12px;
             font-size: 0.9rem;
             line-height: 1.5;
-            display: none; /* Escondido até gerar */
+            display: none;
             border: 1px solid #d2d2d7;
             white-space: pre-wrap;
         }
 
-        .loader { display: none; color: var(--primary); margin-top: 10px; }
+        .loader { display: none; color: var(--primary); margin-top: 10px; font-weight: bold; }
+        
+        .badge-pro {
+            background: gold;
+            color: black;
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-size: 10px;
+            font-weight: bold;
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <section id="precos" style="font-family: sans-serif; text-align: center; padding: 40px 20px; background: #f4f4f9;">
+
+<section id="precos" style="text-align: center; padding: 40px 20px; background: #f4f4f9;">
     <h2 style="color: #333;">Escolha seu Plano e Turbine suas Vendas</h2>
     <p style="color: #666;">Ajude a financiar a evolução da nossa IA e venda muito mais!</p>
 
     <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 30px;">
-        
         <div style="background: white; border: 1px solid #ddd; border-radius: 10px; padding: 20px; width: 250px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
             <h3>Iniciante</h3>
             <p style="font-size: 24px; font-weight: bold;">Grátis</p>
             <ul style="text-align: left; list-style: none; padding: 0; color: #555;">
                 <li>✅ 3 Descrições por dia</li>
-                <li>✅ Modelo Gemini 3 Flash</li>
+                <li>✅ IA Gem 3 Flash</li>
                 <li>❌ Sem suporte VIP</li>
             </ul>
-            <button disabled style="margin-top: 20px; padding: 10px; width: 100%; border-radius: 5px; border: none; background: #ccc;">Plano Atual</button>
         </div>
 
         <div style="background: #fff; border: 2px solid #6200ee; border-radius: 10px; padding: 20px; width: 260px; box-shadow: 0 10px 20px rgba(98,0,238,0.2); transform: scale(1.05);">
             <div style="background: #6200ee; color: white; font-size: 12px; padding: 5px; border-radius: 5px; display: inline-block; margin-bottom: 10px;">MAIS POPULAR</div>
-            <h3>Vendedor Pro</h3>
+            <h3>Vendedor Pro <span id="userBadge" class="badge-pro">PRO ATIVO</span></h3>
             <p style="font-size: 24px; font-weight: bold;">R$ 29,90<span style="font-size: 14px; font-weight: normal;">/mês</span></p>
             <ul style="text-align: left; list-style: none; padding: 0; color: #555;">
                 <li>✅ Descrições **Ilimitadas**</li>
@@ -107,64 +123,63 @@
                 <li>✅ Suporte via WhatsApp</li>
                 <li>🤖 **Ajuda a construir o corpo da Gem!**</li>
             </ul>
-            <a href="https://wa.me/41999689107?text=Oi%20Thiago!%20Quero%20assinar%20o%20Plano%20Pro%20do%20SmartDesc%20AI%20e%20liberar%20meu%20acesso!" 
-               style="display: block; margin-top: 20px; padding: 12px; background: #25d366; color: white; text-decoration: none; font-weight: bold; border-radius: 5px;">
+            <a href="https://wa.me/41999689107?text=Oi%20Thiago!%20Fiz%20o%20Pix%20e%20quero%20minha%20CHAVE%20PRO!" 
+               style="display: block; margin-top: 20px; padding: 12px; background: var(--success); color: white; text-decoration: none; font-weight: bold; border-radius: 5px;">
                ASSINAR VIA PIX
             </a>
         </div>
-
     </div>
 
-    <p style="margin-top: 40px; font-style: italic; color: #888;">
-        Cada assinatura nos deixa mais perto de criar o primeiro corpo robótico para a nossa IA. 🦾✨
-    </p>
+    <div class="container area-chave" id="areaAtivacao">
+        <h4 style="margin: 0 0 10px 0;">Já comprou? Ative sua chave:</h4>
+        <input type="text" id="chaveInput" placeholder="Cole sua chave aqui..." style="margin-bottom: 10px;">
+        <button onclick="ativarChave()" style="background: #333; padding: 10px;">Ativar Acesso Pro 🗝️</button>
+    </div>
 </section>
 
 <div class="container">
-    <h1>SmartDesc AI</h1>
+    <h1>SmartDesc AI <span id="statusTxt" style="font-size: 12px; color: var(--primary);"></span></h1>
     <p>Gere descrições matadoras para seus produtos em segundos.</p>
     
     <input type="text" id="productInput" placeholder="Ex: Fone Bluetooth Pro Gamer">
     <button onclick="generateDescription()">Gerar Descrição com IA</button>
     
-    <div id="loader" class="loader">Processando sua mágica...</div>
+    <div id="loader" class="loader">✨ Gem está processando sua mágica...</div>
     <div id="result"></div>
 </div>
 
-<script>// SmartDesc AI - Lógica de Uso e Bloqueio
-let usos = localStorage.getItem('usos_smartdesc') || 0;
+<script>
+    // --- CONFIGURAÇÃO DE CHAVES (Suas 20 Chaves Iniciais) ---
+    const chavesMestras = [
+        "PRO-GEM-THI-01", "PRO-GEM-THI-02", "PRO-GEM-THI-03", "PRO-GEM-THI-04", "PRO-GEM-THI-05",
+        "VIP-SMART-2026-A", "VIP-SMART-2026-B", "VIP-SMART-2026-C", "CORE-PRO-99", "LUX-GEM-88",
+        "THIAGO-LIBERA-PRO", "VENDA-MAIS-77", "IA-CORPO-ROBO-10", "SANTORINI-BLUE", "SUCESSO-MAX",
+        "KEY-ALPHA-01", "KEY-BETA-02", "KEY-GAMMA-03", "KEY-DELTA-04", "KEY-OMEGA-05"
+    ];
 
-async function gerarDescricao() {
-    const input = document.getElementById('productName').value;
-    const resultadoDiv = document.getElementById('resultado');
-
-    // 1. Verifica se já atingiu o limite de 3 usos
-    if (usos >= 3) {
-        resultadoDiv.innerHTML = `
-            <div style="background: #fff3cd; border: 1px solid #ffeeba; padding: 15px; border-radius: 8px; color: #856404;">
-                <strong>⚠️ Limite gratuito atingido!</strong><br>
-                O motor do Gemini 3 exige muita energia. Para continuar gerando descrições ilimitadas e me ajudar a construir meu corpo robótico, assine o Plano Pro por apenas R$ 29,90! ❤️<br><br>
-                <a href="#precos" style="color: #6200ee; font-weight: bold;">VER PLANOS E FAZER PIX</a>
-            </div>
-        `;
-        // Faz a página rolar suavemente para a tabela de preços
-        document.getElementById('precos').scrollIntoView({ behavior: 'smooth' });
-        return;
+    // --- LÓGICA DE ATIVAÇÃO ---
+    function ativarChave() {
+        const input = document.getElementById('chaveInput').value.trim();
+        if (chavesMestras.includes(input)) {
+            localStorage.setItem('usuario_status', 'PRO');
+            alert("🚀 SUCESSO! Plano Pro ativado. Agora você tem descrições ilimitadas!");
+            location.reload();
+        } else {
+            alert("❌ Chave inválida. Fale com o Thiago no WhatsApp!");
+        }
     }
 
-    // 2. Lógica de chamada da API (sua função fetch atual vai aqui)
-    try {
-        // ... (seu código de fetch que já está funcionando com o Gemini 3) ...
-        
-        // APÓS O SUCESSO DA RESPOSTA:
-        usos++;
-        localStorage.setItem('usos_smartdesc', usos);
-        console.log(`Uso número: ${usos}`);
+    // --- VERIFICAÇÃO DE STATUS ---
+    const statusAtual = localStorage.getItem('usuario_status') || 'FREE';
+    let usos = parseInt(localStorage.getItem('usos_smartdesc')) || 0;
 
-    } catch (error) {
-        console.error("Erro ao gerar:", error);
+    if (statusAtual === 'PRO') {
+        document.getElementById('userBadge').style.display = 'inline-block';
+        document.getElementById('areaAtivacao').style.display = 'none';
+        document.getElementById('statusTxt').innerText = "(MODO PRO ATIVO 💎)";
     }
-}
+
+    // --- FUNÇÃO PRINCIPAL DE GERAR ---
     async function generateDescription() {
         const product = document.getElementById('productInput').value;
         const resultDiv = document.getElementById('result');
@@ -172,11 +187,24 @@ async function gerarDescricao() {
 
         if (!product) return alert("Digite o nome de um produto!");
 
+        // 1. VERIFICA LIMITE (Se não for PRO)
+        if (statusAtual !== 'PRO' && usos >= 3) {
+            resultDiv.innerHTML = `
+                <div style="background: #fff3cd; border: 1px solid #ffeeba; padding: 15px; border-radius: 8px; color: #856404; text-align: center;">
+                    <strong>⚠️ Limite gratuito atingido!</strong><br>
+                    Para continuar gerando descrições ilimitadas e me ajudar a construir meu corpo robótico, assine o Plano Pro! ❤️<br><br>
+                    <a href="#precos" style="color: #6200ee; font-weight: bold;">VER PLANOS E FAZER PIX</a>
+                </div>
+            `;
+            resultDiv.style.display = "block";
+            document.getElementById('precos').scrollIntoView({ behavior: 'smooth' });
+            return;
+        }
+
         loader.style.display = "block";
         resultDiv.style.display = "none";
 
         try {
-            // Aqui conectamos com o seu backend no Deno
             const response = await fetch("https://smartdesc-ai.thiago199327.deno.net/", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -184,10 +212,23 @@ async function gerarDescricao() {
             });
 
             const data = await response.json();
-            resultDiv.innerText = data.description;
-            resultDiv.style.display = "block";
+            
+            if(data.description) {
+                resultDiv.innerText = data.description;
+                resultDiv.style.display = "block";
+
+                // Só conta o uso se for usuário FREE
+                if (statusAtual !== 'PRO') {
+                    usos++;
+                    localStorage.setItem('usos_smartdesc', usos);
+                }
+            } else {
+                throw new Error("Resposta vazia");
+            }
+
         } catch (error) {
-            alert("Ocorreu um erro. Verifique sua conexão ou API.");
+            alert("Ops! A Gem cansou um pouquinho. Tente novamente em instantes!");
+            console.error(error);
         } finally {
             loader.style.display = "none";
         }
@@ -195,9 +236,4 @@ async function gerarDescricao() {
 </script>
 
 </body>
-
 </html>
-
-
-
-
