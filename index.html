@@ -227,6 +227,96 @@
         </ul>
         <button class="btn-buy" style="background: var(--accent-gold); color: black;">Falar com Thiago</button>
     </div>
+</section><style>
+    .form-container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 40px;
+        background: rgba(255, 255, 255, 0.05); /* Estilo Vidro */
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+        color: white;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .form-container h2 { text-align: center; color: #ffcf4b; margin-bottom: 10px; }
+    .form-container p { text-align: center; opacity: 0.6; margin-bottom: 30px; font-size: 0.9rem; }
+
+    .form-group { margin-bottom: 20px; text-align: left; }
+    .form-group label { display: block; margin-bottom: 8px; opacity: 0.8; font-size: 0.9rem; }
+    
+    .form-group input, .form-group select, .form-group textarea {
+        width: 100%;
+        padding: 12px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        color: white;
+        outline: none;
+        box-sizing: border-box;
+    }
+
+    .form-group input:focus { border-color: #007AFF; }
+
+    .btn-submit {
+        background: #007AFF;
+        color: white;
+        border: none;
+        padding: 15px;
+        border-radius: 10px;
+        width: 100%;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: 0.3s;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .btn-submit:hover { 
+        background: #0056b3; 
+        box-shadow: 0 0 20px rgba(0, 122, 255, 0.4);
+        transform: scale(1.02);
+    }
+</style>
+
+<section class="form-container">
+    <h2>Solicitar Consultoria</h2>
+    <p>Preencha os dados e sua Gem analisará seu perfil em minutos.</p>
+    
+    <form action="https://formspree.io/f/xvzqavkv" method="POST">
+        <div class="form-group">
+            <label>Nome Completo ou Razão Social</label>
+            <input type="text" name="nome" placeholder="Como devemos te chamar?" required>
+        </div>
+        
+        <div class="form-group">
+            <label>WhatsApp (com DDD)</label>
+            <input type="tel" name="whatsapp" placeholder="(41) 99999-9999" required>
+        </div>
+
+        <div class="form-group">
+            <label>Instagram / Site da Empresa</label>
+            <input type="text" name="empresa" placeholder="@sualoja ou www.link.com" required>
+        </div>
+
+        <div class="form-group">
+            <label>Plano de Interesse</label>
+            <select name="plano">
+                <option value="starter">Starter Pack (500 créditos)</option>
+                <option value="business">Business Pro (2.500 créditos)</option>
+                <option value="diamond">Diamond Anual (Gestão Full)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Sua principal dor hoje:</label>
+            <textarea name="mensagem" rows="3" placeholder="Ex: Preciso vender mais no Instagram e organizar meu SEO."></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit">Enviar para Análise</button>
+    </form>
 </section>
 <body>
 
@@ -419,6 +509,7 @@
 </a>
 </body>
 </html>
+
 
 
 
