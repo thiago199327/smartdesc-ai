@@ -10,8 +10,8 @@
 
     <style>
         :root {
-            --primary: #0f172a; /* Azul Noturno (Profissional) */
-            --accent: #2563eb; /* Azul Royal (Ação) */
+            --primary: #0f172a; /* Azul Noturno */
+            --accent: #2563eb; /* Azul Royal */
             --bg: #f8fafc;
             --surface: #ffffff;
             --text: #334155;
@@ -20,7 +20,7 @@
 
         body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; display: flex; height: 100vh; color: var(--text); overflow: hidden; }
 
-        /* SIDEBAR (Área de Navegação) */
+        /* SIDEBAR */
         .sidebar { width: 260px; background: var(--primary); color: white; display: flex; flex-direction: column; padding: 24px; box-shadow: 4px 0 20px rgba(0,0,0,0.05); }
         .brand { font-size: 1.25rem; font-weight: 600; margin-bottom: 40px; display: flex; align-items: center; gap: 10px; letter-spacing: -0.5px; }
         .brand i { color: var(--accent); }
@@ -38,14 +38,14 @@
         .nav-link:hover, .nav-link.active { background: rgba(255,255,255,0.1); color: white; }
         .nav-link i { width: 20px; text-align: center; }
 
-        /* CONTEÚDO PRINCIPAL */
+        /* MAIN */
         .main { flex: 1; padding: 40px; overflow-y: auto; }
         
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
         .header h1 { font-size: 1.8rem; font-weight: 600; color: var(--primary); margin: 0; }
         .client-info { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; font-weight: 500; background: white; padding: 8px 16px; border-radius: 30px; border: 1px solid var(--border); }
 
-        /* GRID DE FERRAMENTAS */
+        /* GRID */
         .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
 
         .card { 
@@ -63,7 +63,7 @@
         .card h3 { margin: 0; font-size: 1.1rem; color: var(--primary); }
         .card p { margin: 4px 0 0; font-size: 0.85rem; color: #64748b; }
 
-        /* FORMULÁRIOS */
+        /* INPUTS */
         label { display: block; font-size: 0.85rem; font-weight: 500; margin-bottom: 8px; color: var(--primary); }
         input, select, textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 0.9rem; margin-bottom: 16px; outline: none; box-sizing: border-box; transition: border-color 0.2s; }
         input:focus { border-color: var(--accent); }
@@ -83,7 +83,7 @@
         button.btn-primary:hover { background: #1d4ed8; }
         button:disabled { background: #cbd5e1; cursor: not-allowed; }
 
-        /* ÁREA DE RESULTADO (ONDE A IA ESCREVE) */
+        /* OUTPUTS */
         .output-area { 
             margin-top: 20px; 
             background: #f1f5f9; 
@@ -92,325 +92,9 @@
             border-left: 4px solid var(--accent); 
             font-size: 0.95rem; 
             line-height: 1.6; 
-            display: none; /* Escondido até gerar */
+            display: none; 
         }
         .error-msg { color: #dc2626; background: #fef2f2; border-color: #dc2626; }
 
-        /* SPINNER DE CARREGAMENTO */
-        .spinner { width: 18px; height: 18px; border: 2px solid #ffffff; border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite; display: none; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* CHAT SUPORTE */
-        .chat-widget { position: fixed; bottom: 30px; right: 30px; }
-        .chat-btn { width: 60px; height: 60px; background: var(--accent); border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3); }
-        
-        .chat-window { position: absolute; bottom: 80px; right: 0; width: 350px; height: 500px; background: white; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); display: none; flex-direction: column; overflow: hidden; border: 1px solid var(--border); }
-        .chat-header { background: var(--primary); color: white; padding: 16px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
-        .chat-body { flex: 1; padding: 16px; overflow-y: auto; background: #f8fafc; font-size: 0.9rem; display: flex; flex-direction: column; gap: 12px; }
-        .msg { padding: 10px 14px; border-radius: 12px; max-width: 85%; }
-        .msg.bot { background: white; border: 1px solid var(--border); align-self: flex-start; border-bottom-left-radius: 2px; }
-        .msg.user { background: var(--accent); color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
-        .chat-input-area { padding: 12px; border-top: 1px solid var(--border); display: flex; gap: 8px; background: white; }
-    </style>
-</head>
-<body>
-
-    <div class="sidebar">
-        <div class="brand">
-            <i class="fas fa-cube"></i> Smart Core
-        </div>
-        <nav>
-            <a href="#" class="nav-link active"><i class="fas fa-chart-line"></i> Dashboard</a>
-            <a href="#" class="nav-link"><i class="fas fa-ad"></i> Marketing Ads</a>
-            <a href="#" class="nav-link"><i class="fas fa-camera"></i> Estúdio IA</a>
-            <a href="#" class="nav-link"><i class="fas fa-file-invoice-dollar"></i> Relatórios</a>
-            <a href="#" class="nav-link" style="margin-top:auto;"><i class="fas fa-cog"></i> Configurações</a>
-        </nav>
-    </div>
-
-    <main class="main">
-        <div class="header">
-            <h1>Visão Geral</h1>
-            <div class="client-info">
-                <i class="fas fa-building" style="color:var(--accent)"></i>
-                <span>Cliente Enterprise</span>
-            </div>
-        </div>
-
-        <div class="tools-grid">
-            
-            <div class="card">
-                <div class="card-header">
-                    <div class="icon-box"><i class="fas fa-pen-fancy"></i></div>
-                    <div>
-                        <h3>Gerador de Copy</h3>
-                        <p>IA Especialista em Conversão</p>
-                    </div>
-                </div>
-                <label>Nome do Produto</label>
-                <input type="text" id="ads-product" placeholder="Ex: Fone Bluetooth Pro...">
-                
-                <label>Plataforma Alvo</label>
-                <select id="ads-platform">
-                    <option value="Shopee">Shopee (Foco em preço/benefício)</option>
-                    <option value="Instagram">Instagram (Foco em desejo/visual)</option>
-                    <option value="Google Ads">Google Ads (Foco em clique)</option>
-                </select>
-
-                <button class="btn-primary" onclick="generateAds()" id="btn-ads">
-                    <div class="spinner" id="spin-ads"></div>
-                    <span id="txt-ads">Gerar Anúncio</span>
-                </button>
-
-                <div id="out-ads" class="output-area"></div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <div class="icon-box"><i class="fas fa-eye"></i></div>
-                    <div>
-                        <h3>Análise Visual</h3>
-                        <p>Auditoria de Imagens de Produto</p>
-                    </div>
-                </div>
-                
-                <label>Upload da Imagem</label>
-                <input type="file" id="vision-file" accept="image/*">
-                
-                <div id="preview-container" style="height: 120px; background: #f1f5f9; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; overflow: hidden;">
-                    <span style="color:#94a3b8; font-size:0.8rem;">Nenhuma imagem selecionada</span>
-                    <img id="img-preview" style="max-width:100%; max-height:100%; display:none;">
-                </div>
-
-                <button class="btn-primary" onclick="analyzeImage()" id="btn-vision">
-                    <div class="spinner" id="spin-vision"></div>
-                    <span id="txt-vision">Analisar Qualidade</span>
-                </button>
-
-                <div id="out-vision" class="output-area"></div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <div class="icon-box"><i class="fas fa-calculator"></i></div>
-                    <div>
-                        <h3>Auditoria de Custos</h3>
-                        <p>Análise de ROI e Margem</p>
-                    </div>
-                </div>
-                <p style="margin-bottom: 15px; font-size: 0.9rem;">Solicite uma análise instantânea baseada nos benchmarks do mercado.</p>
-                
-                <button class="btn-primary" style="background:var(--primary)" onclick="auditFinance()" id="btn-fin">
-                    <div class="spinner" id="spin-fin"></div>
-                    <span id="txt-fin">Gerar Relatório Financeiro</span>
-                </button>
-
-                <div id="out-fin" class="output-area"></div>
-            </div>
-
-        </div>
-    </main>
-
-    <div class="chat-widget">
-        <div class="chat-window" id="chat-window">
-            <div class="chat-header">
-                <span>Suporte Smart Core</span>
-                <i class="fas fa-times" style="cursor:pointer" onclick="toggleChat()"></i>
-            </div>
-            <div class="chat-body" id="chat-msgs">
-                <div class="msg bot">Olá! Sou a Assistente Virtual da Smart Core. Como posso ajudar a escalar seus resultados hoje?</div>
-            </div>
-            <div class="chat-input-area">
-                <input type="text" id="chat-input" placeholder="Digite sua dúvida..." style="margin:0;">
-                <button class="btn-primary" style="width: auto;" onclick="sendChat()"><i class="fas fa-paper-plane"></i></button>
-            </div>
-        </div>
-        <div class="chat-btn" onclick="toggleChat()">
-            <i class="fas fa-comment-dots"></i>
-        </div>
-    </div>
-
-    <script>
-        // ============================================================
-        // 🔒 CONFIGURAÇÃO DA API (Smart Core Serverless)
-        // ============================================================
-        const API_KEY = "AIzaSyDWpufjH25331yculLeV2zlmzf7sId4Cf4";
-        
-        // URL Corrigida para Produção
-        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
-        // ============================================================
-
-        // Utilitários de UI
-        const toggleChat = () => {
-            const win = document.getElementById('chat-window');
-            win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
-        };
-
-        const setLoading = (btnId, spinId, txtId, isLoading) => {
-            document.getElementById(spinId).style.display = isLoading ? 'block' : 'none';
-            document.getElementById(txtId).style.display = isLoading ? 'none' : 'block';
-            document.getElementById(btnId).disabled = isLoading;
-        };
-
-        const showError = (elementId, message) => {
-            const el = document.getElementById(elementId);
-            el.innerHTML = `<strong>Erro no Sistema:</strong> ${message}`;
-            el.classList.add('error-msg');
-            el.style.display = 'block';
-        };
-
-        // --- FUNÇÃO 1: GERAR ADS ---
-        async function generateAds() {
-            const product = document.getElementById('ads-product').value;
-            const platform = document.getElementById('ads-platform').value;
-            const output = document.getElementById('out-ads');
-            
-            if (!product) return alert("Por favor, insira o nome do produto.");
-
-            setLoading('btn-ads', 'spin-ads', 'txt-ads', true);
-            output.style.display = 'none';
-            output.classList.remove('error-msg');
-
-            // Prompt Profissional
-            const prompt = `Atue como um Copywriter Sênior de E-commerce. Crie um anúncio de alta conversão para a plataforma ${platform} vendendo o produto: "${product}".
-            Estrutura obrigatória:
-            1. Headline Chamativa (Gancho)
-            2. 3 Benefícios Principais (Bullet points)
-            3. Chamada para Ação (CTA) agressiva.
-            Use formatação profissional e emojis moderados.`;
-
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-                });
-
-                const data = await response.json();
-
-                if (data.error) throw new Error(data.error.message);
-                
-                const text = data.candidates[0].content.parts[0].text;
-                output.innerHTML = marked.parse(text);
-                output.style.display = 'block';
-
-            } catch (error) {
-                showError('out-ads', error.message + " (Verifique a conexão ou a API Key)");
-            } finally {
-                setLoading('btn-ads', 'spin-ads', 'txt-ads', false);
-            }
-        }
-
-        // --- FUNÇÃO 2: VISÃO COMPUTACIONAL ---
-        let base64Image = null;
-        document.getElementById('vision-file').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onloadend = function() {
-                    base64Image = reader.result.split(',')[1];
-                    const img = document.getElementById('img-preview');
-                    img.src = reader.result;
-                    img.style.display = 'block';
-                    document.querySelector('#preview-container span').style.display = 'none';
-                }
-                reader.readAsDataURL(file);
-            }
-        });
-
-        async function analyzeImage() {
-            if (!base64Image) return alert("Faça o upload da imagem do produto primeiro.");
-            
-            const output = document.getElementById('out-vision');
-            setLoading('btn-vision', 'spin-vision', 'txt-vision', true);
-            output.style.display = 'none';
-            output.classList.remove('error-msg');
-
-            const prompt = "Atue como um Especialista em Branding e Fotografia de Produto. Analise esta imagem tecnicamente: 1. Qualidade da iluminação (0-10). 2. Enquadramento. 3. O que melhorar para vender mais?";
-
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        contents: [{ 
-                            parts: [
-                                { text: prompt },
-                                { inline_data: { mime_type: "image/jpeg", data: base64Image } }
-                            ] 
-                        }] 
-                    })
-                });
-
-                const data = await response.json();
-                if (data.error) throw new Error(data.error.message);
-
-                const text = data.candidates[0].content.parts[0].text;
-                output.innerHTML = marked.parse(text);
-                output.style.display = 'block';
-            } catch (error) {
-                showError('out-vision', error.message);
-            } finally {
-                setLoading('btn-vision', 'spin-vision', 'txt-vision', false);
-            }
-        }
-
-        // --- FUNÇÃO 3: FINANCEIRO ---
-        async function auditFinance() {
-            const output = document.getElementById('out-fin');
-            setLoading('btn-fin', 'spin-fin', 'txt-fin', true);
-            output.style.display = 'none';
-            output.classList.remove('error-msg');
-
-            const prompt = "Atue como CFO (Diretor Financeiro). Liste 3 estratégias práticas e imediatas para redução de CAC (Custo de Aquisição de Cliente) em e-commerce no cenário atual. Seja técnico e direto.";
-
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-                });
-
-                const data = await response.json();
-                if (data.error) throw new Error(data.error.message);
-
-                const text = data.candidates[0].content.parts[0].text;
-                output.innerHTML = marked.parse(text);
-                output.style.display = 'block';
-            } catch (error) {
-                showError('out-fin', error.message);
-            } finally {
-                setLoading('btn-fin', 'spin-fin', 'txt-fin', false);
-            }
-        }
-
-        // --- CHAT ---
-        async function sendChat() {
-            const input = document.getElementById('chat-input');
-            const msgs = document.getElementById('chat-msgs');
-            const txt = input.value;
-            if(!txt) return;
-
-            msgs.innerHTML += `<div class="msg user">${txt}</div>`;
-            input.value = '';
-            msgs.scrollTop = msgs.scrollHeight;
-
-            const prompt = `Você é a Assistente Virtual da Smart Core Solutions. Seu tom é profissional, prestativo e focado em negócios. Responda a dúvida do cliente: ${txt}`;
-
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-                });
-                const data = await response.json();
-                const reply = data.candidates[0].content.parts[0].text;
-                msgs.innerHTML += `<div class="msg bot">${marked.parse(reply)}</div>`;
-            } catch (e) {
-                msgs.innerHTML += `<div class="msg bot" style="color:red">Erro de conexão. Tente novamente.</div>`;
-            }
-            msgs.scrollTop = msgs.scrollHeight;
-        }
-    </script>
-</body>
-</html>
+        /* SPINNER */
+        .spinner { width: 18px; height: 18px; border: 2px solid #ffffff; border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite;
