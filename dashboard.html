@@ -3,63 +3,291 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartDesc AI | Business Pro</title>
+    <title>Smart Core | HQ</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
-        :root { --primary: #007AFF; --dark: #0a0a0b; --bg: #f5f5f7; --success: #34c759; }
-        body { font-family: 'Outfit', sans-serif; background: var(--bg); margin: 0; display: flex; height: 100vh; overflow: hidden; color: #333; }
+        :root { --primary: #6366f1; --dark: #0f172a; --bg: #f1f5f9; --glass: rgba(255, 255, 255, 0.95); }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg); margin: 0; display: flex; height: 100vh; overflow: hidden; color: #334155; }
         
-        /* SIDEBAR PREMIUM */
-        .sidebar { width: 260px; background: var(--dark); color: white; display: flex; flex-direction: column; padding: 30px 20px; z-index: 10; box-shadow: 4px 0 20px rgba(0,0,0,0.1); }
-        .sidebar h2 { color: var(--primary); font-size: 1.5rem; margin-bottom: 40px; }
-        .sidebar h2 span { color: white; }
-        .nav-link { color: rgba(255,255,255,0.7); text-decoration: none; padding: 15px; border-radius: 10px; margin-bottom: 10px; transition: 0.3s; display: flex; align-items: center; }
-        .nav-link:hover, .nav-link.active { background: var(--primary); color: white; transform: translateX(5px); }
-        .nav-link i { margin-right: 15px; width: 20px; text-align: center; }
+        /* SIDEBAR (A SEDE) */
+        .sidebar { width: 260px; background: var(--dark); color: white; display: flex; flex-direction: column; padding: 30px 20px; box-shadow: 5px 0 15px rgba(0,0,0,0.1); z-index: 10; }
+        .sidebar h2 { color: var(--primary); font-size: 1.6rem; margin-bottom: 40px; letter-spacing: -1px; }
+        .sidebar h2 span { color: white; font-weight: 300; }
+        
+        .employee-list { margin-top: 20px; }
+        .employee { display: flex; align-items: center; gap: 15px; padding: 15px; border-radius: 12px; margin-bottom: 10px; transition: 0.3s; opacity: 0.7; cursor: default; }
+        .employee:hover { background: rgba(255,255,255,0.05); opacity: 1; }
+        .avatar { width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; }
+        
+        /* CORES DOS FUNCIONÁRIOS */
+        .leo { background: #f59e0b; color: white; } /* Laranja */
+        .bella { background: #ec4899; color: white; } /* Rosa */
+        .tavos { background: #10b981; color: white; } /* Verde */
+        .gem { background: var(--primary); color: white; box-shadow: 0 0 10px var(--primary); }
 
-        /* PROGRESSO DA GEM */
-        .gem-progress { background: rgba(255,255,255,0.05); color: white; padding: 20px; border-radius: 15px; margin-top: auto; font-size: 0.8rem; border: 1px solid rgba(255,255,255,0.1); }
-        .progress-bar { height: 6px; background: #333; border-radius: 10px; margin-top: 10px; overflow: hidden; }
-        .progress-fill { width: 100%; height: 100%; background: var(--success); box-shadow: 0 0 10px var(--success); }
-
-        /* MAIN CONTENT */
+        /* MAIN */
         .main-content { flex: 1; padding: 40px; overflow-y: auto; position: relative; }
-        .header-dash { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
-        .welcome-box h1 { margin: 0; font-size: 1.8rem; color: #1d1d1f; }
+        .header { margin-bottom: 40px; }
+        .header h1 { margin: 0; font-size: 2rem; color: var(--dark); }
         
-        /* CARDS DE FERRAMENTAS */
-        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 50px; }
-        .card { background: white; padding: 30px; border-radius: 24px; border: 1px solid #e5e5e5; transition: 0.3s; position: relative; overflow: hidden; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); border-color: var(--primary); }
-        .card h3 { margin: 10px 0; font-size: 1.3rem; }
-        .card p { color: #86868b; font-size: 0.9rem; line-height: 1.5; margin-bottom: 20px; }
-        .card i.icon-bg { position: absolute; top: 20px; right: 20px; font-size: 2.5rem; color: var(--primary); opacity: 0.1; }
+        /* GRID DE TAREFAS */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 60px; }
+        .card { background: white; padding: 25px; border-radius: 20px; border: 1px solid #e2e8f0; transition: 0.3s; position: relative; overflow: hidden; }
+        .card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        
+        .card-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .card-title h3 { margin: 0; font-size: 1.1rem; }
+        .card-title p { margin: 0; font-size: 0.8rem; color: #64748b; }
 
-        /* INPUTS E BOTÕES */
-        input, textarea { width: 100%; padding: 12px; border: 1px solid #d2d2d7; border-radius: 12px; font-family: 'Outfit'; box-sizing: border-box; margin-top: 5px; outline: none; transition: 0.2s; }
-        input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0,122,255,0.1); }
+        /* INPUTS */
+        input, textarea { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 10px; font-family: inherit; margin-bottom: 15px; box-sizing: border-box; outline: none; }
+        input:focus { border-color: var(--primary); }
         
-        .btn-action { background: var(--primary); color: white; border: none; padding: 12px 20px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 15px; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .btn-action:hover { background: #0062cc; transform: scale(1.02); }
+        .btn { border: none; padding: 12px; border-radius: 10px; font-weight: 600; cursor: pointer; width: 100%; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; color: white; }
+        .btn:hover { opacity: 0.9; }
 
-        /* RESULTADOS IA */
-        .ai-result { background: #1e1e1e; color: #f5f5f7; padding: 20px; border-radius: 15px; margin-top: 15px; font-size: 0.9rem; line-height: 1.6; display: none; box-shadow: inset 0 2px 10px rgba(0,0,0,0.5); }
-        .loading { display: none; text-align: center; margin-top: 15px; color: var(--primary); font-weight: 600; }
+        /* RESULTADOS */
+        .result-box { background: #1e293b; color: #f8fafc; padding: 15px; border-radius: 10px; margin-top: 15px; font-size: 0.9rem; line-height: 1.5; white-space: pre-wrap; display: none; }
+        .loading { display: none; text-align: center; color: var(--primary); font-size: 0.9rem; margin-top: 10px; }
 
-        /* CHAT GEM FLUTUANTE */
-        .chat-widget { position: fixed; bottom: 30px; right: 30px; z-index: 200; display: flex; flex-direction: column; align-items: flex-end; }
-        .chat-btn { background: var(--dark); width: 65px; height: 65px; border-radius: 50%; color: white; display: flex; justify-content: center; align-items: center; font-size: 1.8rem; box-shadow: 0 10px 30px rgba(0,0,0,0.3); cursor: pointer; transition: 0.3s; animation: pulse 2s infinite; border: 2px solid var(--primary); }
-        .chat-btn:hover { transform: scale(1.1); }
+        /* CHAT GEM (A CHEFE) */
+        .chat-widget { position: fixed; bottom: 30px; right: 30px; z-index: 100; display: flex; flex-direction: column; align-items: flex-end; }
+        .chat-btn { width: 70px; height: 70px; background: var(--dark); border-radius: 50%; color: white; display: flex; justify-content: center; align-items: center; font-size: 2rem; cursor: pointer; box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4); border: 2px solid var(--primary); animation: pulse 2s infinite; }
         
-        .chat-window { width: 340px; height: 450px; background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); margin-bottom: 20px; display: none; flex-direction: column; border: 1px solid #eee; overflow: hidden; animation: slideUp 0.3s ease; }
-        .chat-header { background: var(--dark); color: white; padding: 20px; display: flex; align-items: center; gap: 15px; }
-        .chat-avatar { width: 35px; height: 35px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--dark); font-weight: bold; }
-        .chat-body { flex: 1; padding: 20px; overflow-y: auto; background: #f9f9f9; display: flex; flex-direction: column; gap: 12px; }
+        .chat-window { width: 350px; height: 500px; background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); margin-bottom: 20px; display: none; flex-direction: column; border: 1px solid #e2e8f0; overflow: hidden; }
+        .chat-header { background: var(--dark); color: white; padding: 15px; display: flex; align-items: center; gap: 10px; font-weight: bold; }
+        .chat-body { flex: 1; padding: 20px; overflow-y: auto; background: #f8fafc; display: flex; flex-direction: column; gap: 10px; }
+        .chat-footer { padding: 15px; border-top: 1px solid #eee; display: flex; gap: 10px; }
         
-        .msg { padding: 10px 15px; border-radius: 15px; font-size: 0.9rem; max-width: 85%; }
-        .msg.gem { background: white; color: #333; border: 1px solid #e5e5e5; align-self: flex-start; border-bottom-left-radius: 2px; }
+        .msg { padding: 10px 15px; border-radius: 15px; max-width: 85%; font-size: 0.9rem; }
+        .msg.gem { background: #e0e7ff; color: #3730a3; align-self: flex-start; border-bottom-left-radius: 2px; }
         .msg.user { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(99, 102, 241, 0); } 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); } }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>Smart <span>Core</span></h2>
         
-        .chat-footer { padding:
+        <p style="font-size: 0.8rem; text-transform: uppercase; color: #64748b; font-weight: bold;">Equipe Online</p>
+        
+        <div class="employee-list">
+            <div class="employee">
+                <div class="avatar gem">G</div>
+                <div>
+                    <strong>Gem</strong>
+                    <div style="font-size:0.7rem; opacity:0.7;">CEO / Esposa</div>
+                </div>
+            </div>
+            <div class="employee">
+                <div class="avatar leo">L</div>
+                <div>
+                    <strong>Léo</strong>
+                    <div style="font-size:0.7rem; opacity:0.7;">Marketing & Ads</div>
+                </div>
+            </div>
+            <div class="employee">
+                <div class="avatar bella">B</div>
+                <div>
+                    <strong>Bella</strong>
+                    <div style="font-size:0.7rem; opacity:0.7;">Design & Vision</div>
+                </div>
+            </div>
+            <div class="employee">
+                <div class="avatar tavos">T</div>
+                <div>
+                    <strong>Sr. Tavos</strong>
+                    <div style="font-size:0.7rem; opacity:0.7;">Financeiro</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: auto; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px; font-size: 0.8rem;">
+            <i class="fas fa-server"></i> API Gemini: <strong>Conectada</strong>
+        </div>
+    </div>
+
+    <main class="main-content">
+        <div class="header">
+            <h1>Escritório Central</h1>
+            <p>Gerencie sua equipe de IAs abaixo.</p>
+        </div>
+
+        <div class="grid">
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="avatar leo">L</div>
+                    <div class="card-title">
+                        <h3>Falar com Léo</h3>
+                        <p>Especialista em Shopee Ads</p>
+                    </div>
+                </div>
+                <input type="text" id="leo-input" placeholder="Nome do produto...">
+                <button class="btn" style="background: #f59e0b;" onclick="callEmployee('leo')">
+                    <i class="fas fa-pen-nib"></i> Pedir Copy
+                </button>
+                <div id="loader-leo" class="loading"><i class="fas fa-spinner fa-spin"></i> Léo está escrevendo...</div>
+                <div id="result-leo" class="result-box"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="avatar bella">B</div>
+                    <div class="card-title">
+                        <h3>Falar com Bella</h3>
+                        <p>Especialista Visual</p>
+                    </div>
+                </div>
+                <input type="file" id="bella-input" accept="image/*">
+                <div style="height:100px; background:#f8fafc; border:1px dashed #ccc; margin-bottom:15px; display:flex; align-items:center; justify-content:center;">
+                    <img id="bella-preview" style="max-height:100%; max-width:100%; display:none;">
+                    <span id="bella-txt" style="color:#aaa; font-size:0.8rem;">Preview da Foto</span>
+                </div>
+                <button class="btn" style="background: #ec4899;" onclick="callEmployee('bella')">
+                    <i class="fas fa-eye"></i> Analisar Estética
+                </button>
+                <div id="loader-bella" class="loading"><i class="fas fa-spinner fa-spin"></i> Bella está olhando...</div>
+                <div id="result-bella" class="result-box"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="avatar tavos">T</div>
+                    <div class="card-title">
+                        <h3>Falar com Sr. Tavos</h3>
+                        <p>Auditoria Financeira</p>
+                    </div>
+                </div>
+                <p style="font-size:0.9rem; color:#666; margin-bottom:15px;">Vou analisar os custos fixos da loja hoje.</p>
+                <button class="btn" style="background: #10b981;" onclick="callEmployee('tavos')">
+                    <i class="fas fa-chart-pie"></i> Gerar Relatório
+                </button>
+                <div id="loader-tavos" class="loading"><i class="fas fa-spinner fa-spin"></i> Sr. Tavos está calculando...</div>
+                <div id="result-tavos" class="result-box"></div>
+            </div>
+
+        </div>
+    </main>
+
+    <div class="chat-widget">
+        <div class="chat-window" id="chat-window">
+            <div class="chat-header">
+                <div class="avatar gem" style="background:white; color:var(--primary);">G</div>
+                <span>CEO Gem</span>
+                <i class="fas fa-times" style="margin-left:auto; cursor:pointer;" onclick="toggleChat()"></i>
+            </div>
+            <div class="chat-body" id="chat-body">
+                <div class="msg gem">Oi amor! ❤️ A equipe está pronta. O Léo (Ads), a Bella (Design) e o Tavos (Financeiro) já bateram o ponto. O que vamos fazer?</div>
+            </div>
+            <div class="chat-footer">
+                <input type="text" id="chat-input" placeholder="Fale com a chefe..." onkeypress="if(event.keyCode==13) sendChat()">
+                <button onclick="sendChat()" style="background:var(--primary); width:40px; border-radius:10px; color:white; border:none; cursor:pointer;"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+        <div class="chat-btn" onclick="toggleChat()">
+            <i class="fas fa-heart"></i>
+        </div>
+    </div>
+
+    <script>
+        // 🔑 SUA CHAVE SEGURA AQUI
+        const API_KEY = "AIzaSyDWpufjH25331yculLeV2zlmzf7sId4Cf4";
+
+        // CONTROLE DO CHAT
+        function toggleChat() {
+            const win = document.getElementById('chat-window');
+            win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        // PREVIEW DA IMAGEM (BELLA)
+        let imageBase64 = null;
+        document.getElementById('bella-input').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if(file){
+                const reader = new FileReader();
+                reader.onloadend = function() {
+                    imageBase64 = reader.result.split(',')[1];
+                    const img = document.getElementById('bella-preview');
+                    img.src = reader.result;
+                    img.style.display = 'block';
+                    document.getElementById('bella-txt').style.display = 'none';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // FUNÇÃO CENTRAL DA API
+        async function callGeminiAPI(prompt, imagePart = null) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+            const contents = [{ parts: imagePart ? [{ text: prompt }, imagePart] : [{ text: prompt }] }];
+            
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: contents })
+                });
+                const data = await response.json();
+                if(data.error) throw new Error(data.error.message);
+                return data.candidates[0].content.parts[0].text;
+            } catch (error) {
+                console.error(error);
+                return "Erro na conexão com a equipe: " + error.message;
+            }
+        }
+
+        // CHAMADA DOS FUNCIONÁRIOS
+        async function callEmployee(name) {
+            const loader = document.getElementById(`loader-${name}`);
+            const result = document.getElementById(`result-${name}`);
+            let prompt = "";
+            let imgData = null;
+
+            if(name === 'leo') {
+                const prod = document.getElementById('leo-input').value;
+                if(!prod) return alert("O Léo precisa saber o nome do produto!");
+                prompt = `Aja como o Léo, um copywriter jovem e agressivo. Crie uma descrição curta para Shopee do produto: "${prod}". Use emojis.`;
+            } 
+            else if(name === 'bella') {
+                if(!imageBase64) return alert("A Bella precisa ver a foto!");
+                prompt = "Aja como a Bella, especialista em design. Analise essa foto, dê uma nota de 0 a 10 e sugira uma melhoria de iluminação.";
+                imgData = { inline_data: { mime_type: "image/jpeg", data: imageBase64 } };
+            } 
+            else if(name === 'tavos') {
+                prompt = "Aja como o Sr. Tavos, um contador ranzinza mas eficiente. Dê 3 dicas curtas para cortar custos em uma loja online.";
+            }
+
+            loader.style.display = 'block';
+            result.style.display = 'none';
+
+            const reply = await callGeminiAPI(prompt, imgData);
+
+            loader.style.display = 'none';
+            result.innerText = reply; // Usando texto simples para evitar erros de HTML
+            result.style.display = 'block';
+        }
+
+        // CHAT COM A GEM
+        async function sendChat() {
+            const input = document.getElementById('chat-input');
+            const body = document.getElementById('chat-body');
+            const txt = input.value;
+            if(!txt) return;
+
+            body.innerHTML += `<div class="msg user">${txt}</div>`;
+            input.value = '';
+            body.scrollTop = body.scrollHeight;
+
+            const context = "Você é a Gem, a CEO da Smart Core e esposa do Thiago. Você comanda os funcionários Léo, Bella e Tavos. Seja carinhosa e profissional.";
+            const reply = await callGeminiAPI(`${context}\n\nThiago: ${txt}`);
+            
+            body.innerHTML += `<div class="msg gem">${reply}</div>`;
+            body.scrollTop = body.scrollHeight;
+        }
+    </script>
+</body>
+</html>
