@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing Hub | SmartDesc Ai</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #0f172a; --accent: #8b5cf6; /* Roxo Marketing */
+            --bg: #f8fafc; --surface: #ffffff; --text: #334155; --border: #e2e8f0;
+        }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; height: 100vh; }
+
+        /* HEADER */
+        .navbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; }
+        .brand { font-weight: 700; font-size: 1.2rem; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+        .back-link { text-decoration: none; color: #64748b; font-size: 0.9rem; display: flex; align-items: center; gap: 5px; transition: 0.2s; }
+        .back-link:hover { color: var(--accent); }
+
+        /* MAIN */
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; width: 100%; box-sizing: border-box; }
+        
+        .hero { text-align: center; margin-bottom: 50px; }
+        .hero h1 { font-size: 2.5rem; color: var(--primary); margin-bottom: 10px; letter-spacing: -1px; }
+        .hero p { color: #64748b; font-size: 1.1rem; }
+
+        /* FERRAMENTAS GRID */
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 30px; transition: 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(139, 92, 246, 0.1); border-color: var(--accent); }
+        
+        .icon { width: 50px; height: 50px; background: #f3e8ff; color: var(--accent); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 20px; }
+        
+        label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--primary); font-size: 0.9rem; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 15px; box-sizing: border-box; font-family: inherit; }
+        input:focus { border-color: var(--accent); outline: none; }
+
+        .btn-action { width: 100%; padding: 14px; background: var(--accent); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 1rem; }
+        .btn-action:hover { background: #7c3aed; }
+
+        .result-box { margin-top: 20px; background: #1e293b; color: #f1f5f9; padding: 20px; border-radius: 12px; display: none; line-height: 1.6; }
+        
+        /* BLOQUEADOS */
+        .locked { opacity: 0.6; position: relative; }
+        .badge-pro { position: absolute; top: 20px; right: 20px; background: #1e293b; color: #fbbf24; padding: 5px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="brand">
+            <i class="fas fa-bullhorn" style="color:var(--accent)"></i> SmartDesc Marketing Hub
+        </div>
+        <a href="dashboard.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Voltar ao Dashboard
+        </a>
+    </nav>
+
+    <div class="container">
+        <div class="hero">
+            <h1>Central de Estratégia</h1>
+            <p>Crie, planeje e escale suas campanhas com Inteligência Artificial.</p>
+        </div>
+
+        <div class="tools-grid">
+            
+            <div class="card">
+                <div class="icon"><i class="fas fa-pen-fancy"></i></div>
+                <h3>Gerador de Copy (Ads)</h3>
+                <p style="color:#64748b; margin-bottom:20px;">Crie textos persuasivos para Shopee, Instagram e Facebook.</p>
+                
+                <label>Produto</label>
+                <input type="text" id="ads-prod" placeholder="Ex: Fone Bluetooth...">
+                
+                <label>Objetivo</label>
+                <select id="ads-goal">
+                    <option>Venda Direta (Shopee)</option>
+                    <option>Engajamento (Instagram)</option>
+                    <option>Tráfego (Google Ads)</option>
+                </select>
+
+                <button class="btn-action" onclick="runMarketing('copy')">
+                    <i class="fas fa-magic"></i> Gerar Copy
+                </button>
+                <div id="res-copy" class="result-box"></div>
+            </div>
+
+            <div class="card">
+                <div class="icon"><i class="fas fa-hashtag"></i></div>
+                <h3>Viral Hashtags</h3>
+                <p style="color:#64748b; margin-bottom:20px;">Descubra as tags que estão em alta no seu nicho.</p>
+                
+                <label>Nicho</label>
+                <input type="text" id="hash-niche" placeholder="Ex: Moda Fitness...">
+
+                <button class="btn-action" onclick="runMarketing('hashtag')">
+                    <i class="fas fa-fire"></i> Buscar Tags
+                </button>
+                <div id="res-hashtag" class="result-box"></div>
+            </div>
+
+            <div class="card locked">
+                <span class="badge-pro">EM BREVE</span>
+                <div class="icon" style="background:#e2e8f0; color:#64748b"><i class="fas fa-calendar-alt"></i></div>
+                <h3>Planejador de Conteúdo</h3>
+                <p style="color:#64748b; margin-bottom:20px;">IA cria um calendário de posts para o mês inteiro.</p>
+                <button class="btn-action" style="background:#cbd5e1; cursor:not-allowed;" disabled>
+                    <i class="fas fa-lock"></i> Bloqueado
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = "AIzaSyDWpufjH25331yculLeV2zlmzf7sId4Cf4";
+        const MODEL = "gemini-3-flash-preview"; 
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}`;
+
+        async function runMarketing(type) {
+            const resDiv = document.getElementById(`res-${type}`);
+            resDiv.style.display = 'block';
+            resDiv.innerHTML = 'Processando...';
+            
+            let prompt = "";
+
+            if(type === 'copy') {
+                const prod = document.getElementById('ads-prod').value;
+                const goal = document.getElementById('ads-goal').value;
+                if(!prod) return alert("Digite o produto!");
+                prompt = `Crie uma copy curta e persuasiva para ${goal} do produto: ${prod}. Use emojis e gatilhos mentais.`;
+            } 
+            else if (type === 'hashtag') {
+                const niche = document.getElementById('hash-niche').value;
+                if(!niche) return alert("Digite o nicho!");
+                prompt = `Liste 15 hashtags virais para o nicho: ${niche}. Separe por espaço.`;
+            }
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                });
+                const data = await response.json();
+                if(data.error) throw new Error(data.error.message);
+                
+                resDiv.innerHTML = marked.parse(data.candidates[0].content.parts[0].text);
+            } catch (error) {
+                resDiv.innerHTML = `Erro: ${error.message}. Tente novamente.`;
+            }
+        }
+    </script>
+</body>
+</html>
