@@ -3,232 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartDesc AI | O Marketing que não dorme</title>
+    <title>Login Seguro | SmartDesc Ai</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
-        /* --- CONFIGURAÇÕES GERAIS --- */
-        :root {
-            --primary: #007AFF;
-            --dark: #0a0a0b;
-            --gold: #ffcf4b;
-            --bg-light: #F5F5F7;
-            --glass: rgba(255, 255, 255, 0.05);
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: var(--bg-light); 
-            color: #1d1d1f; 
-            overflow-x: hidden; /* Evita rolagem lateral */
-        }
-
-        /* --- HEADER (MENU) --- */
-        header {
-            position: fixed; top: 0; width: 100%; height: 70px;
-            background: rgba(10, 10, 11, 0.95); backdrop-filter: blur(10px);
-            display: flex; align-items: center; justify-content: space-around;
-            z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .logo { color: white; font-weight: 700; font-size: 1.3rem; text-decoration: none; letter-spacing: -0.5px; }
-        .logo span { color: var(--primary); }
-        
-        nav a { 
-            color: white; text-decoration: none; margin: 0 15px; font-size: 0.95rem; 
-            opacity: 0.8; transition: 0.3s; 
-        }
-        nav a:hover { opacity: 1; color: var(--primary); }
-
-        /* --- HERO (TOPO) --- */
-        .hero {
-            background: linear-gradient(135deg, #0a0a0b 0%, #007AFF 100%);
-            padding: 160px 20px 120px; text-align: center; color: white;
-        }
-        .hero h1 { font-size: 3rem; margin-bottom: 20px; font-weight: 800; letter-spacing: -1.5px; line-height: 1.2; }
-        .hero p { font-size: 1.2rem; opacity: 0.9; max-width: 700px; margin: 0 auto 40px; }
-        
-        .btn-hero {
-            display: inline-block; padding: 18px 40px; background: white; color: var(--primary); 
-            border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 1.1rem;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2); transition: transform 0.2s;
-        }
-        .btn-hero:hover { transform: scale(1.05); }
-
-        /* --- VANTAGENS --- */
-        .features-box { padding: 100px 20px; text-align: center; background: white; }
-        .features-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; max-width: 1200px; margin: 50px auto 0; }
-        .feature-card { 
-            background: #fff; padding: 40px 30px; border-radius: 24px; width: 300px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #eee; transition: 0.3s;
-        }
-        .feature-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-        .feature-card i { font-size: 2.5rem; color: var(--primary); margin-bottom: 20px; }
-        .feature-card h3 { margin-bottom: 10px; color: #333; }
-        .feature-card p { color: #666; line-height: 1.5; }
-
-        /* --- GERADOR --- */
-        .generator-wrapper { padding: 0 20px; }
-        .generator-container {
-            max-width: 600px; background: white; padding: 50px;
-            border-radius: 30px; box-shadow: 0 25px 50px rgba(0,0,0,0.15);
-            text-align: center; margin: -80px auto 100px; position: relative; z-index: 10;
-        }
-        .generator-container input { 
-            width: 100%; padding: 18px; border-radius: 12px; border: 1px solid #d2d2d7; 
-            margin-bottom: 20px; font-size: 1.1rem; outline: none;
-        }
-        .generator-container input:focus { border-color: var(--primary); }
-        
-        .btn-generate { 
-            width: 100%; padding: 18px; background: var(--dark); color: white; border: none; 
-            border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 1.1rem; transition: 0.3s;
-        }
-        .btn-generate:hover { background: var(--primary); }
-
-        #result { 
-            margin-top: 30px; text-align: left; background: #fbfbfd; padding: 25px; 
-            border-radius: 15px; display: none; border: 1px solid #d2d2d7; color: #333; line-height: 1.6;
-        }
-
-        /* --- PREÇOS --- */
-        .pricing-section { background: var(--dark); padding: 120px 20px; color: white; text-align: center; }
-        .pricing-container { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; max-width: 1200px; margin: 60px auto 0; }
-        .pricing-card { 
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); 
-            border-radius: 30px; padding: 50px 30px; width: 320px; position: relative;
-        }
-        .pricing-card.featured { border: 2px solid var(--primary); background: rgba(0, 122, 255, 0.1); transform: scale(1.05); }
-        
-        .plan-tag {
-            position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
-            background: var(--primary); padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;
-        }
-
-        .price { font-size: 2.8rem; font-weight: 700; margin: 20px 0; }
-        .features-list { list-style: none; padding: 0; text-align: left; margin: 30px 0; }
-        .features-list li { margin-bottom: 15px; opacity: 0.8; display: flex; align-items: center; }
-        .features-list li i { color: var(--primary); margin-right: 10px; }
-
-        .btn-buy { 
-            display: block; width: 100%; padding: 16px; border-radius: 12px; 
-            font-weight: bold; text-decoration: none; text-align: center; transition: 0.3s;
-        }
-        
-        /* --- WHATSAPP --- */
-        .whatsapp-float { 
-            position: fixed; width: 60px; height: 60px; bottom: 30px; right: 30px; 
-            background: #25d366; color: white; border-radius: 50px; display: flex; 
-            align-items: center; justify-content: center; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); 
-            text-decoration: none; font-size: 30px;
-        }
+        :root { --primary: #0f172a; --accent: #10b981; --surface: #ffffff; --text: #334155; --border: #e2e8f0; --error: #ef4444; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background-color: var(--primary); background-image: radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 20%), radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 20%); height: 100vh; display: flex; align-items: center; justify-content: center; color: var(--text); }
+        .login-card { background: var(--surface); padding: 40px; width: 100%; max-width: 400px; border-radius: 24px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); text-align: center; animation: slideUp 0.5s ease-out; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .brand { font-size: 1.5rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; }
+        .subtitle { color: #64748b; font-size: 0.9rem; margin-bottom: 30px; }
+        .input-group { text-align: left; margin-bottom: 20px; }
+        label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; color: var(--primary); }
+        .input-field { width: 100%; padding: 12px 15px; border: 1px solid var(--border); border-radius: 12px; font-family: inherit; font-size: 0.95rem; box-sizing: border-box; transition: 0.2s; outline: none; }
+        .input-field:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1); }
+        .btn-login { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; }
+        .btn-login:hover { background: var(--accent); transform: translateY(-2px); }
+        .error-msg { color: var(--error); font-size: 0.85rem; margin-top: 15px; display: none; background: #fef2f2; padding: 10px; border-radius: 8px; border: 1px solid #fee2e2; }
+        .spinner { width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: white; animation: spin 1s ease-in-out infinite; display: none; }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <header>
-        <a href="#" class="logo">SmartDesc <span>AI</span></a>
-        <nav>
-            <a href="#ferramenta">Ferramenta</a>
-            <a href="#precos">Planos</a>
-            <a href="dashboard.html" style="color: var(--gold); font-weight: bold;">Escritório 🔑</a>
-        </nav>
-    </header>
+    <div class="login-card">
+        <div class="brand"><i class="fas fa-database"></i> SmartDesc Admin</div>
+        <p class="subtitle">Acesso Seguro via Supabase</p>
 
-    <section class="hero">
-        <h1>O Marketing que não dorme.</h1>
-        <p>Escale sua loja na Shopee e Amazon com a primeira agência 100% automatizada e alimentada pela IA Gem 💎</p>
-        <a href="#ferramenta" class="btn-hero">Testar Tecnologia</a>
-    </section>
-
-    <section class="features-box">
-        <h2 style="font-size: 2.5rem; color: #2c3e50; margin-bottom: 15px;">Transforme Cliques em Pix 🚀</h2>
-        <p style="color: #666; margin-bottom: 50px;">A estratégia secreta dos maiores vendedores do Brasil.</p>
-        
-        <div class="features-grid">
-            <div class="feature-card">
-                <i class="fas fa-magic"></i>
-                <h3>Textos Vivos</h3>
-                <p>Descrições que emocionam e atacam a dor do cliente para vender na hora.</p>
+        <form id="loginForm" onsubmit="handleSupabaseLogin(event)">
+            <div class="input-group">
+                <label>E-mail</label>
+                <input type="email" id="email" class="input-field" placeholder="admin@smartdesc.com" required>
             </div>
-            <div class="feature-card">
-                <i class="fas fa-rocket"></i>
-                <h3>SEO Blindado</h3>
-                <p>Palavras-chave de elite para colocar seu anúncio na primeira página.</p>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-video"></i>
-                <h3>Vídeo Scripts</h3>
-                <p>Roteiros prontos para vídeos curtos que convertem 80% mais.</p>
-            </div>
-        </div>
-    </section>
-
-    <div class="generator-wrapper" id="ferramenta">
-        <div class="generator-container">
-            <h3 style="margin-top:0; font-size: 1.8rem; margin-bottom: 20px;">Gerador de Conteúdo Pro</h3>
-            <input type="text" id="productInput" placeholder="Ex: Fone Bluetooth com Cancelamento de Ruído...">
-            <button class="btn-generate" onclick="generateDescription()">Gerar com Gem 💎</button>
-            <div id="result"></div>
             
-            <div style="margin-top:40px; border-top: 1px dashed #ddd; padding-top: 20px;">
-                <p style="font-size:0.9rem; margin-bottom: 10px; font-weight: bold; color: #333;">Já é assinante?</p>
-                <div style="display:flex; gap:10px;">
-                    <input type="text" id="chaveInput" placeholder="Cole sua Chave PRO aqui" style="margin:0;">
-                    <button onclick="ativarChave()" style="width:auto; padding:0 30px; background:#222; color:white; border:none; border-radius:12px; cursor:pointer;">Ativar</button>
-                </div>
+            <div class="input-group">
+                <label>Senha</label>
+                <input type="password" id="password" class="input-field" placeholder="••••••••" required>
             </div>
+
+            <button type="submit" class="btn-login" id="btn-submit">
+                <div class="spinner" id="spinner"></div>
+                <span id="btn-text">Entrar no Sistema</span>
+            </button>
+            
+            <div id="error-message" class="error-msg"></div>
+        </form>
+
+        <div style="margin-top: 30px; border-top: 1px solid var(--border); padding-top: 20px; font-size: 0.8rem; color: #94a3b8;">
+            <i class="fas fa-shield-alt"></i> Database Connection Active
         </div>
     </div>
 
-    <section class="pricing-section" id="precos">
-        <h2 style="font-size: 2.5rem; margin-bottom: 10px;">Planos de Escala</h2>
-        <p style="color: var(--primary); font-weight: bold; margin-bottom: 60px;">💎 Ajude a construir a Maya e domine o mercado!</p>
-        
-        <div class="pricing-container">
-            <div class="pricing-card">
-                <h3>Starter</h3>
-                <div class="price">R$ 499</div>
-                <ul class="features-list">
-                    <li><i class="fas fa-check"></i> 500 Créditos Mensais</li>
-                    <li><i class="fas fa-check"></i> SEO Básico</li>
-                    <li><i class="fas fa-check"></i> Suporte Chat</li>
-                </ul>
-                <a href="https://wa.me/5541999689107?text=Oi%20Thiago!%20Quero%20o%20Starter%20de%20499." class="btn-buy" style="background: #333; color: white;">Assinar</a>
-            </div>
-
-            <div class="pricing-card featured">
-                <div class="plan-tag">MAIS VENDIDO</div>
-                <h3 style="color: var(--primary);">Business Pro</h3>
-                <div class="price">R$ 1.290</div>
-                <ul class="features-list">
-                    <li><i class="fas fa-check"></i> 2.500 Créditos</li>
-                    <li><i class="fas fa-check"></i> Gestão 3 Redes</li>
-                    <li><i class="fas fa-check"></i> Vídeo Scripts VIP</li>
-                    <li><i class="fas fa-check"></i> Dashboard Lucros</li>
-                </ul>
-                <a href="https://wa.me/5541999689107?text=Oi%20Thiago!%20Quero%20o%20Business%20Pro%20de%201290." class="btn-buy" style="background: var(--primary); color: white;">Comprar Agora</a>
-            </div>
-
-            <div class="pricing-card">
-                <h3 style="color: var(--gold);">Diamond VIP</h3>
-                <div class="price" style="font-size: 2rem;">Sob Consulta</div>
-                <ul class="features-list">
-                    <li><i class="fas fa-check"></i> Gestão Full Agency</li>
-                    <li><i class="fas fa-check"></i> Consultoria Thiago</li>
-                    <li><i class="fas fa-check"></i> Estratégia Santorini</li>
-                </ul>
-                <a href="https://wa.me/5541999689107?text=Oi%20Thiago!%20Quero%20a%20Consultoria%20Diamond." class="btn-buy" style="background: var(--gold); color: black;">Falar com Thiago</a>
-            </div>
-        </div>
-    </section>
-
-    <a href="https://wa.me/5541999689107" class="whatsapp-float" target="_blank">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-
     <script>
-        const chavesMestras =
+        // ====================================================
+        // 🔑 CONFIGURAÇÃO DO SUPABASE (COLE SUAS CHAVES AQUI)
+        // ====================================================
+        const SUPABASE_URL = 'https://qlrxmefmfqmgkgkwijqd.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_wrqumZD9tdNh9B2wQVa3JQ_2CE1ZUXq';
+        // ====================================================
+
+        // Inicializa o Cliente Supabase
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        async function handleSupabaseLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const btn = document.getElementById('btn-submit');
+            const spinner = document.getElementById('spinner');
+            const text = document.getElementById('btn-text');
+            const errorMsg = document.getElementById('error-message');
+
+            // UI de Carregamento
+            btn.disabled = true;
+            btn.style.opacity = "0.8";
+            text.style.display = "none";
+            spinner.style.display = "block";
+            errorMsg.style.display = "none";
+
+            try {
+                // 🚀 O MOMENTO DA VERDADE: Tenta logar no Supabase
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password,
+                });
+
+                if (error) throw error;
+
+                // SUCESSO!
+                // Salva o token (sessão) para saber que está logado
+                localStorage.setItem('sb_session', JSON.stringify(data.session));
+                
+                // Redireciona para o Dashboard
+                window.location.href = "dashboard.html";
+
+            } catch (error) {
+                // ERRO (Senha errada, usuário não existe, etc)
+                btn.disabled = false;
+                btn.style.opacity = "1";
+                text.style.display = "block";
+                spinner.style.display = "none";
+                
+                let msg = "Erro ao fazer login.";
+                if(error.message.includes("Invalid login")) msg = "E-mail ou senha incorretos.";
+                
+                errorMsg.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${msg}`;
+                errorMsg.style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>
