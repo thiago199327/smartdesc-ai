@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financeiro & Ads | SmartDesc Ai</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <style>
+        :root {
+            --primary: #0f172a; --accent: #10b981; /* Verde Dinheiro */
+            --bg: #f8fafc; --surface: #ffffff; --text: #334155; --border: #e2e8f0;
+            --ads-color: #3b82f6; /* Azul Ads */
+        }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; height: 100vh; }
+
+        /* NAVBAR */
+        .navbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; }
+        .brand { font-weight: 700; font-size: 1.2rem; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+        .back-link { text-decoration: none; color: #64748b; font-size: 0.9rem; display: flex; align-items: center; gap: 5px; transition: 0.2s; }
+        .back-link:hover { color: var(--accent); }
+
+        /* LAYOUT */
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; width: 100%; box-sizing: border-box; display: flex; flex-direction: column; gap: 30px; overflow-y: auto; }
+        
+        .header-section { display: flex; justify-content: space-between; align-items: flex-end; }
+        .header-section h1 { margin: 0; font-size: 2rem; color: var(--primary); letter-spacing: -1px; }
+        .header-section p { margin: 5px 0 0 0; color: #64748b; }
+        
+        /* KPI CARDS */
+        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+        .kpi-card { background: var(--surface); padding: 25px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .kpi-label { font-size: 0.85rem; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .kpi-value { font-size: 1.8rem; font-weight: 700; color: var(--primary); margin: 10px 0 5px 0; }
+        .kpi-trend { font-size: 0.85rem; display: flex; align-items: center; gap: 5px; }
+        .trend-up { color: var(--accent); }
+        .trend-down { color: #ef4444; }
+
+        /* ADS SECTION */
+        .ads-dashboard { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+        @media (max-width: 900px) { .ads-dashboard { grid-template-columns: 1fr; } }
+
+        .panel { background: var(--surface); padding: 25px; border-radius: 16px; border: 1px solid var(--border); }
+        .panel h3 { margin: 0 0 20px 0; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+        
+        /* BARRAS DE PROGRESSO (ADS) */
+        .ad-platform { margin-bottom: 15px; }
+        .ad-info { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 5px; font-weight: 500; }
+        .progress-bg { height: 8px; background: #f1f5f9; border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; border-radius: 4px; transition: width 1s ease; }
+
+        /* AI AUDITOR */
+        .auditor-box { background: #1e293b; color: white; padding: 30px; border-radius: 16px; margin-top: 20px; }
+        .auditor-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .auditor-icon { width: 50px; height: 50px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--accent); }
+        .btn-audit { background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s; display: flex; gap: 10px; align-items: center; }
+        .btn-audit:hover { background: #059669; }
+        
+        .output-text { margin-top: 20px; line-height: 1.6; font-size: 0.95rem; display: none; padding: 20px; background: rgba(255,255,255,0.05); border-radius: 10px; border-left: 3px solid var(--accent); }
+
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="brand">
+            <i class="fas fa-chart-pie" style="color:var(--accent)"></i> SmartDesc Financeiro
+        </div>
+        <a href="dashboard.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Voltar ao Dashboard
+        </a>
+    </nav>
+
+    <div class="container">
+        
+        <div class="header-section">
+            <div>
+                <h1>Inteligência Financeira</h1>
+                <p>Monitoramento de Receita, ROI e Performance de Ads em tempo real.</p>
+            </div>
+            <div style="text-align: right;">
+                <span style="background: #ecfdf5; color: var(--accent); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">Status: Saudável</span>
+            </div>
+        </div>
+
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-label">Receita Total (Mês)</div>
+                <div class="kpi-value">R$ 42.590</div>
+                <div class="kpi-trend trend-up"><i class="fas fa-arrow-up"></i> 18% vs mês passado</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Investimento em Ads</div>
+                <div class="kpi-value" style="color: var(--ads-color);">R$ 4.200</div>
+                <div class="kpi-trend" style="color: #64748b;">9.8% da receita</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">ROAS (Retorno Ads)</div>
+                <div class="kpi-value">10.1x</div>
+                <div class="kpi-trend trend-up"><i class="fas fa-check-circle"></i> Excelente</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Lucro Líquido Estimado</div>
+                <div class="kpi-value" style="color: var(--accent);">R$ 28.100</div>
+                <div class="kpi-trend trend-up"><i class="fas fa-arrow-up"></i> Margem de 66%</div>
+            </div>
+        </div>
+
+        <div class="ads-dashboard">
+            <div class="panel">
+                <h3><i class="fas fa-bullseye"></i> Onde seu dinheiro está indo?</h3>
+                
+                <div class="ad-platform">
+                    <div class="ad-info">
+                        <span><i class="fab fa-instagram" style="color:#E1306C"></i> Instagram Ads</span>
+                        <span>R$ 2.100 (Alcance: 45k)</span>
+                    </div>
+                    <div class="progress-bg"><div class="progress-fill" style="width: 50%; background: #E1306C;"></div></div>
+                </div>
+
+                <div class="ad-platform">
+                    <div class="ad-info">
+                        <span><i class="fab fa-google" style="color:#4285F4"></i> Google Shopping</span>
+                        <span>R$ 1.500 (Cliques: 850)</span>
+                    </div>
+                    <div class="progress-bg"><div class="progress-fill" style="width: 35%; background: #4285F4;"></div></div>
+                </div>
+
+                <div class="ad-platform">
+                    <div class="ad-info">
+                        <span><i class="fas fa-shopping-bag" style="color:#ea580c"></i> Shopee Ads</span>
+                        <span>R$ 600 (Conversão: 4.2%)</span>
+                    </div>
+                    <div class="progress-bg"><div class="progress-fill" style="width: 15%; background: #ea580c;"></div></div>
+                </div>
+
+                <div style="margin-top: 20px; font-size: 0.9rem; color: #64748b; background: #f1f5f9; padding: 15px; border-radius: 8px;">
+                    <i class="fas fa-info-circle"></i> <strong>Insight Rápido:</strong> O Instagram está trazendo maior alcance, mas a Shopee tem a conversão mais barata hoje.
+                </div>
+            </div>
+
+            <div class="panel" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <h3 style="width: 100%; font-size: 1rem;">Distribuição de Budget</h3>
+                <div style="width: 200px; height: 200px; position: relative;">
+                    <svg viewBox="0 0 36 36" style="width: 100%; height: 100%; transform: rotate(-90deg);">
+                        <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#f1f5f9" stroke-width="4" />
+                        <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831" fill="none" stroke="#E1306C" stroke-width="4" stroke-dasharray="50, 100" />
+                        <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 14.5 22" fill="none" stroke="#4285F4" stroke-width="4" stroke-dasharray="35, 100" style="transform: rotate(180deg); transform-origin: center;" />
+                    </svg>
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+                        <span style="font-weight: bold; font-size: 1.2rem; color: var(--primary);">Ads</span><br>
+                        <span style="font-size: 0.8rem; color: #64748b;">Mix</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="auditor-box">
+            <div class="auditor-header">
+                <div class="auditor-icon"><i class="fas fa-robot"></i></div>
+                <div>
+                    <h2 style="margin: 0; font-size: 1.4rem;">Sr. Tavos (CFO Virtual)</h2>
+                    <p style="margin: 5px 0 0 0; opacity: 0.8;">"Vou analisar seus números de Ads e Finanças e sugerir cortes."</p>
+                </div>
+            </div>
+            
+            <button class="btn-audit" onclick="runAudit()">
+                <i class="fas fa-search-dollar"></i> Rodar Auditoria Completa
+            </button>
+            
+            <div id="audit-res" class="output-text"></div>
+        </div>
+
+    </div>
+
+    <script>
+        const API_KEY = "AIzaSyDWpufjH25331yculLeV2zlmzf7sId4Cf4";
+        const MODEL = "gemini-3-flash-preview"; 
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}`;
+
+        async function runAudit() {
+            const resDiv = document.getElementById('audit-res');
+            resDiv.style.display = 'block';
+            resDiv.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Analisando contas e performance de campanhas...';
+
+            // Prompt simulando os dados da tela para a IA analisar
+            const prompt = `
+            Atue como Sr. Tavos, um CFO agressivo. Analise esses dados da minha empresa SmartDesc:
+            - Receita: R$ 42.590
+            - Gasto em Ads: R$ 4.200 (10% da receita)
+            - ROAS: 10.1x (Ótimo)
+            - Instagram gasta mais (50%) mas Shopee converte melhor.
+            
+            Me dê 3 conselhos táticos e curtos: 1 sobre escala, 1 sobre corte de custos e 1 previsão. Seja direto.
+            `;
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                });
+                const data = await response.json();
+                if(data.error) throw new Error(data.error.message);
+                
+                resDiv.innerHTML = marked.parse(data.candidates[0].content.parts[0].text);
+            } catch (error) {
+                resDiv.innerHTML = `<span style="color:#ef4444">Erro: ${error.message}</span>`;
+            }
+        }
+    </script>
+</body>
+</html>
