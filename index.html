@@ -3,112 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Core - Automação e Lucro</title>
+    <title>SmartDesc AI - Otimização e Lucro</title>
     <style>
-        /* Estilo Básico e Moderno (Dark Mode) */
-        body { margin: 0; font-family: 'Arial', sans-serif; background-color: #0f0f0f; color: #fff; }
+        /* --- ESTILOS GERAIS --- */
+        :root {
+            --primary: #00ff88; /* Verde Neon */
+            --dark-bg: #0a0a0a;
+            --card-bg: #141414;
+            --text-gray: #b0b0b0;
+        }
         
-        /* Menu Superior */
-        header { display: flex; justify-content: space-between; padding: 20px; align-items: center; background: #1a1a1a; }
-        .logo { font-weight: bold; font-size: 1.5rem; color: #00ff88; } /* Verde Tech */
-        .btn-login { background: transparent; border: 1px solid #fff; color: #fff; padding: 10px 20px; cursor: pointer; border-radius: 5px; text-decoration: none;}
-        .btn-destaque { background: #00ff88; color: #000; border: none; padding: 10px 20px; font-weight: bold; cursor: pointer; border-radius: 5px; text-decoration: none;}
-
-        /* Hero Section (Marketing Principal) */
-        .hero { text-align: center; padding: 60px 20px; background: linear-gradient(45deg, #0f0f0f, #1a2a1f); }
-        .hero h1 { font-size: 3rem; margin-bottom: 10px; }
-        .hero p { font-size: 1.2rem; color: #ccc; max-width: 600px; margin: 0 auto 30px; }
-
-        /* Seção de Propaganda (Carrossel Estático) */
-        .marketing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 40px 20px; }
-        .card-ad { background: #1f1f1f; padding: 20px; border-radius: 10px; text-align: center; border: 1px solid #333; }
-        .card-ad h3 { color: #00ff88; }
-
-        /* Preços das Otimizações */
-        .pricing { padding: 50px 20px; text-align: center; }
-        .pricing-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 30px; }
-        .price-card { background: #222; padding: 30px; border-radius: 15px; width: 250px; border: 1px solid #444; transition: transform 0.3s; }
-        .price-card:hover { transform: scale(1.05); border-color: #00ff88; }
-        .price { font-size: 2rem; font-weight: bold; color: #fff; margin: 20px 0; }
+        body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; background-color: var(--dark-bg); color: #fff; line-height: 1.6; }
+        h1, h2, h3 { margin: 0; }
+        a { text-decoration: none; }
         
-        /* Como Funciona */
-        .how-it-works { padding: 50px 20px; background: #161616; text-align: center; }
-        .steps { display: flex; justify-content: space-around; flex-wrap: wrap; margin-top: 30px; }
-        .step { max-width: 300px; margin: 10px; }
+        /* Botões */
+        .btn { padding: 12px 30px; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s; display: inline-block; }
+        .btn-primary { background: var(--primary); color: #000; border: none; }
+        .btn-primary:hover { background: #00cc6a; transform: scale(1.05); }
+        .btn-outline { border: 1px solid #fff; color: #fff; background: transparent; }
+        .btn-outline:hover { background: #fff; color: #000; }
+
+        /* --- CABEÇALHO --- */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; background: rgba(10,10,10,0.95); position: fixed; width: 100%; top: 0; z-index: 1000; box-sizing: border-box; border-bottom: 1px solid #222; }
+        .logo { font-size: 1.5rem; font-weight: bold; color: #fff; }
+        .logo span { color: var(--primary); }
+
+        /* --- HERO (PARTE INICIAL) --- */
+        .hero { margin-top: 80px; padding: 100px 20px; text-align: center; background: radial-gradient(circle at center, #1a2a22 0%, #0a0a0a 70%); }
+        .hero h1 { font-size: 3.5rem; max-width: 800px; margin: 0 auto 20px; line-height: 1.2; }
+        .hero p { font-size: 1.2rem; color: var(--text-gray); max-width: 600px; margin: 0 auto 40px; }
+        .hero-img { margin-top: 50px; width: 100%; max-width: 900px; border-radius: 10px; box-shadow: 0 0 30px rgba(0, 255, 136, 0.1); border: 1px solid #333; }
+
+        /* --- SOBRE A EMPRESA --- */
+        section { padding: 80px 20px; max-width: 1100px; margin: 0 auto; }
+        .about-text { text-align: center; margin-bottom: 60px; }
+        .about-text h2 { font-size: 2.5rem; color: var(--primary); margin-bottom: 20px; }
+        .about-text p { font-size: 1.1rem; color: #ddd; max-width: 800px; margin: 0 auto; }
+
+        /* --- SERVIÇOS (GRID) --- */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+        .card { background: var(--card-bg); padding: 30px; border-radius: 10px; border: 1px solid #222; transition: 0.3s; }
+        .card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .icon { font-size: 2.5rem; margin-bottom: 20px; }
+        .card h3 { margin-bottom: 15px; font-size: 1.3rem; }
+        .card p { color: var(--text-gray); font-size: 0.95rem; }
+
+        /* --- DASHBOARD E RESULTADOS --- */
+        .dashboard-section { display: flex; flex-wrap: wrap; align-items: center; gap: 50px; }
+        .dash-content { flex: 1; }
+        .dash-image { flex: 1; }
+        .dash-image img { width: 100%; border-radius: 10px; border: 1px solid #333; }
+        .highlight { color: var(--primary); font-weight: bold; }
+
+        /* --- CONFIANÇA E CTA --- */
+        .trust-section { text-align: center; background: #111; border-radius: 20px; padding: 60px; margin-top: 80px; border: 1px solid #333; }
+        .trust-section h2 { font-size: 2rem; margin-bottom: 20px; }
+        
+        /* Rodapé */
+        footer { text-align: center; padding: 40px; color: #555; font-size: 0.9rem; border-top: 1px solid #222; margin-top: 50px; }
+
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">SMART CORE 🤖</div>
+        <div class="logo">SmartDesc <span>AI</span></div>
         <div>
-            <a href="login.html" class="btn-login">Entrar</a>
-            <a href="cadastro.html" class="btn-destaque">Criar Conta</a>
+            <a href="login.html" class="btn btn-outline" style="margin-right: 10px;">Entrar</a>
+            <a href="cadastro.html" class="btn btn-primary">Começar Agora</a>
         </div>
     </header>
 
     <section class="hero">
-        <h1>Maximize seus Lucros com Automação</h1>
-        <p>A tecnologia Smart Core otimiza seus processos e vendas. Veja como nossa IA trabalha para gerar receita enquanto você dorme.</p>
-        <a href="cadastro.html" class="btn-destaque">COMEÇAR AGORA</a>
+        <h1>Transforme sua Loja Online em uma Máquina de Lucros</h1>
+        <p>A SmartDesc AI é a empresa responsável pelo seu negócio online. Automatizamos descrições, fotos e anúncios para você vender mais.</p>
+        <a href="cadastro.html" class="btn btn-primary">QUERO OTIMIZAR MINHA LOJA</a>
+        
+        <img src="https://placehold.co/900x450/1a1a1a/00ff88?text=Gráfico+de+Crescimento+de+Vendas" alt="Gráfico de Lucros" class="hero-img">
     </section>
 
-    <section class="marketing-grid">
-        <div class="card-ad">
-            <h3>📈 +300% em Vendas</h3>
-            <p>Nossos algoritmos ajustam seus anúncios automaticamente para vender mais.</p>
-        </div>
-        <div class="card-ad">
-            <h3>🤖 Robótica Integrada</h3>
-            <p>Conheça o futuro da automação física e digital unificadas.</p>
-        </div>
-        <div class="card-ad">
-            <h3>💰 Lucro Passivo</h3>
-            <p>Configure uma vez e deixe o sistema rodar as otimizações.</p>
-        </div>
-    </section>
-
-    <section class="how-it-works">
-        <h2>Como Funciona?</h2>
-        <div class="steps">
-            <div class="step">
-                <h1>1</h1>
-                <h3>Crie sua Conta</h3>
-                <p>Cadastro rápido e seguro.</p>
-            </div>
-            <div class="step">
-                <h1>2</h1>
-                <h3>Escolha a Otimização</h3>
-                <p>Selecione qual setor você quer automatizar.</p>
-            </div>
-            <div class="step">
-                <h1>3</h1>
-                <h3>Acompanhe o Lucro</h3>
-                <p>Veja os resultados no seu dashboard em tempo real.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="pricing">
-        <h2>Nossos Planos de Otimização</h2>
-        <div class="pricing-container">
-            <div class="price-card">
-                <h3>Básico</h3>
-                <div class="price">R$ 97,00</div>
-                <p>Otimização de 1 Loja</p>
-                <p>Relatório Mensal</p>
-                <a href="cadastro.html" class="btn-destaque">Escolher</a>
-            </div>
-            <div class="price-card" style="border-color: #00ff88; box-shadow: 0 0 15px rgba(0,255,136,0.2);">
-                <h3>PRO (Smart)</h3>
-                <div class="price">R$ 197,00</div>
-                <p>Otimizações Ilimitadas</p>
-                <p>IA de Precificação</p>
-                <p>Suporte 24h</p>
-                <a href="cadastro.html" class="btn-destaque">Escolher</a>
-            </div>
-        </div>
-    </section>
-
-</body>
-</html>
+    <section>
