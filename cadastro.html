@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Smart Core</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; background: #0f0f0f; color: #fff; font-family: sans-serif; margin: 0; }
+        .card-cadastro { background: #1a1a1a; padding: 40px; border-radius: 10px; width: 100%; max-width: 400px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); text-align: center; }
+        input { width: 100%; padding: 12px; margin: 10px 0; background: #333; border: 1px solid #444; color: #fff; border-radius: 5px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #00ff88; border: none; font-weight: bold; cursor: pointer; border-radius: 5px; margin-top: 10px; font-size: 1rem; }
+        button:hover { background: #00cc6a; }
+        h2 { color: #00ff88; margin-bottom: 20px; }
+        .links { margin-top: 15px; font-size: 0.9rem; }
+        .links a { color: #00ff88; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <div class="card-cadastro">
+        <h2>Crie sua conta Smart Core</h2>
+        <p style="color: #aaa; margin-bottom: 20px;">Comece a otimizar seus lucros hoje.</p>
+        
+        <input type="text" id="nome" placeholder="Seu Nome Completo">
+        <input type="email" id="email" placeholder="Seu Melhor Email">
+        <input type="password" id="senha" placeholder="Crie uma Senha Forte">
+        <input type="tel" id="telefone" placeholder="WhatsApp (Opcional)">
+        
+        <button onclick="fazerCadastro()">CRIAR CONTA GRÁTIS</button>
+
+        <div class="links">
+            <p>Já tem conta? <a href="login.html">Entrar aqui</a></p>
+            <p><a href="index.html">Voltar ao início</a></p>
+        </div>
+    </div>
+
+    <script>
+        // CONFIGURAÇÃO DO SUPABASE (Coloque suas chaves aqui!)
+        const supabaseUrl = 'https://qlrxmefmfqmgkgkwijqd.supabase.co';
+        const supabaseKey = 'sb_publishable_wrqumZD9tdNh9B2wQVa3JQ_2CE1ZUXq';
+        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+        async function fazerCadastro() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('senha').value;
+            const nome = document.getElementById('nome').value;
+            const telefone = document.getElementById('telefone').value;
+
+            // Validação simples
+            if (!email || !password) {
+                alert("Preencha email e senha!");
+                return;
+            }
+
+            // 1. Criar Usuário no Auth
+            const { data, error } = await supabase.auth.signUp({
+                email: email,
+                password: password,
+                options: {
+                    data: {
+                        full_name: nome,
+                        phone: telefone
+                    }
+                }
+            });
+
+            if (error) {
+                alert("Erro: " + error.message);
+            } else {
+                alert("Conta criada com sucesso! Verifique seu email para confirmar.");
+                // Opcional: Redirecionar para uma página de "Verifique seu email"
+                // window.location.href = 'sucesso.html';
+            }
+        }
+    </script>
+</body>
+</html>
