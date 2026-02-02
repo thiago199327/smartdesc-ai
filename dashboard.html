@@ -3,98 +3,265 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel do Cliente | Smart Core Solutions</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>Painel Enterprise | Smart Core</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     <style>
+        /* RESET E CORES CORPORATIVAS */
         :root {
-            --primary: #0f172a; /* Azul Noturno */
-            --accent: #2563eb; /* Azul Royal */
-            --bg: #f8fafc;
-            --surface: #ffffff;
-            --text: #334155;
-            --border: #e2e8f0;
+            --primary: #0f172a; --accent: #3b82f6; --bg: #f1f5f9;
+            --surface: #ffffff; --text: #334155; --border: #cbd5e1;
+            --error: #ef4444; --success: #22c55e;
         }
-
-        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; display: flex; height: 100vh; color: var(--text); overflow: hidden; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
 
         /* SIDEBAR */
-        .sidebar { width: 260px; background: var(--primary); color: white; display: flex; flex-direction: column; padding: 24px; box-shadow: 4px 0 20px rgba(0,0,0,0.05); }
-        .brand { font-size: 1.25rem; font-weight: 600; margin-bottom: 40px; display: flex; align-items: center; gap: 10px; letter-spacing: -0.5px; }
-        .brand i { color: var(--accent); }
-        
-        .nav-link { 
-            padding: 12px 16px; 
-            color: #94a3b8; 
-            text-decoration: none; 
-            display: flex; align-items: center; gap: 12px; 
-            border-radius: 8px; 
-            margin-bottom: 4px; 
-            font-size: 0.95rem; 
-            transition: all 0.2s;
-        }
-        .nav-link:hover, .nav-link.active { background: rgba(255,255,255,0.1); color: white; }
-        .nav-link i { width: 20px; text-align: center; }
+        .sidebar { width: 260px; background: var(--primary); color: white; display: flex; flex-direction: column; padding: 25px; box-shadow: 5px 0 15px rgba(0,0,0,0.05); z-index: 10; }
+        .logo { font-size: 1.4rem; font-weight: 700; display: flex; align-items: center; gap: 10px; margin-bottom: 40px; color: white; }
+        .logo i { color: var(--accent); }
+        .menu-item { padding: 12px 15px; color: #94a3b8; text-decoration: none; display: flex; align-items: center; gap: 12px; border-radius: 8px; margin-bottom: 5px; transition: 0.2s; font-size: 0.95rem; font-weight: 500; }
+        .menu-item:hover, .menu-item.active { background: rgba(255,255,255,0.1); color: white; }
 
-        /* MAIN */
+        /* MAIN CONTENT */
         .main { flex: 1; padding: 40px; overflow-y: auto; }
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+        .top-bar h1 { margin: 0; font-size: 1.8rem; color: var(--primary); }
+        .status-badge { background: white; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+        .dot { width: 8px; height: 8px; background: var(--success); border-radius: 50%; }
+
+        /* GRID CARDS */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+        .tool-card { background: var(--surface); padding: 25px; border-radius: 16px; border: 1px solid var(--border); box-shadow: 0 4px 6px rgba(0,0,0,0.02); transition: 0.3s; }
+        .tool-card:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
         
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
-        .header h1 { font-size: 1.8rem; font-weight: 600; color: var(--primary); margin: 0; }
-        .client-info { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; font-weight: 500; background: white; padding: 8px 16px; border-radius: 30px; border: 1px solid var(--border); }
+        .card-icon { width: 50px; height: 50px; background: #eff6ff; color: var(--accent); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 20px; }
+        .tool-card h3 { margin: 0 0 5px 0; font-size: 1.1rem; color: var(--primary); }
+        .tool-card p { margin: 0 0 20px 0; font-size: 0.9rem; color: #64748b; }
 
-        /* GRID */
-        .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+        /* FORMS */
+        label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; color: var(--primary); }
+        input, select { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; margin-bottom: 15px; outline: none; box-sizing: border-box; }
+        input:focus { border-color: var(--accent); ring: 2px solid rgba(59,130,246,0.1); }
 
-        .card { 
-            background: var(--surface); 
-            border: 1px solid var(--border); 
-            border-radius: 16px; 
-            padding: 24px; 
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .card:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.04); border-color: var(--accent); }
+        button.btn-run { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        button.btn-run:hover { background: var(--accent); }
+        button:disabled { opacity: 0.7; cursor: wait; }
 
-        .card-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
-        .icon-box { width: 48px; height: 48px; background: #eff6ff; color: var(--accent); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; }
+        /* OUTPUT */
+        .result-area { margin-top: 20px; padding: 15px; background: #f8fafc; border-radius: 10px; border-left: 4px solid var(--accent); font-size: 0.95rem; line-height: 1.6; display: none; }
+        .error-box { background: #fef2f2; color: var(--error); border-color: var(--error); padding: 15px; border-radius: 8px; display: none; margin-top: 10px; font-size: 0.9rem; }
+
+        /* CHAT */
+        .chat-float { position: fixed; bottom: 30px; right: 30px; }
+        .chat-toggle { width: 60px; height: 60px; background: var(--accent); border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer; box-shadow: 0 10px 25px rgba(59,130,246,0.4); }
+        .chat-box { position: absolute; bottom: 80px; right: 0; width: 340px; height: 480px; background: white; border-radius: 16px; border: 1px solid var(--border); box-shadow: 0 20px 50px rgba(0,0,0,0.1); display: none; flex-direction: column; overflow: hidden; }
+        .chat-header { background: var(--primary); color: white; padding: 15px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+        .chat-msgs { flex: 1; padding: 15px; overflow-y: auto; background: #f8fafc; display: flex; flex-direction: column; gap: 10px; }
+        .msg { padding: 10px 14px; border-radius: 12px; max-width: 85%; font-size: 0.9rem; }
+        .msg.bot { background: white; border: 1px solid var(--border); align-self: flex-start; }
+        .msg.user { background: var(--accent); color: white; align-self: flex-end; }
+        .chat-input { padding: 15px; border-top: 1px solid var(--border); display: flex; gap: 10px; background: white; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo"><i class="fas fa-layer-group"></i> Smart Core</div>
+        <a href="#" class="menu-item active"><i class="fas fa-chart-pie"></i> Visão Geral</a>
+        <a href="#" class="menu-item"><i class="fas fa-bullhorn"></i> Marketing</a>
+        <a href="#" class="menu-item"><i class="fas fa-camera"></i> Estúdio Visual</a>
+        <a href="#" class="menu-item"><i class="fas fa-file-invoice"></i> Financeiro</a>
+    </div>
+
+    <main class="main">
+        <div class="top-bar">
+            <h1>Painel de Controle</h1>
+            <div class="status-badge">
+                <div class="dot"></div>
+                Gemini 3 Flash Preview
+            </div>
+        </div>
+
+        <div class="grid">
+            
+            <div class="tool-card">
+                <div class="card-icon"><i class="fas fa-pen-nib"></i></div>
+                <h3>Gerador de Copy</h3>
+                <p>Cria textos de alta conversão para Shopee.</p>
+                <label>Produto</label>
+                <input type="text" id="prod-ads" placeholder="Ex: Fone Bluetooth...">
+                <button class="btn-run" onclick="callAPI('ads')">
+                    <i class="fas fa-bolt"></i> Gerar Anúncio
+                </button>
+                <div id="res-ads" class="result-area"></div>
+                <div id="err-ads" class="error-box"></div>
+            </div>
+
+            <div class="tool-card">
+                <div class="card-icon"><i class="fas fa-eye"></i></div>
+                <h3>Estúdio Vision</h3>
+                <p>Analisa qualidade de fotos de produtos.</p>
+                <label>Foto do Produto</label>
+                <input type="file" id="file-vision" accept="image/*">
+                <div id="preview-vision" style="height:100px; background:#f1f5f9; border-radius:8px; display:flex; align-items:center; justify-content:center; margin-bottom:15px; overflow:hidden;">
+                    <img id="img-show" style="max-width:100%; max-height:100%; display:none;">
+                    <span style="color:#94a3b8; font-size:0.8rem;">Preview</span>
+                </div>
+                <button class="btn-run" onclick="callAPI('vision')">
+                    <i class="fas fa-search"></i> Analisar Foto
+                </button>
+                <div id="res-vision" class="result-area"></div>
+                <div id="err-vision" class="error-box"></div>
+            </div>
+
+            <div class="tool-card">
+                <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                <h3>Auditoria Financeira</h3>
+                <p>Estratégias para reduzir custos (CAC).</p>
+                <button class="btn-run" style="background:#1e293b; margin-top:20px;" onclick="callAPI('finance')">
+                    <i class="fas fa-calculator"></i> Gerar Relatório
+                </button>
+                <div id="res-finance" class="result-area"></div>
+                <div id="err-finance" class="error-box"></div>
+            </div>
+        </div>
+    </main>
+
+    <div class="chat-float">
+        <div class="chat-box" id="chat-box">
+            <div class="chat-header">
+                <span>Suporte Smart Core</span>
+                <i class="fas fa-times" style="cursor:pointer" onclick="toggleChat()"></i>
+            </div>
+            <div class="chat-msgs" id="chat-msgs">
+                <div class="msg bot">Olá! Sou a IA da Smart Core. Como posso ajudar sua empresa hoje?</div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chat-txt" placeholder="Digite..." style="margin:0;" onkeypress="if(event.keyCode==13) sendChat()">
+                <button style="background:var(--accent); color:white; border:none; width:40px; border-radius:8px; cursor:pointer;" onclick="sendChat()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+        <div class="chat-toggle" onclick="toggleChat()">
+            <i class="fas fa-comment-dots"></i>
+        </div>
+    </div>
+
+    <script>
+        // --- CONFIGURAÇÃO DA API ---
+        const API_KEY = "AIzaSyDWpufjH25331yculLeV2zlmzf7sId4Cf4";
         
-        .card h3 { margin: 0; font-size: 1.1rem; color: var(--primary); }
-        .card p { margin: 4px 0 0; font-size: 0.85rem; color: #64748b; }
+        // MODELO DEFINIDO PELO USUÁRIO (Gemini 3 Flash Preview)
+        // Se der erro 404/Not Found, é porque o Google ainda não liberou nessa chave.
+        const MODEL = "gemini-3-flash-preview"; 
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}`;
 
-        /* INPUTS */
-        label { display: block; font-size: 0.85rem; font-weight: 500; margin-bottom: 8px; color: var(--primary); }
-        input, select, textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 0.9rem; margin-bottom: 16px; outline: none; box-sizing: border-box; transition: border-color 0.2s; }
-        input:focus { border-color: var(--accent); }
-
-        button.btn-primary { 
-            background: var(--accent); 
-            color: white; 
-            border: none; 
-            width: 100%; 
-            padding: 12px; 
-            border-radius: 8px; 
-            font-weight: 600; 
-            cursor: pointer; 
-            transition: background 0.2s;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
+        // UTILITÁRIOS
+        function toggleChat() {
+            const box = document.getElementById('chat-box');
+            box.style.display = box.style.display === 'flex' ? 'none' : 'flex';
         }
-        button.btn-primary:hover { background: #1d4ed8; }
-        button:disabled { background: #cbd5e1; cursor: not-allowed; }
 
-        /* OUTPUTS */
-        .output-area { 
-            margin-top: 20px; 
-            background: #f1f5f9; 
-            padding: 20px; 
-            border-radius: 12px; 
-            border-left: 4px solid var(--accent); 
-            font-size: 0.95rem; 
-            line-height: 1.6; 
-            display: none; 
+        // PREVIEW DE IMAGEM
+        let base64Img = null;
+        document.getElementById('file-vision').addEventListener('change', function(e){
+            const file = e.target.files[0];
+            if(file){
+                const r = new FileReader();
+                r.onload = function(evt){
+                    base64Img = evt.target.result.split(',')[1];
+                    const img = document.getElementById('img-show');
+                    img.src = evt.target.result;
+                    img.style.display = 'block';
+                }
+                r.readAsDataURL(file);
+            }
+        });
+
+        // FUNÇÃO CENTRAL (CHAMA A API)
+        async function callAPI(type) {
+            // ELEMENTOS
+            const resDiv = document.getElementById(`res-${type}`);
+            const errDiv = document.getElementById(`err-${type}`);
+            
+            // LIMPA ESTADO
+            resDiv.style.display = 'none';
+            errDiv.style.display = 'none';
+            
+            // PREPARA O PROMPT
+            let contents = [];
+            
+            if (type === 'ads') {
+                const prod = document.getElementById('prod-ads').value;
+                if(!prod) return alert("Digite o nome do produto.");
+                contents = [{ parts: [{ text: `Crie um anúncio profissional para Shopee do produto: ${prod}. Foque em benefícios.` }] }];
+            } 
+            else if (type === 'vision') {
+                if(!base64Img) return alert("Selecione uma imagem.");
+                contents = [{ parts: [{ text: "Analise a qualidade desta imagem para e-commerce. Nota 0-10." }, { inline_data: { mime_type: "image/jpeg", data: base64Img } }] }];
+            }
+            else if (type === 'finance') {
+                contents = [{ parts: [{ text: "Dê 3 dicas para reduzir custos operacionais em e-commerce." }] }];
+            }
+
+            // FEEDBACK VISUAL
+            resDiv.style.display = 'block';
+            resDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando com Gemini 3...';
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: contents })
+                });
+
+                const data = await response.json();
+
+                // TRATAMENTO DE ERRO (O PULO DO GATO)
+                if(data.error) {
+                    throw new Error(data.error.message); // Lança o erro para o catch
+                }
+
+                // SUCESSO
+                const text = data.candidates[0].content.parts[0].text;
+                resDiv.innerHTML = marked.parse(text);
+
+            } catch (error) {
+                // EXIBE O ERRO BONITO PRO USUÁRIO
+                resDiv.style.display = 'none';
+                errDiv.style.display = 'block';
+                errDiv.innerHTML = `<strong>Falha na Conexão:</strong> ${error.message}<br><br><small>Dica: O modelo '${MODEL}' pode não estar ativo na sua conta ainda. Tente usar 'gemini-1.5-pro' se o erro persistir.</small>`;
+            }
         }
-        .error-msg { color: #dc2626; background: #fef2f2; border-color: #dc2626; }
 
-        /* SPINNER */
-        .spinner { width: 18px; height: 18px; border: 2px solid #ffffff; border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite;
+        // CHAT
+        async function sendChat() {
+            const inp = document.getElementById('chat-txt');
+            const box = document.getElementById('chat-msgs');
+            const txt = inp.value;
+            if(!txt) return;
+
+            box.innerHTML += `<div class="msg user">${txt}</div>`;
+            inp.value = '';
+            box.scrollTop = box.scrollHeight;
+
+            try {
+                const res = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: `Atue como Suporte Smart Core. Responda: ${txt}` }] }] })
+                });
+                const data = await res.json();
+                if(data.error) throw new Error(data.error.message);
+                
+                const reply = data.candidates[0].content.parts[0].text;
+                box.innerHTML += `<div class="msg bot">${marked.parse(reply)}</div>`;
+            } catch (e) {
+                box.innerHTML += `<div class="msg bot" style="color:red">Erro: ${e.message}</div>`;
+            }
+            box.scrollTop = box.scrollHeight;
+        }
+    </script>
+</body>
+</html>
