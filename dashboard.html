@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Enterprise | Smart Core</title>
+    <title>Painel Enterprise | SmartDesc Ai</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -68,7 +68,7 @@
 <body>
 
     <div class="sidebar">
-        <div class="logo"><i class="fas fa-layer-group"></i> Smart Core</div>
+        <div class="logo"><i class="fas fa-layer-group"></i> SmartDesc Ai</div>
         <a href="#" class="menu-item active"><i class="fas fa-chart-pie"></i> Visão Geral</a>
         <a href="#" class="menu-item"><i class="fas fa-bullhorn"></i> Marketing</a>
         <a href="#" class="menu-item"><i class="fas fa-camera"></i> Estúdio Visual</a>
@@ -132,11 +132,11 @@
     <div class="chat-float">
         <div class="chat-box" id="chat-box">
             <div class="chat-header">
-                <span>Suporte Smart Core</span>
+                <span>Suporte SmartDesc Ai</span>
                 <i class="fas fa-times" style="cursor:pointer" onclick="toggleChat()"></i>
             </div>
             <div class="chat-msgs" id="chat-msgs">
-                <div class="msg bot">Olá! Sou a IA da Smart Core. Como posso ajudar sua empresa hoje?</div>
+                <div class="msg bot">Olá! Sou a IA da SmartDesc Ai. Como posso ajudar sua empresa hoje?</div>
             </div>
             <div class="chat-input">
                 <input type="text" id="chat-txt" placeholder="Digite..." style="margin:0;" onkeypress="if(event.keyCode==13) sendChat()">
@@ -152,8 +152,7 @@
         // --- CONFIGURAÇÃO DA API ---
         const API_KEY = "AIzaSyDWpufjH25331yculLeV2zlmzf7sId4Cf4";
         
-        // MODELO DEFINIDO PELO USUÁRIO (Gemini 3 Flash Preview)
-        // Se der erro 404/Not Found, é porque o Google ainda não liberou nessa chave.
+        // MODELO DEFINIDO PELO USUÁRIO
         const MODEL = "gemini-3-flash-preview"; 
         const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}`;
 
@@ -207,7 +206,7 @@
 
             // FEEDBACK VISUAL
             resDiv.style.display = 'block';
-            resDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando com Gemini 3...';
+            resDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando com SmartDesc Ai...';
 
             try {
                 const response = await fetch(API_URL, {
@@ -218,9 +217,9 @@
 
                 const data = await response.json();
 
-                // TRATAMENTO DE ERRO (O PULO DO GATO)
+                // TRATAMENTO DE ERRO
                 if(data.error) {
-                    throw new Error(data.error.message); // Lança o erro para o catch
+                    throw new Error(data.error.message);
                 }
 
                 // SUCESSO
@@ -228,10 +227,10 @@
                 resDiv.innerHTML = marked.parse(text);
 
             } catch (error) {
-                // EXIBE O ERRO BONITO PRO USUÁRIO
+                // EXIBE O ERRO
                 resDiv.style.display = 'none';
                 errDiv.style.display = 'block';
-                errDiv.innerHTML = `<strong>Falha na Conexão:</strong> ${error.message}<br><br><small>Dica: O modelo '${MODEL}' pode não estar ativo na sua conta ainda. Tente usar 'gemini-1.5-pro' se o erro persistir.</small>`;
+                errDiv.innerHTML = `<strong>Falha na Conexão:</strong> ${error.message}<br><br><small>Dica: O modelo '${MODEL}' pode não estar ativo na sua conta ainda.</small>`;
             }
         }
 
@@ -250,7 +249,7 @@
                 const res = await fetch(API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: `Atue como Suporte Smart Core. Responda: ${txt}` }] }] })
+                    body: JSON.stringify({ contents: [{ parts: [{ text: `Atue como Suporte SmartDesc Ai. Responda: ${txt}` }] }] })
                 });
                 const data = await res.json();
                 if(data.error) throw new Error(data.error.message);
