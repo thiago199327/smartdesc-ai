@@ -3,114 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Seguro | SmartDesc Ai</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+    <title>Smart Core - Automação e Lucro</title>
     <style>
-        :root { --primary: #0f172a; --accent: #10b981; --surface: #ffffff; --text: #334155; --border: #e2e8f0; --error: #ef4444; }
-        body { margin: 0; font-family: 'Inter', sans-serif; background-color: var(--primary); background-image: radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 20%), radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 20%); height: 100vh; display: flex; align-items: center; justify-content: center; color: var(--text); }
-        .login-card { background: var(--surface); padding: 40px; width: 100%; max-width: 400px; border-radius: 24px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); text-align: center; animation: slideUp 0.5s ease-out; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .brand { font-size: 1.5rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; }
-        .subtitle { color: #64748b; font-size: 0.9rem; margin-bottom: 30px; }
-        .input-group { text-align: left; margin-bottom: 20px; }
-        label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; color: var(--primary); }
-        .input-field { width: 100%; padding: 12px 15px; border: 1px solid var(--border); border-radius: 12px; font-family: inherit; font-size: 0.95rem; box-sizing: border-box; transition: 0.2s; outline: none; }
-        .input-field:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1); }
-        .btn-login { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; }
-        .btn-login:hover { background: var(--accent); transform: translateY(-2px); }
-        .error-msg { color: var(--error); font-size: 0.85rem; margin-top: 15px; display: none; background: #fef2f2; padding: 10px; border-radius: 8px; border: 1px solid #fee2e2; }
-        .spinner { width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: white; animation: spin 1s ease-in-out infinite; display: none; }
+        /* Estilo Básico e Moderno (Dark Mode) */
+        body { margin: 0; font-family: 'Arial', sans-serif; background-color: #0f0f0f; color: #fff; }
+        
+        /* Menu Superior */
+        header { display: flex; justify-content: space-between; padding: 20px; align-items: center; background: #1a1a1a; }
+        .logo { font-weight: bold; font-size: 1.5rem; color: #00ff88; } /* Verde Tech */
+        .btn-login { background: transparent; border: 1px solid #fff; color: #fff; padding: 10px 20px; cursor: pointer; border-radius: 5px; text-decoration: none;}
+        .btn-destaque { background: #00ff88; color: #000; border: none; padding: 10px 20px; font-weight: bold; cursor: pointer; border-radius: 5px; text-decoration: none;}
+
+        /* Hero Section (Marketing Principal) */
+        .hero { text-align: center; padding: 60px 20px; background: linear-gradient(45deg, #0f0f0f, #1a2a1f); }
+        .hero h1 { font-size: 3rem; margin-bottom: 10px; }
+        .hero p { font-size: 1.2rem; color: #ccc; max-width: 600px; margin: 0 auto 30px; }
+
+        /* Seção de Propaganda (Carrossel Estático) */
+        .marketing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 40px 20px; }
+        .card-ad { background: #1f1f1f; padding: 20px; border-radius: 10px; text-align: center; border: 1px solid #333; }
+        .card-ad h3 { color: #00ff88; }
+
+        /* Preços das Otimizações */
+        .pricing { padding: 50px 20px; text-align: center; }
+        .pricing-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 30px; }
+        .price-card { background: #222; padding: 30px; border-radius: 15px; width: 250px; border: 1px solid #444; transition: transform 0.3s; }
+        .price-card:hover { transform: scale(1.05); border-color: #00ff88; }
+        .price { font-size: 2rem; font-weight: bold; color: #fff; margin: 20px 0; }
+        
+        /* Como Funciona */
+        .how-it-works { padding: 50px 20px; background: #161616; text-align: center; }
+        .steps { display: flex; justify-content: space-around; flex-wrap: wrap; margin-top: 30px; }
+        .step { max-width: 300px; margin: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="login-card">
-        <div class="brand"><i class="fas fa-database"></i> SmartDesc Admin</div>
-        <p class="subtitle">Acesso Seguro via Supabase</p>
-
-        <form id="loginForm" onsubmit="handleSupabaseLogin(event)">
-            <div class="input-group">
-                <label>E-mail</label>
-                <input type="email" id="email" class="input-field" placeholder="admin@smartdesc.com" required>
-            </div>
-            
-            <div class="input-group">
-                <label>Senha</label>
-                <input type="password" id="password" class="input-field" placeholder="••••••••" required>
-            </div>
-
-            <button type="submit" class="btn-login" id="btn-submit">
-                <div class="spinner" id="spinner"></div>
-                <span id="btn-text">Entrar no Sistema</span>
-            </button>
-            
-            <div id="error-message" class="error-msg"></div>
-        </form>
-
-        <div style="margin-top: 30px; border-top: 1px solid var(--border); padding-top: 20px; font-size: 0.8rem; color: #94a3b8;">
-            <i class="fas fa-shield-alt"></i> Database Connection Active
+    <header>
+        <div class="logo">SMART CORE 🤖</div>
+        <div>
+            <a href="login.html" class="btn-login">Entrar</a>
+            <a href="cadastro.html" class="btn-destaque">Criar Conta</a>
         </div>
-    </div>
+    </header>
 
-    <script>
-        // ====================================================
-        // 🔑 CONFIGURAÇÃO DO SUPABASE
-        // ====================================================
-        const SUPABASE_URL = 'https://qlrxmefmfqmgkgkwijqd.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_wrqumZD9tdNh9B2wQVa3JQ_2CE1ZUXq';
-        // ====================================================
+    <section class="hero">
+        <h1>Maximize seus Lucros com Automação</h1>
+        <p>A tecnologia Smart Core otimiza seus processos e vendas. Veja como nossa IA trabalha para gerar receita enquanto você dorme.</p>
+        <a href="cadastro.html" class="btn-destaque">COMEÇAR AGORA</a>
+    </section>
 
-        // CORREÇÃO DO ERRO: Mudei o nome da variável para 'supabaseClient'
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    <section class="marketing-grid">
+        <div class="card-ad">
+            <h3>📈 +300% em Vendas</h3>
+            <p>Nossos algoritmos ajustam seus anúncios automaticamente para vender mais.</p>
+        </div>
+        <div class="card-ad">
+            <h3>🤖 Robótica Integrada</h3>
+            <p>Conheça o futuro da automação física e digital unificadas.</p>
+        </div>
+        <div class="card-ad">
+            <h3>💰 Lucro Passivo</h3>
+            <p>Configure uma vez e deixe o sistema rodar as otimizações.</p>
+        </div>
+    </section>
 
-        async function handleSupabaseLogin(event) {
-            event.preventDefault();
-            
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const btn = document.getElementById('btn-submit');
-            const spinner = document.getElementById('spinner');
-            const text = document.getElementById('btn-text');
-            const errorMsg = document.getElementById('error-message');
+    <section class="how-it-works">
+        <h2>Como Funciona?</h2>
+        <div class="steps">
+            <div class="step">
+                <h1>1</h1>
+                <h3>Crie sua Conta</h3>
+                <p>Cadastro rápido e seguro.</p>
+            </div>
+            <div class="step">
+                <h1>2</h1>
+                <h3>Escolha a Otimização</h3>
+                <p>Selecione qual setor você quer automatizar.</p>
+            </div>
+            <div class="step">
+                <h1>3</h1>
+                <h3>Acompanhe o Lucro</h3>
+                <p>Veja os resultados no seu dashboard em tempo real.</p>
+            </div>
+        </div>
+    </section>
 
-            // UI
-            btn.disabled = true;
-            btn.style.opacity = "0.8";
-            text.style.display = "none";
-            spinner.style.display = "block";
-            errorMsg.style.display = "none";
+    <section class="pricing">
+        <h2>Nossos Planos de Otimização</h2>
+        <div class="pricing-container">
+            <div class="price-card">
+                <h3>Básico</h3>
+                <div class="price">R$ 97,00</div>
+                <p>Otimização de 1 Loja</p>
+                <p>Relatório Mensal</p>
+                <a href="cadastro.html" class="btn-destaque">Escolher</a>
+            </div>
+            <div class="price-card" style="border-color: #00ff88; box-shadow: 0 0 15px rgba(0,255,136,0.2);">
+                <h3>PRO (Smart)</h3>
+                <div class="price">R$ 197,00</div>
+                <p>Otimizações Ilimitadas</p>
+                <p>IA de Precificação</p>
+                <p>Suporte 24h</p>
+                <a href="cadastro.html" class="btn-destaque">Escolher</a>
+            </div>
+        </div>
+    </section>
 
-            try {
-                // Tenta logar usando o cliente correto
-                const { data, error } = await supabaseClient.auth.signInWithPassword({
-                    email: email,
-                    password: password,
-                });
-
-                if (error) throw error;
-
-                // Sucesso
-                localStorage.setItem('sb_session', JSON.stringify(data.session));
-                window.location.href = "dashboard.html";
-
-            } catch (error) {
-                // Erro
-                btn.disabled = false;
-                btn.style.opacity = "1";
-                text.style.display = "block";
-                spinner.style.display = "none";
-                
-                let msg = "Erro ao fazer login.";
-                if(error.message.includes("Invalid login")) msg = "E-mail ou senha incorretos.";
-                
-                errorMsg.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${msg}`;
-                errorMsg.style.display = "block";
-            }
-        }
-    </script>
 </body>
 </html>
