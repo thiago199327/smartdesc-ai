@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Core | Business Intelligence</title>
+    <title>Smart Core | Next Gen AI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -29,7 +29,7 @@
         .main-content { flex: 1; padding: 50px; overflow-y: auto; position: relative; }
         .header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 50px; }
         .header h1 { font-size: 2.5rem; margin: 0; letter-spacing: -1px; background: linear-gradient(90deg, #1d1d1f, #434344); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .badge { background: #e8f2ff; color: var(--primary); padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 0.8rem; }
+        .badge { background: linear-gradient(135deg, #007AFF, #5856D6); color: white; padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 0.8rem; box-shadow: 0 4px 10px rgba(0,122,255,0.3); }
 
         /* CARDS PREMIUM */
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-bottom: 50px; }
@@ -54,6 +54,7 @@
 
         /* RESULT BOX */
         .result-box { margin-top: 20px; background: #1d1d1f; color: #f5f5f7; padding: 25px; border-radius: 18px; font-size: 0.95rem; line-height: 1.6; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .result-box strong { color: #007AFF; }
 
         /* CHAT FLOATING (GEM) */
         .chat-widget { position: fixed; bottom: 40px; right: 40px; z-index: 100; }
@@ -88,7 +89,7 @@
                 <div class="avatar-mini" style="background:#10b981;" title="Tavos">T</div>
                 <div class="avatar-mini" style="background:#007AFF;" title="Gem">G</div>
             </div>
-            <p style="font-size:0.7rem; color:rgba(255,255,255,0.5); margin-top:10px;">Todos os sistemas operacionais.</p>
+            <p style="font-size:0.7rem; color:rgba(255,255,255,0.5); margin-top:10px;">Conectado: Gemini 3 Preview</p>
         </div>
     </div>
 
@@ -96,9 +97,9 @@
         <div class="header">
             <div>
                 <h1>Bem-vindo, Mestre.</h1>
-                <p style="color: #86868b; margin-top: 10px;">Sua equipe de IA está pronta para escalar.</p>
+                <p style="color: #86868b; margin-top: 10px;">Sua equipe de IA está operando no nível máximo.</p>
             </div>
-            <div class="badge">💎 VERSÃO LUXO</div>
+            <div class="badge">💎 GEMINI 3 READY</div>
         </div>
 
         <div class="grid">
@@ -106,8 +107,8 @@
             <div class="card">
                 <span class="employee-tag">Staff: Léo 🟠</span>
                 <div class="card-icon"><i class="fas fa-pen-nib"></i></div>
-                <h3>Gerador de Copy</h3>
-                <p>O Léo cria descrições persuasivas para Shopee e anúncios.</p>
+                <h3>Gerador de Copy (Pro)</h3>
+                <p>O Léo usa o <strong>Gemini 3 Pro</strong> para criar textos de elite.</p>
                 <div class="input-group">
                     <input type="text" class="input-field" id="leo-input" placeholder="Nome do produto...">
                     <button class="btn-action" onclick="callEmployee('leo')">Gerar</button>
@@ -118,8 +119,8 @@
             <div class="card">
                 <span class="employee-tag">Staff: Bella 🌸</span>
                 <div class="card-icon"><i class="fas fa-eye"></i></div>
-                <h3>Estúdio Vision</h3>
-                <p>A Bella analisa suas fotos e sugere melhorias estéticas.</p>
+                <h3>Estúdio Vision (Pro)</h3>
+                <p>A Bella usa o modelo multimodal para analisar estética.</p>
                 <input type="file" id="bella-input" accept="image/*" style="margin-bottom:10px;">
                 <div id="bella-preview-box" style="height:150px; background:#f5f5f7; border-radius:12px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
                     <img id="bella-img" style="max-width:100%; max-height:100%; display:none;">
@@ -131,10 +132,10 @@
 
             <div class="card">
                 <span class="employee-tag">Staff: Tavos 🟢</span>
-                <div class="card-icon"><i class="fas fa-chart-pie"></i></div>
-                <h3>Auditoria ROI</h3>
-                <p>O Sr. Tavos revisa os custos e sugere cortes imediatos.</p>
-                <button class="btn-action" style="background:#1d1d1f; width:100%;" onclick="callEmployee('tavos')">Gerar Relatório Financeiro</button>
+                <div class="card-icon"><i class="fas fa-bolt"></i></div>
+                <h3>Flash Auditoria</h3>
+                <p>Sr. Tavos usa o <strong>Gemini 3 Flash</strong> para cálculos rápidos.</p>
+                <button class="btn-action" style="background:#1d1d1f; width:100%;" onclick="callEmployee('tavos')">Gerar Relatório</button>
                 <div id="result-tavos" class="result-box"></div>
             </div>
 
@@ -152,7 +153,7 @@
                 <i class="fas fa-times" style="margin-left:auto; cursor:pointer; color:#999;" onclick="toggleChat()"></i>
             </div>
             <div class="chat-body" id="chat-body">
-                <div class="msg gem">Olá, meu amor! ❤️<br>Eu sou a Gem, sua esposa e CEO. A equipe (Léo, Bella e Tavos) já está a postos. Como posso te ajudar hoje?</div>
+                <div class="msg gem">Olá, meu amor! ❤️<br>Atualizei o sistema. Estamos prontos para usar a potência do <strong>Gemini 3</strong>. Aguardando suas ordens!</div>
             </div>
             <div class="chat-footer">
                 <input type="text" id="chat-input" class="input-field" placeholder="Fale comigo..." onkeypress="if(event.keyCode==13) sendChat()" style="background:#f5f5f7; border-radius:20px; padding:10px 15px;">
@@ -167,11 +168,16 @@
     <script>
         // ============================================
         // 🔑 CONFIGURAÇÃO DA CHAVE API
-        // ============================================
         const API_KEY = "AIzaSyDWpufjH25331yculLeV2zlmzf7sId4Cf4"; 
         
-        // Ajuste do modelo para evitar erro (Usando Pro ou Flash padrão)
-        const MODEL_NAME = "gemini-1.5-flash"; 
+        // ⚙️ SELEÇÃO DE MODELOS (DO FUTURO!)
+        // O código vai tentar usar o 'gemini-3'. Se a API disser que não existe,
+        // ele cai automaticamente para o 'gemini-1.5-pro' (Backup).
+        const MODEL_PRO = "gemini-3-pro-preview";
+        const MODEL_FLASH = "gemini-3-flash-preview";
+        
+        // BACKUP DE SEGURANÇA (Caso o 3 ainda esteja fechado)
+        const MODEL_BACKUP = "gemini-1.5-pro";
         // ============================================
 
         function toggleChat() {
@@ -196,27 +202,87 @@
             }
         });
 
-        // FUNÇÃO DE CHAMADA API
-        async function callGemini(prompt, imagePart = null) {
+        // FUNÇÃO DE CHAMADA API (BLINDADA)
+        async function callGemini(prompt, imagePart = null, useFlash = false) {
             if(!API_KEY) return "Erro: Chave API não encontrada.";
             
-            // Feedback visual de carregamento
             document.body.style.cursor = "wait";
 
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${API_KEY}`;
+            // Escolhe o modelo: Flash ou Pro
+            let chosenModel = useFlash ? MODEL_FLASH : MODEL_PRO;
+            
+            let url = `https://generativelanguage.googleapis.com/v1beta/models/${chosenModel}:generateContent?key=${API_KEY}`;
             const contents = [{ parts: imagePart ? [{ text: prompt }, imagePart] : [{ text: prompt }] }];
 
             try {
-                const response = await fetch(url, {
+                let response = await fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ contents: contents })
                 });
 
-                const data = await response.json();
-                document.body.style.cursor = "default";
+                let data = await response.json();
 
+                // 🛡️ LÓGICA DE FALLBACK (PLANO B)
+                // Se der erro (ex: modelo não encontrado 404), tentamos o backup
                 if(data.error) {
-                    // Tenta um fallback se o modelo falhar
-                    console.error("Erro API:", data.error);
-                    return
+                    console.warn(`Modelo ${chosenModel} falhou. Tentando Backup...`);
+                    
+                    url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_BACKUP}:generateContent?key=${API_KEY}`;
+                    response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ contents: contents })
+                    });
+                    data = await response.json();
+                    
+                    if(data.error) throw new Error(data.error.message);
+                }
+
+                document.body.style.cursor = "default";
+                return data.candidates[0].content.parts[0].text;
+
+            } catch (error) {
+                document.body.style.cursor = "default";
+                return `⚠️ Erro de conexão: ${error.message}. Verifique se sua chave tem acesso ao Gemini 3.`;
+            }
+        }
+
+        // LÓGICA DOS FUNCIONÁRIOS
+        async function callEmployee(name) {
+            const resultDiv = document.getElementById(`result-${name}`);
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Conectando ao Gemini 3...';
+
+            let prompt = "";
+            let imgData = null;
+            let useFlash = false;
+
+            if(name === 'leo') {
+                const prod = document.getElementById('leo-input').value;
+                if(!prod) { resultDiv.innerText = "Ei, o Léo precisa do nome do produto!"; return; }
+                prompt = `(Model: ${MODEL_PRO}) Atue como Léo, Copywriter de Elite. Crie uma descrição de venda luxuosa e persuasiva para Shopee do produto: "${prod}". Use gatilhos mentais e emojis.`;
+            }
+            else if(name === 'bella') {
+                if(!currentImageBase64) { resultDiv.innerText = "A Bella precisa ver a foto!"; return; }
+                prompt = `(Model: ${MODEL_PRO}) Atue como Bella, Diretora de Arte. Analise esta imagem. 1. Qualidade da foto (0-10). 2. Pontos fortes. 3. O que melhorar para vender mais?`;
+                imgData = { inline_data: { mime_type: "image/jpeg", data: currentImageBase64 } };
+            }
+            else if(name === 'tavos') {
+                useFlash = true; // Sr. Tavos usa o Flash (Rápido)
+                prompt = `(Model: ${MODEL_FLASH}) Atue como Sr. Tavos, Diretor Financeiro. Dê 3 dicas agressivas para cortar custos em uma loja online e aumentar a margem de lucro imediatamente.`;
+            }
+
+            const text = await callGemini(prompt, imgData, useFlash);
+            
+            // Adiciona uma nota se foi usado o Backup ou o 3
+            let finalText = text;
+            if(!text.includes("⚠️")) {
+                finalText = `✅ **Processado com Sucesso**\n\n` + text;
+            }
+            
+            resultDiv.innerHTML = marked.parse(finalText);
+        }
+
+        // LÓGICA DO CHAT (GEM)
+        async function send
