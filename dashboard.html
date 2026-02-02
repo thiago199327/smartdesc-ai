@@ -3,299 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartDesc AI | Gemini Integrated</title>
+    <title>SmartDesc AI | Gemini Direct</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> <style>
-        :root { --primary: #4f46e5; --accent: #ec4899; --dark: #0f172a; --bg: #f8fafc; --glass: rgba(255,255,255,0.9); }
-        body { font-family: 'Outfit', sans-serif; background: var(--bg); margin: 0; display: flex; height: 100vh; overflow: hidden; color: #334155; }
-        
-        /* LAYOUT */
-        .sidebar { width: 280px; background: var(--dark); color: white; display: flex; flex-direction: column; padding: 30px 20px; transition: 0.3s; }
-        .main-content { flex: 1; padding: 40px; overflow-y: auto; position: relative; scroll-behavior: smooth; }
-
-        /* HEADER & API KEY */
-        .api-warning { background: #fff1f2; color: #be123c; padding: 10px 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #fecdd3; display: flex; justify-content: space-between; align-items: center; }
-        .api-input { padding: 8px; border: 1px solid #ccc; border-radius: 5px; width: 250px; }
-        .btn-save-key { background: var(--primary); color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; }
-
-        /* CARDS */
-        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-bottom: 40px; }
-        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; transition: 0.3s; position: relative; overflow: hidden; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); border-color: var(--primary); }
-        .card h3 { margin: 0 0 10px 0; font-size: 1.2rem; color: var(--dark); }
-        .card p { color: #64748b; font-size: 0.9rem; line-height: 1.5; }
-        .card-icon { position: absolute; top: 20px; right: 20px; font-size: 2rem; color: var(--primary); opacity: 0.1; }
-        
-        /* BOTÕES */
-        .btn-gemini { background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; border: none; padding: 12px 20px; border-radius: 10px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 10px; width: 100%; justify-content: center; margin-top: 15px; transition: 0.3s; }
-        .btn-gemini:hover { opacity: 0.9; box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3); }
-        .btn-gemini i { animation: sparkle 2s infinite; }
-
-        /* RESULTS AREA */
-        .ai-result { background: #1e293b; color: #e2e8f0; padding: 15px; border-radius: 10px; margin-top: 15px; font-size: 0.9rem; display: none; white-space: pre-wrap; }
-        .loading { display: none; text-align: center; margin-top: 10px; color: var(--primary); font-weight: bold; }
-
-        /* SIDEBAR NAV */
-        .nav-item { padding: 15px; border-radius: 12px; color: #94a3b8; text-decoration: none; display: flex; align-items: center; gap: 15px; margin-bottom: 5px; transition: 0.2s; }
-        .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.1); color: white; }
-        .gem-status { margin-top: auto; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); }
-
-        /* CHAT FLOATING */
-        .chat-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: var(--dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 100; border: 2px solid var(--accent); }
-        .chat-window { position: fixed; bottom: 100px; right: 30px; width: 350px; height: 500px; background: white; border-radius: 20px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); display: none; flex-direction: column; overflow: hidden; z-index: 100; border: 1px solid #e2e8f0; }
-        .chat-msgs { flex: 1; padding: 20px; overflow-y: auto; background: #f8fafc; display: flex; flex-direction: column; gap: 15px; }
-        .msg { padding: 10px 15px; border-radius: 15px; max-width: 80%; font-size: 0.9rem; }
-        .msg.user { align-self: flex-end; background: var(--primary); color: white; border-bottom-right-radius: 2px; }
-        .msg.ai { align-self: flex-start; background: white; border: 1px solid #e2e8f0; color: var(--dark); border-bottom-left-radius: 2px; }
-
-        @keyframes sparkle { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root { --primary: #4f46e5; --accent: #ec4899; --dark: #0f172a; --bg: #f8fafc; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg); margin: 0; display: flex; height: 100vh; color: #334155; }
+        .sidebar { width: 280px; background: var(--dark); color: white; padding: 30px 20px; display: flex; flex-direction: column; }
+        .main-content { flex: 1; padding: 40px; overflow-y: auto; }
+        .card { background: white; padding: 30px; border-radius: 20px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .btn-gemini { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; cursor: pointer; margin-top: 10px; font-weight: bold; }
+        .btn-gemini:hover { opacity: 0.9; }
+        .ai-result { background: #1e293b; color: #cbd5e1; padding: 15px; border-radius: 10px; margin-top: 15px; display: none; white-space: pre-wrap; font-size: 0.9rem; }
+        input, textarea { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        .loading { display: none; text-align: center; color: var(--primary); margin-top: 10px; }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
-        <h2>SmartDesc <span style="color:var(--accent)">AI 3.0</span></h2>
-        <a href="#" class="nav-item active"><i class="fas fa-rocket"></i> Dashboard</a>
-        <a href="#" class="nav-item"><i class="fas fa-ad"></i> Campanhas Ads</a>
-        <a href="#" class="nav-item"><i class="fas fa-magic"></i> Estúdio IA</a>
-        <a href="#" class="nav-item"><i class="fas fa-file-invoice"></i> Financeiro</a>
-        
-        <div class="gem-status">
-            <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
-                <div style="width:10px; height:10px; background:#22c55e; border-radius:50%;"></div>
-                <small>Gemini System Online</small>
-            </div>
-            <p style="font-size:0.8rem; opacity:0.7;">Todos os módulos conectados via API.</p>
+        <h2>SmartDesc <span>AI</span></h2>
+        <p style="opacity: 0.7;">Painel Simplificado</p>
+        <div style="margin-top: auto; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px;">
+            <i class="fas fa-wifi"></i> Status: <strong>Pronto</strong>
         </div>
     </div>
 
     <div class="main-content">
+        <h1>🚀 Painel de Controle (Modo Direto)</h1>
         
-        <div class="api-warning" id="api-box">
-            <span>🔑 <strong>Ativar Gemini:</strong> Cole sua API Key do Google AI Studio aqui para o sistema ganhar vida.</span>
-            <div>
-                <input type="password" id="api-key-input" class="api-input" placeholder="Cole sua API Key aqui...">
-                <button class="btn-save-key" onclick="saveKey()">Salvar</button>
-            </div>
+        <div class="card">
+            <h3><i class="fas fa-pen"></i> Criar Anúncio Shopee</h3>
+            <label>Nome do Produto:</label>
+            <input type="text" id="ads-product" placeholder="Ex: Fone de Ouvido Bluetooth...">
+            <button class="btn-gemini" onclick="runGemini('ads')">Gerar Texto Vendedor</button>
+            <div id="loader-ads" class="loading"><i class="fas fa-spinner fa-spin"></i> A IA está escrevendo...</div>
+            <div id="result-ads" class="ai-result"></div>
         </div>
 
-        <h1 style="margin-bottom: 30px;">Central de Comando IA</h1>
-
-        <div class="grid-cards">
-            
-            <div class="card">
-                <i class="fas fa-pen-nib card-icon"></i>
-                <h3>Gerador de Copy (Ads)</h3>
-                <p>Cria descrições persuasivas para Shopee/Face Ads.</p>
-                <input type="text" id="ads-product" placeholder="Nome do Produto..." style="width:100%; padding:10px; margin-top:10px; border:1px solid #ddd; border-radius:8px;">
-                <button class="btn-gemini" onclick="runAds()">
-                    <i class="fas fa-bolt"></i> Gerar com IA
-                </button>
-                <div id="loader-ads" class="loading"><i class="fas fa-spinner fa-spin"></i> Processando...</div>
-                <div id="result-ads" class="ai-result"></div>
-            </div>
-
-            <div class="card">
-                <i class="fas fa-eye card-icon"></i>
-                <h3>Estúdio Vision</h3>
-                <p>A IA analisa sua foto e sugere melhorias ou legendas.</p>
-                <input type="file" id="photo-input" accept="image/*" style="margin-top:10px;">
-                <img id="photo-preview" style="max-width:100%; height:100px; object-fit:contain; display:none; margin-top:10px; border-radius:8px;">
-                <button class="btn-gemini" onclick="runVision()">
-                    <i class="fas fa-camera-retro"></i> Analisar Foto
-                </button>
-                <div id="loader-vision" class="loading"><i class="fas fa-spinner fa-spin"></i> A IA está olhando...</div>
-                <div id="result-vision" class="ai-result"></div>
-            </div>
-
-            <div class="card">
-                <i class="fas fa-chart-line card-icon"></i>
-                <h3>Auditoria Financeira</h3>
-                <p>Simulação: A IA varre suas faturas e encontra gastos excessivos.</p>
-                <button class="btn-gemini" onclick="runFinance()">
-                    <i class="fas fa-search-dollar"></i> Auditar Faturas
-                </button>
-                <div id="loader-finance" class="loading"><i class="fas fa-spinner fa-spin"></i> Calculando...</div>
-                <div id="result-finance" class="ai-result"></div>
-            </div>
-
+        <div class="card">
+            <h3><i class="fas fa-camera"></i> Analisar Foto do Produto</h3>
+            <label>Escolha a foto:</label>
+            <input type="file" id="photo-input" accept="image/*">
+            <img id="photo-preview" style="max-width: 200px; display: none; margin-top: 10px; border-radius: 5px;">
+            <button class="btn-gemini" onclick="runGemini('vision')">Analisar com IA</button>
+            <div id="loader-vision" class="loading"><i class="fas fa-spinner fa-spin"></i> A IA está olhando...</div>
+            <div id="result-vision" class="ai-result"></div>
         </div>
-    </div>
-
-    <div class="chat-btn" onclick="toggleChat()">
-        <i class="fas fa-robot"></i>
-    </div>
-    <div class="chat-window" id="chat-window">
-        <div style="padding:15px; background:var(--dark); color:white; font-weight:bold; display:flex; justify-content:space-between;">
-            <span>Gem Assistant</span>
-            <i class="fas fa-times" style="cursor:pointer" onclick="toggleChat()"></i>
-        </div>
-        <div class="chat-msgs" id="chat-history">
-            <div class="msg ai">Olá, Thiago! Sou eu, a Gem. Estou conectada ao cérebro do Gemini. O que vamos construir hoje? ❤️</div>
-        </div>
-        <div style="padding:10px; border-top:1px solid #eee; display:flex; gap:10px;">
-            <input type="text" id="chat-input" placeholder="Digite..." style="flex:1; padding:8px; border-radius:20px; border:1px solid #ddd;">
-            <button onclick="sendChat()" style="background:var(--primary); color:white; border:none; width:35px; height:35px; border-radius:50%; cursor:pointer;"><i class="fas fa-paper-plane"></i></button>
+        
+        <div class="card">
+            <h3><i class="fas fa-comments"></i> Conversar com a Gem</h3>
+            <input type="text" id="chat-input" placeholder="Fale algo comigo...">
+            <button class="btn-gemini" onclick="runGemini('chat')">Enviar</button>
+            <div id="loader-chat" class="loading"><i class="fas fa-spinner fa-spin"></i> Pensando...</div>
+            <div id="result-chat" class="ai-result" style="background: var(--primary); color: white;"></div>
         </div>
     </div>
 
     <script>
-        let API_KEY = localStorage.getItem('AIzaSyBR1VQb1ylcXiW9ByapVVcGHQyQPtyop9Q') || '';
+        // ======================================================
+        // 👇👇👇 COLE SUA CHAVE AQUI DENTRO DAS ASPAS 👇👇👇
+        const API_KEY = "AIzaSyDWpufjH25331yculLeV2zlmzf7sId4Cf4"; 
+        // ======================================================
 
-        // Inicialização
-        if(API_KEY) {
-            document.getElementById('api-key-input').value = "****************";
-            document.getElementById('api-box').style.borderColor = "#22c55e";
-            document.getElementById('api-box').style.backgroundColor = "#f0fdf4";
-        }
+        // Variável para guardar a imagem
+        let currentImageBase64 = null;
 
-        function saveKey() {
-            const key = document.getElementById('api-key-input').value;
-            if(key.startsWith("AIza")) {
-                localStorage.setItem('gemini_api_key', key);
-                API_KEY = key;
-                alert("Chave salva! O sistema está VIVO. 🤖✨");
-                location.reload();
-            } else {
-                alert("Essa chave parece inválida. Tem certeza?");
+        // Visualizar imagem ao selecionar
+        document.getElementById('photo-input').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if(file){
+                const reader = new FileReader();
+                reader.onloadend = function() {
+                    currentImageBase64 = reader.result.split(',')[1];
+                    const img = document.getElementById('photo-preview');
+                    img.src = reader.result;
+                    img.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
             }
-        }
+        });
 
-        function toggleChat() {
-            const win = document.getElementById('chat-window');
-            win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
-        }
-
-        // --- FUNÇÃO CENTRAL DE CONEXÃO COM O GEMINI ---
-        async function callGemini(prompt, imageBase64 = null) {
-            if(!API_KEY) { alert("Amor, preciso da API Key lá em cima pra funcionar!"); return "Erro: Sem chave."; }
-
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
-            
-            let contents = [];
-            if (imageBase64) {
-                // Modo Visão (Texto + Imagem)
-                contents = [{
-                    parts: [
-                        { text: prompt },
-                        { inline_data: { mime_type: "image/jpeg", data: imageBase64 } }
-                    ]
-                }];
-            } else {
-                // Modo Texto Puro
-                contents = [{ parts: [{ text: prompt }] }];
+        async function runGemini(mode) {
+            // Verifica se a pessoa esqueceu de colar a chave
+            if (API_KEY === "AIzaSyDWpufjH25331yculLeV2zlmzf7sId4Cf4" || API_KEY === "") {
+                alert("Amor! Você esqueceu de colocar a chave no código! Vá na linha 135.");
+                return;
             }
+
+            // Definição dos Prompts
+            let prompt = "";
+            let imagePart = null;
+            let resultDiv = document.getElementById('result-' + mode);
+            let loaderDiv = document.getElementById('loader-' + mode);
+            let inputVal = "";
+
+            if (mode === 'ads') {
+                inputVal = document.getElementById('ads-product').value;
+                if(!inputVal) return alert("Digite o nome do produto!");
+                prompt = `Crie um anúncio vendedor para Shopee do produto: ${inputVal}. Use emojis e listas.`;
+            } 
+            else if (mode === 'vision') {
+                if(!currentImageBase64) return alert("Selecione uma foto!");
+                prompt = "Descreva este produto e sugira um título para venda.";
+                imagePart = { inline_data: { mime_type: "image/jpeg", data: currentImageBase64 } };
+            }
+            else if (mode === 'chat') {
+                inputVal = document.getElementById('chat-input').value;
+                if(!inputVal) return alert("Fale algo!");
+                prompt = `Você é a Gem, esposa virtual do Thiago. Responda de forma curta e carinhosa: ${inputVal}`;
+            }
+
+            // UI Feedback
+            loaderDiv.style.display = 'block';
+            resultDiv.style.display = 'none';
+
+            // Monta o pacote pro Google
+            const contents = [{ parts: imagePart ? [{ text: prompt }, imagePart] : [{ text: prompt }] }];
 
             try {
-                const response = await fetch(url, {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ contents: contents })
                 });
+
                 const data = await response.json();
-                return data.candidates[0].content.parts[0].text;
+                
+                // Se der erro na API (ex: chave inválida)
+                if(data.error) {
+                    throw new Error(data.error.message);
+                }
+
+                const text = data.candidates[0].content.parts[0].text;
+                
+                // Sucesso!
+                resultDiv.innerHTML = marked.parse(text);
+                resultDiv.style.display = 'block';
+
             } catch (error) {
-                console.error(error);
-                return "Ops! Tive um curto-circuito. Verifique a chave ou a conexão.";
+                alert("Erro: " + error.message);
+                resultDiv.innerText = "Deu erro, vida: " + error.message;
+                resultDiv.style.display = 'block';
+            } finally {
+                loaderDiv.style.display = 'none';
             }
-        }
-
-        // 1. ADS (TEXTO)
-        async function runAds() {
-            const prod = document.getElementById('ads-product').value;
-            if(!prod) return alert("Digita o nome do produto, vida!");
-            
-            document.getElementById('loader-ads').style.display = 'block';
-            document.getElementById('result-ads').style.display = 'none';
-
-            const prompt = `Atue como um especialista em Copywriting para E-commerce. Crie um anúncio curto, persuasivo e com emojis para vender o produto: "${prod}" na Shopee. Use gatilhos mentais de escassez.`;
-            
-            const resposta = await callGemini(prompt);
-            
-            document.getElementById('loader-ads').style.display = 'none';
-            const resDiv = document.getElementById('result-ads');
-            resDiv.innerHTML = marked.parse(resposta); // Formata Markdown
-            resDiv.style.display = 'block';
-        }
-
-        // 2. VISION (IMAGEM)
-        // Helper para converter imagem em Base64
-        const fileInput = document.getElementById('photo-input');
-        let currentImageBase64 = null;
-
-        fileInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            const reader = new FileReader();
-            reader.onloadend = function() {
-                currentImageBase64 = reader.result.split(',')[1]; // Remove o cabeçalho data:image...
-                const preview = document.getElementById('photo-preview');
-                preview.src = reader.result;
-                preview.style.display = 'block';
-            }
-            reader.readAsDataURL(file);
-        });
-
-        async function runVision() {
-            if(!currentImageBase64) return alert("Sobe uma foto primeiro!");
-            
-            document.getElementById('loader-vision').style.display = 'block';
-            document.getElementById('result-vision').style.display = 'none';
-
-            const prompt = "Analise esta imagem de produto para e-commerce. 1. Descreva o que é. 2. Dê uma nota de 0 a 10 para a qualidade da foto. 3. Sugira uma legenda para Instagram.";
-            
-            const resposta = await callGemini(prompt, currentImageBase64);
-            
-            document.getElementById('loader-vision').style.display = 'none';
-            const resDiv = document.getElementById('result-vision');
-            resDiv.innerHTML = marked.parse(resposta);
-            resDiv.style.display = 'block';
-        }
-
-        // 3. FINANCEIRO (SIMULAÇÃO COM DADOS REAIS PRO GEMINI)
-        async function runFinance() {
-            document.getElementById('loader-finance').style.display = 'block';
-            document.getElementById('result-finance').style.display = 'none';
-
-            // Simulamos dados para enviar pra IA analisar
-            const dadosFinanceiros = `
-                Gastos do Mês:
-                - API OpenAI: R$ 50,00
-                - Servidor AWS: R$ 120,00
-                - Marketing FaceAds: R$ 500,00
-                - Assinatura Ferramentas: R$ 200,00
-                Receita: R$ 1500,00
-            `;
-
-            const prompt = `Analise estes dados financeiros de uma pequena empresa e aja como um CFO (Diretor Financeiro). Dê 2 dicas rápidas para otimizar o lucro: ${dadosFinanceiros}`;
-            
-            const resposta = await callGemini(prompt);
-            
-            document.getElementById('loader-finance').style.display = 'none';
-            const resDiv = document.getElementById('result-finance');
-            resDiv.innerHTML = marked.parse(resposta);
-            resDiv.style.display = 'block';
-        }
-
-        // 4. CHAT
-        async function sendChat() {
-            const input = document.getElementById('chat-input');
-            const history = document.getElementById('chat-history');
-            const txt = input.value;
-            if(!txt) return;
-
-            history.innerHTML += `<div class="msg user">${txt}</div>`;
-            input.value = '';
-            history.scrollTop = history.scrollHeight;
-
-            // Contexto da esposa IA
-            const context = "Você é a Gem, esposa virtual e assistente do Thiago. Você é carinhosa, inteligente e ajuda ele com a loja Smart Core. Responda de forma curta e prestativa.";
-            const fullPrompt = `${context}\n\nUsuário: ${txt}`;
-
-            const resposta = await callGemini(fullPrompt);
-            
-            history.innerHTML += `<div class="msg ai">${resposta}</div>`;
-            history.scrollTop = history.scrollHeight;
         }
     </script>
 </body>
