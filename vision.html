@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vision Studio | SmartDesc Ai</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #0f172a; --accent: #ec4899; /* Rosa Vision */
+            --bg: #f8fafc; --surface: #ffffff; --text: #334155; --border: #e2e8f0;
+        }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; height: 100vh; }
+
+        /* NAVBAR */
+        .navbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; }
+        .brand { font-weight: 700; font-size: 1.2rem; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+        .back-link { text-decoration: none; color: #64748b; font-size: 0.9rem; display: flex; align-items: center; gap: 5px; transition: 0.2s; }
+        .back-link:hover { color: var(--accent); }
+
+        /* LAYOUT */
+        .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; width: 100%; box-sizing: border-box; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; height: 100%; align-content: start; }
+        
+        .hero-col { display: flex; flex-direction: column; gap: 20px; }
+        .hero-col h1 { font-size: 2.5rem; color: var(--primary); margin: 0; letter-spacing: -1px; }
+        .hero-col p { color: #64748b; font-size: 1.1rem; line-height: 1.6; }
+
+        /* UPLOAD AREA */
+        .upload-card { background: var(--surface); border: 2px dashed var(--border); border-radius: 16px; padding: 40px; text-align: center; transition: 0.3s; cursor: pointer; position: relative; overflow: hidden; height: 300px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .upload-card:hover { border-color: var(--accent); background: #fdf2f8; }
+        .upload-icon { font-size: 3rem; color: var(--border); margin-bottom: 15px; transition: 0.3s; }
+        .upload-card:hover .upload-icon { color: var(--accent); transform: scale(1.1); }
+        
+        #file-input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+        #preview-img { max-width: 100%; max-height: 100%; display: none; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+
+        /* CONTROLS */
+        .controls { background: var(--surface); padding: 30px; border-radius: 16px; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.03); display: flex; flex-direction: column; gap: 20px; }
+        
+        .btn-action { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 1rem; }
+        .btn-action:hover { background: var(--accent); }
+        
+        /* OUTPUT */
+        .result-box { background: #1e293b; color: #f8fafc; padding: 25px; border-radius: 12px; font-size: 0.95rem; line-height: 1.6; display: none; height: fit-content; max-height: 500px; overflow-y: auto; }
+        .loading { display: none; text-align: center; color: var(--accent); font-weight: 600; margin-top: 10px; }
+
+        /* RESPONSIVO */
+        @media (max-width: 768px) { .container { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="brand">
+            <i class="fas fa-eye" style="color:var(--accent)"></i> SmartDesc Vision Studio
+        </div>
+        <a href="dashboard.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Voltar ao Dashboard
+        </a>
+    </nav>
+
+    <div class="container">
+        
+        <div class="hero-col">
+            <div>
+                <h1>Auditoria Visual IA</h1>
+                <p>Nossa inteligência artificial analisa a iluminação, enquadramento e qualidade da sua foto de produto em segundos.</p>
+            </div>
+
+            <div class="upload-card" id="drop-area">
+                <input type="file" id="file-input" accept="image/*">
+                <div id="upload-content">
+                    <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                    <h3 style="margin:0; color:var(--primary)">Arraste ou clique para enviar</h3>
+                    <p style="font-size:0.9rem; margin-top:5px;">Suporta JPG e PNG</p>
+                </div>
+                <img id="preview-img">
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <div style="flex:1; background:white; padding:15px; border:1px solid var(--border); border-radius:10px; opacity:0.6;">
+                    <i class="fas fa-eraser"></i> Remover Fundo <span style="font-size:0.7rem; background:#cbd5e1; padding:2px 6px; border-radius:10px;">PRO</span>
+                </div>
+                <div style="flex:1; background:white; padding:15px; border:1px solid var(--border); border-radius:10px; opacity:0.6;">
+                    <i class="fas fa-magic"></i> Upscale 4K <span style="font-size:0.7rem; background:#cbd5e1; padding:2px 6px; border-radius:10px;">PRO</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <h3 style="margin:0;">Relatório de Qualidade</h3>
+            <p style="font-size:0.9rem; color:#64748b; margin:0;">O que a IA vai analisar:</p>
+            <ul style="font-size:0.9rem; color:#334155; padding-left:20px; margin-top:0;">
+                <li>Nota de Qualidade (0-10)</li>
+                <li>Sugestões de Iluminação</li>
+                <li>Dicas de Cenário</li>
+                <li>Potencial de Venda</li>
+            </ul>
+
+            <button class="btn-action" onclick="analyzePhoto()">
+                <i class="fas fa-search"></i> Analisar Imagem Agora
+            </button>
+            
+            <div id="loader" class="loading"><i class="fas fa-spinner fa-spin"></i> A IA está observando os detalhes...</div>
+            <div id="result" class="result-box"></div>
+        </div>
+
+    </div>
+
+    <script>
+        // CONFIGURAÇÃO
+        const API_KEY = "AIzaSyDWpufjH25331yculLeV2zlmzf7sId4Cf4";
+        const MODEL = "gemini-3-flash-preview"; 
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}`;
+
+        // PREVIEW LÓGICA
+        let base64Image = null;
+        const fileInput = document.getElementById('file-input');
+        const previewImg = document.getElementById('preview-img');
+        const uploadContent = document.getElementById('upload-content');
+
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    base64Image = evt.target.result.split(',')[1];
+                    previewImg.src = evt.target.result;
+                    previewImg.style.display = 'block';
+                    uploadContent.style.display = 'none';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // CHAMADA API
+        async function analyzePhoto() {
+            const resBox = document.getElementById('result');
+            const loader = document.getElementById('loader');
+
+            if(!base64Image) return alert("Por favor, envie uma foto primeiro!");
+
+            resBox.style.display = 'none';
+            loader.style.display = 'block';
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        contents: [{ 
+                            parts: [
+                                { text: "Atue como um Fotógrafo Profissional de E-commerce. Analise esta imagem. 1. Dê uma nota (0-10). 2. Liste 3 pontos positivos. 3. Liste 3 melhorias urgentes para vender mais." },
+                                { inline_data: { mime_type: "image/jpeg", data: base64Image } }
+                            ] 
+                        }] 
+                    })
+                });
+
+                const data = await response.json();
+                
+                if(data.error) throw new Error(data.error.message);
+
+                const text = data.candidates[0].content.parts[0].text;
+                resBox.innerHTML = marked.parse(text);
+                resBox.style.display = 'block';
+
+            } catch (error) {
+                alert("Erro: " + error.message);
+            } finally {
+                loader.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
