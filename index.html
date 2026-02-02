@@ -3,65 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartDesc AI - Otimização e Lucro</title>
+    <title>SmartDesc AI - Otimização de Negócios</title>
     <style>
-        /* --- ESTILOS GERAIS --- */
-        :root {
-            --primary: #00ff88; /* Verde Neon */
-            --dark-bg: #0a0a0a;
-            --card-bg: #141414;
-            --text-gray: #b0b0b0;
-        }
+        /* --- DESIGN DARK TECH (O QUE VOCÊ GOSTOU) --- */
+        body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; background-color: #0f0f0f; color: #e0e0e0; line-height: 1.8; }
         
-        body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; background-color: var(--dark-bg); color: #fff; line-height: 1.6; }
-        h1, h2, h3 { margin: 0; }
-        a { text-decoration: none; }
+        /* Cabeçalho */
+        header { display: flex; justify-content: space-between; padding: 20px 40px; align-items: center; background: rgba(20, 20, 20, 0.95); position: fixed; width: 100%; top: 0; z-index: 999; border-bottom: 1px solid #222; box-sizing: border-box; }
+        .logo { font-weight: bold; font-size: 1.5rem; color: #fff; letter-spacing: 1px; }
+        .logo span { color: #00ff88; } /* Verde Tech */
         
-        /* Botões */
-        .btn { padding: 12px 30px; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s; display: inline-block; }
-        .btn-primary { background: var(--primary); color: #000; border: none; }
-        .btn-primary:hover { background: #00cc6a; transform: scale(1.05); }
-        .btn-outline { border: 1px solid #fff; color: #fff; background: transparent; }
-        .btn-outline:hover { background: #fff; color: #000; }
-
-        /* --- CABEÇALHO --- */
-        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; background: rgba(10,10,10,0.95); position: fixed; width: 100%; top: 0; z-index: 1000; box-sizing: border-box; border-bottom: 1px solid #222; }
-        .logo { font-size: 1.5rem; font-weight: bold; color: #fff; }
-        .logo span { color: var(--primary); }
-
-        /* --- HERO (PARTE INICIAL) --- */
-        .hero { margin-top: 80px; padding: 100px 20px; text-align: center; background: radial-gradient(circle at center, #1a2a22 0%, #0a0a0a 70%); }
-        .hero h1 { font-size: 3.5rem; max-width: 800px; margin: 0 auto 20px; line-height: 1.2; }
-        .hero p { font-size: 1.2rem; color: var(--text-gray); max-width: 600px; margin: 0 auto 40px; }
-        .hero-img { margin-top: 50px; width: 100%; max-width: 900px; border-radius: 10px; box-shadow: 0 0 30px rgba(0, 255, 136, 0.1); border: 1px solid #333; }
-
-        /* --- SOBRE A EMPRESA --- */
-        section { padding: 80px 20px; max-width: 1100px; margin: 0 auto; }
-        .about-text { text-align: center; margin-bottom: 60px; }
-        .about-text h2 { font-size: 2.5rem; color: var(--primary); margin-bottom: 20px; }
-        .about-text p { font-size: 1.1rem; color: #ddd; max-width: 800px; margin: 0 auto; }
-
-        /* --- SERVIÇOS (GRID) --- */
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
-        .card { background: var(--card-bg); padding: 30px; border-radius: 10px; border: 1px solid #222; transition: 0.3s; }
-        .card:hover { border-color: var(--primary); transform: translateY(-5px); }
-        .icon { font-size: 2.5rem; margin-bottom: 20px; }
-        .card h3 { margin-bottom: 15px; font-size: 1.3rem; }
-        .card p { color: var(--text-gray); font-size: 0.95rem; }
-
-        /* --- DASHBOARD E RESULTADOS --- */
-        .dashboard-section { display: flex; flex-wrap: wrap; align-items: center; gap: 50px; }
-        .dash-content { flex: 1; }
-        .dash-image { flex: 1; }
-        .dash-image img { width: 100%; border-radius: 10px; border: 1px solid #333; }
-        .highlight { color: var(--primary); font-weight: bold; }
-
-        /* --- CONFIANÇA E CTA --- */
-        .trust-section { text-align: center; background: #111; border-radius: 20px; padding: 60px; margin-top: 80px; border: 1px solid #333; }
-        .trust-section h2 { font-size: 2rem; margin-bottom: 20px; }
+        .btn-login { background: transparent; border: 1px solid #555; color: #fff; padding: 10px 25px; cursor: pointer; border-radius: 5px; text-decoration: none; margin-right: 15px; transition: 0.3s; }
+        .btn-login:hover { border-color: #fff; }
         
-        /* Rodapé */
-        footer { text-align: center; padding: 40px; color: #555; font-size: 0.9rem; border-top: 1px solid #222; margin-top: 50px; }
+        .btn-destaque { background: #00ff88; color: #000; border: none; padding: 12px 30px; font-weight: bold; cursor: pointer; border-radius: 5px; text-decoration: none; transition: 0.3s; box-shadow: 0 0 10px rgba(0,255,136,0.2); }
+        .btn-destaque:hover { background: #00cc6a; transform: scale(1.05); }
+
+        /* Hero Section */
+        .hero { text-align: center; padding: 140px 20px 80px; background: radial-gradient(circle at center, #1a2a1f 0%, #0f0f0f 70%); }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 20px; color: #fff; }
+        .hero p { font-size: 1.3rem; color: #aaa; max-width: 700px; margin: 0 auto 40px; }
+
+        /* Seções de Conteúdo */
+        .section-container { max-width: 1000px; margin: 0 auto; padding: 80px 20px; }
+        .section-title { text-align: center; font-size: 2.5rem; color: #00ff88; margin-bottom: 20px; }
+        .section-subtitle { text-align: center; font-size: 1.1rem; color: #bbb; margin-bottom: 60px; max-width: 800px; margin-left: auto; margin-right: auto; }
+
+        /* Grid de Serviços */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .service-card { background: #1a1a1a; padding: 30px; border-radius: 12px; border: 1px solid #333; transition: 0.3s; }
+        .service-card:hover { border-color: #00ff88; transform: translateY(-5px); }
+        .service-card h3 { color: #fff; font-size: 1.5rem; margin-bottom: 15px; }
+        .service-card p { color: #ccc; font-size: 1rem; }
+
+        /* Área do Dashboard (Imagem + Texto) */
+        .feature-split { display: flex; align-items: center; gap: 50px; margin-top: 50px; flex-wrap: wrap; }
+        .feature-text { flex: 1; }
+        .feature-img { flex: 1; }
+        .feature-img img { width: 100%; border-radius: 10px; border: 1px solid #444; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+
+        /* Confiança */
+        .trust-box { background: #161616; border-left: 5px solid #00ff88; padding: 40px; margin-top: 50px; border-radius: 5px; }
+        
+        /* Footer */
+        footer { background: #0a0a0a; padding: 50px 20px; text-align: center; border-top: 1px solid #222; color: #666; font-size: 0.9rem; }
 
     </style>
 </head>
@@ -70,17 +55,74 @@
     <header>
         <div class="logo">SmartDesc <span>AI</span></div>
         <div>
-            <a href="login.html" class="btn btn-outline" style="margin-right: 10px;">Entrar</a>
-            <a href="cadastro.html" class="btn btn-primary">Começar Agora</a>
+            <a href="login.html" class="btn-login">Área do Cliente</a>
+            <a href="cadastro.html" class="btn-destaque">Contratar Agora</a>
         </div>
     </header>
 
     <section class="hero">
-        <h1>Transforme sua Loja Online em uma Máquina de Lucros</h1>
-        <p>A SmartDesc AI é a empresa responsável pelo seu negócio online. Automatizamos descrições, fotos e anúncios para você vender mais.</p>
-        <a href="cadastro.html" class="btn btn-primary">QUERO OTIMIZAR MINHA LOJA</a>
-        
-        <img src="https://placehold.co/900x450/1a1a1a/00ff88?text=Gráfico+de+Crescimento+de+Vendas" alt="Gráfico de Lucros" class="hero-img">
+        <h1>A Empresa Responsável pelo seu <br><span style="color: #00ff88;">Negócio Online</span></h1>
+        <p>Não somos apenas uma ferramenta. Somos seus parceiros de crescimento. Otimizamos sua loja, seus produtos e seu lucro com Inteligência Artificial de ponta.</p>
+        <a href="cadastro.html" class="btn-destaque">QUERO VENDER MAIS</a>
     </section>
 
-    <section>
+    <div class="section-container">
+        <h2 class="section-title">O Que Fazemos?</h2>
+        <p class="section-subtitle">A SmartDesc AI cuida da parte técnica e criativa para que você foque apenas em receber os pedidos.</p>
+        
+        <div class="services-grid">
+            <div class="service-card">
+                <h3>📝 Artigos & Descrições</h3>
+                <p>Criamos descrições magnéticas para seus produtos. Usamos gatilhos mentais que convencem o cliente a comprar na hora. Nada de textos genéricos; criamos conteúdo que vende.</p>
+            </div>
+            <div class="service-card">
+                <h3>📸 Edição de Fotos</h3>
+                <p>Atualizamos e editamos as fotos dos seus produtos. Melhoramos a iluminação, removemos fundos e deixamos suas imagens profissionais para passar credibilidade.</p>
+            </div>
+            <div class="service-card">
+                <h3>🚀 Google Ads (1º Lugar)</h3>
+                <p>Mexemos profundamente no Google Ads. Configuramos suas campanhas para deixar seu site nas primeiras posições das pesquisas, atraindo o público certo.</p>
+            </div>
+            <div class="service-card">
+                <h3>🤖 Automação Total</h3>
+                <p>Tudo é feito automatizado com I.A. Os melhores algoritmos do mercado trabalhando 24h por dia para o seu negócio não parar nunca.</p>
+            </div>
+        </div>
+    </div>
+
+    <div style="background: #141414;"> <div class="section-container">
+            <div class="feature-split">
+                <div class="feature-img">
+                    <img src="https://placehold.co/600x400/222/00ff88?text=Gráfico+de+Lucros+em+Tempo+Real" alt="Dashboard de Lucros">
+                </div>
+                <div class="feature-text">
+                    <h2 class="section-title" style="text-align: left;">Controle em Tempo Real</h2>
+                    <p>Na SmartDesc AI, você não fica no escuro. Disponibilizamos planilhas de resultados integradas onde você vê:</p>
+                    <ul style="list-style: none; padding: 0; color: #ccc;">
+                        <li style="margin-bottom: 10px;">✅ <strong>Lucro Real:</strong> Quanto dinheiro está entrando.</li>
+                        <li style="margin-bottom: 10px;">✅ <strong>Alcance:</strong> Quantas pessoas foram alcançadas.</li>
+                        <li style="margin-bottom: 10px;">✅ <strong>Retorno (ROI):</strong> A previsão exata do seu crescimento.</li>
+                    </ul>
+                    <p>Você acompanha tudo ao vivo enquanto nossa equipe e nossa IA trabalham.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-container">
+        <div class="trust-box">
+            <h2 style="color: #fff; margin-top: 0;">"Sua confiança é a nossa honra"</h2>
+            <p>Sabemos que entregar o controle do seu marketing é uma decisão séria. Por isso, tratamos seu negócio como se fosse nosso.</p>
+            <p>Nossos clientes atuais estão extremamente satisfeitos com os resultados entregues. Venha fazer parte dessa equipe de vencedores.</p>
+            <br>
+            <a href="cadastro.html" class="btn-destaque" style="width: 100%; display: block; text-align: center; max-width: 300px; margin: 0 auto;">CRESCER COM A SMARTDESC</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>SmartDesc AI &copy; 2025 - Todos os direitos reservados.</p>
+        <p>Feito para empreendedores que buscam o topo.</p>
+    </footer>
+
+</body>
+</html>
