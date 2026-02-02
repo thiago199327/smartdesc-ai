@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - SmartDesc AI</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        /* --- ESTILOS IGUAIS AO DO SITE (PADRÃO VISUAL) --- */
+        body { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            background: #0f0f0f; /* Fundo Dark */
+            color: #e0e0e0; 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            margin: 0; 
+            background-image: radial-gradient(circle at center, #1a2a1f 0%, #0f0f0f 70%);
+        }
+
+        .login-card { 
+            background: #141414; 
+            padding: 50px 40px; 
+            border-radius: 12px; 
+            width: 100%; 
+            max-width: 380px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+            text-align: center; 
+            border: 1px solid #333;
+        }
+
+        .logo { 
+            font-weight: bold; 
+            font-size: 1.8rem; 
+            color: #fff; 
+            letter-spacing: 1px; 
+            margin-bottom: 30px; 
+            display: block;
+        }
+        .logo span { color: #00ff88; } /* Verde Neon */
+
+        label {
+            display: block;
+            text-align: left;
+            margin-bottom: 5px;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        input { 
+            width: 100%; 
+            padding: 12px; 
+            margin-bottom: 20px; 
+            background: #222; 
+            border: 1px solid #444; 
+            color: #fff; 
+            border-radius: 5px; 
+            box-sizing: border-box; 
+            transition: 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #00ff88;
+            background: #1a1a1a;
+        }
+
+        button { 
+            width: 100%; 
+            padding: 14px; 
+            background: #00ff88; 
+            color: #000;
+            border: none; 
+            font-weight: bold; 
+            cursor: pointer; 
+            border-radius: 5px; 
+            font-size: 1rem; 
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+        
+        button:hover { 
+            background: #00cc6a; 
+            transform: scale(1.02);
+        }
+
+        .links { margin-top: 25px; font-size: 0.9rem; color: #888; }
+        .links a { color: #00ff88; text-decoration: none; transition: 0.3s; }
+        .links a:hover { text-decoration: underline; }
+
+        /* Mensagem de Erro */
+        #msg-erro {
+            color: #ff4d4d;
+            background: rgba(255, 77, 77, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            display: none; /* Começa escondido */
+            border: 1px solid #ff4d4d;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <div class="logo">SmartDesc <span>AI</span></div>
+        
+        <div id="msg-erro"></div>
+
+        <label for="email">E-mail</label>
+        <input type="email" id="email" placeholder="seu@email.com">
+        
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" placeholder="••••••••">
+        
+        <button onclick="fazerLogin()">Entrar no Sistema</button>
+
+        <div class="links">
+            <p>Ainda não tem conta? <a href="cadastro.html">Criar conta</a></p>
+            <p style="margin-top: 20px;"><a href="index.html">← Voltar ao site</a></p>
+        </div>
+    </div>
+
+    <script>
+        // --- ATENÇÃO: COLOQUE SUAS CHAVES DO SUPABASE AQUI ---
+        // (São as mesmas chaves que você usou no arquivo cadastro.html)
+        
+        const supabaseUrl = 'https://qlrxmefmfqmgkgkwijqd.supabase.co';
+        const supabaseKey = 'sb_publishable_wrqumZD9tdNh9B2wQVa3JQ_2CE1ZUXq';
+        
+        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+        async function fazerLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('senha').value;
+            const msgErro = document.getElementById('msg-erro');
+
+            // Limpa mensagens anteriores
+            msgErro.style.display = 'none';
+            msgErro.innerText = '';
+
+            if (!email || !password) {
+                mostrarErro("Por favor, preencha e-mail e senha.");
+                return;
+            }
+
+            // Tenta logar no Supabase
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password,
+            })
+
+            if (error) {
+                // Traduz erros do inglês para português para o cliente entender
+                if(error.message.includes("Invalid login")) {
+                    mostrarErro("E-mail ou senha incorretos.");
+                } else if (error.message.includes("Email not confirmed")) {
+                    mostrarErro("Confirme seu e-mail antes de entrar!");
+                } else {
+                    mostrarErro(error.message);
+                }
+            } else {
+                // SUCESSO!
+                alert("Login realizado com sucesso!");
+                // Aqui no futuro vamos mandar ele para o Dashboard
+                // window.location.href = 'dashboard.html'; 
+            }
+        }
+
+        function mostrarErro(texto) {
+            const msgBox = document.getElementById('msg-erro');
+            msgBox.innerText = texto;
+            msgBox.style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>
