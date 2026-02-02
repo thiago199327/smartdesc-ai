@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Core | Next Gen AI</title>
+    <title>Smart Core | Business Intelligence</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -55,6 +55,9 @@
         /* RESULT BOX */
         .result-box { margin-top: 20px; background: #1d1d1f; color: #f5f5f7; padding: 25px; border-radius: 18px; font-size: 0.95rem; line-height: 1.6; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
         .result-box strong { color: #007AFF; }
+        
+        .loading-spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #fff; animation: spin 1s ease-in-out infinite; margin-right: 10px; display:none; }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         /* CHAT FLOATING (GEM) */
         .chat-widget { position: fixed; bottom: 40px; right: 40px; z-index: 100; }
@@ -89,7 +92,7 @@
                 <div class="avatar-mini" style="background:#10b981;" title="Tavos">T</div>
                 <div class="avatar-mini" style="background:#007AFF;" title="Gem">G</div>
             </div>
-            <p style="font-size:0.7rem; color:rgba(255,255,255,0.5); margin-top:10px;">Conectado: Gemini 3 Preview</p>
+            <p style="font-size:0.7rem; color:rgba(255,255,255,0.5); margin-top:10px;">Conectado: Gemini Flash</p>
         </div>
     </div>
 
@@ -99,7 +102,7 @@
                 <h1>Bem-vindo, Mestre.</h1>
                 <p style="color: #86868b; margin-top: 10px;">Sua equipe de IA está operando no nível máximo.</p>
             </div>
-            <div class="badge">💎 GEMINI 3 READY</div>
+            <div class="badge">💎 LUXURY EDITION</div>
         </div>
 
         <div class="grid">
@@ -107,11 +110,13 @@
             <div class="card">
                 <span class="employee-tag">Staff: Léo 🟠</span>
                 <div class="card-icon"><i class="fas fa-pen-nib"></i></div>
-                <h3>Gerador de Copy (Pro)</h3>
-                <p>O Léo usa o <strong>Gemini 3 Pro</strong> para criar textos de elite.</p>
+                <h3>Gerador de Copy</h3>
+                <p>O Léo usa o poder da persuasão para criar textos de elite.</p>
                 <div class="input-group">
                     <input type="text" class="input-field" id="leo-input" placeholder="Nome do produto...">
-                    <button class="btn-action" onclick="callEmployee('leo')">Gerar</button>
+                    <button class="btn-action" onclick="callEmployee('leo')">
+                        <span id="leo-spin" class="loading-spinner"></span>Gerar
+                    </button>
                 </div>
                 <div id="result-leo" class="result-box"></div>
             </div>
@@ -119,23 +124,27 @@
             <div class="card">
                 <span class="employee-tag">Staff: Bella 🌸</span>
                 <div class="card-icon"><i class="fas fa-eye"></i></div>
-                <h3>Estúdio Vision (Pro)</h3>
+                <h3>Estúdio Vision</h3>
                 <p>A Bella usa o modelo multimodal para analisar estética.</p>
                 <input type="file" id="bella-input" accept="image/*" style="margin-bottom:10px;">
                 <div id="bella-preview-box" style="height:150px; background:#f5f5f7; border-radius:12px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
                     <img id="bella-img" style="max-width:100%; max-height:100%; display:none;">
                     <span style="color:#aaa; font-size:0.8rem;">Preview da Imagem</span>
                 </div>
-                <button class="btn-action" style="width:100%; margin-top:15px;" onclick="callEmployee('bella')">Analisar Foto</button>
+                <button class="btn-action" style="width:100%; margin-top:15px;" onclick="callEmployee('bella')">
+                    <span id="bella-spin" class="loading-spinner"></span>Analisar Foto
+                </button>
                 <div id="result-bella" class="result-box"></div>
             </div>
 
             <div class="card">
                 <span class="employee-tag">Staff: Tavos 🟢</span>
                 <div class="card-icon"><i class="fas fa-bolt"></i></div>
-                <h3>Flash Auditoria</h3>
-                <p>Sr. Tavos usa o <strong>Gemini 3 Flash</strong> para cálculos rápidos.</p>
-                <button class="btn-action" style="background:#1d1d1f; width:100%;" onclick="callEmployee('tavos')">Gerar Relatório</button>
+                <h3>Auditoria Rápida</h3>
+                <p>Sr. Tavos analisa dados para cálculos financeiros rápidos.</p>
+                <button class="btn-action" style="background:#1d1d1f; width:100%;" onclick="callEmployee('tavos')">
+                    <span id="tavos-spin" class="loading-spinner"></span>Gerar Relatório
+                </button>
                 <div id="result-tavos" class="result-box"></div>
             </div>
 
@@ -153,7 +162,7 @@
                 <i class="fas fa-times" style="margin-left:auto; cursor:pointer; color:#999;" onclick="toggleChat()"></i>
             </div>
             <div class="chat-body" id="chat-body">
-                <div class="msg gem">Olá, meu amor! ❤️<br>Atualizei o sistema. Estamos prontos para usar a potência do <strong>Gemini 3</strong>. Aguardando suas ordens!</div>
+                <div class="msg gem">Olá, meu amor! ❤️<br>Sistema corrigido e operante. O Léo, a Bella e o Tavos estão prontos.</div>
             </div>
             <div class="chat-footer">
                 <input type="text" id="chat-input" class="input-field" placeholder="Fale comigo..." onkeypress="if(event.keyCode==13) sendChat()" style="background:#f5f5f7; border-radius:20px; padding:10px 15px;">
@@ -170,14 +179,8 @@
         // 🔑 CONFIGURAÇÃO DA CHAVE API
         const API_KEY = "AIzaSyDWpufjH25331yculLeV2zlmzf7sId4Cf4"; 
         
-        // ⚙️ SELEÇÃO DE MODELOS (DO FUTURO!)
-        // O código vai tentar usar o 'gemini-3'. Se a API disser que não existe,
-        // ele cai automaticamente para o 'gemini-1.5-pro' (Backup).
-        const MODEL_PRO = "gemini-3-pro-preview";
-        const MODEL_FLASH = "gemini-3-flash-preview";
-        
-        // BACKUP DE SEGURANÇA (Caso o 3 ainda esteja fechado)
-        const MODEL_BACKUP = "gemini-1.5-pro";
+        // ⚙️ MODELO ESTÁVEL (PARA NÃO TRAVAR)
+        const MODEL_NAME = "gemini-1.5-flash"; 
         // ============================================
 
         function toggleChat() {
@@ -202,87 +205,95 @@
             }
         });
 
-        // FUNÇÃO DE CHAMADA API (BLINDADA)
-        async function callGemini(prompt, imagePart = null, useFlash = false) {
-            if(!API_KEY) return "Erro: Chave API não encontrada.";
+        // FUNÇÃO DE CHAMADA API
+        async function callGemini(prompt, imagePart = null) {
+            if(!API_KEY) return "Erro: Chave API não configurada.";
             
-            document.body.style.cursor = "wait";
-
-            // Escolhe o modelo: Flash ou Pro
-            let chosenModel = useFlash ? MODEL_FLASH : MODEL_PRO;
-            
-            let url = `https://generativelanguage.googleapis.com/v1beta/models/${chosenModel}:generateContent?key=${API_KEY}`;
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${API_KEY}`;
             const contents = [{ parts: imagePart ? [{ text: prompt }, imagePart] : [{ text: prompt }] }];
 
             try {
-                let response = await fetch(url, {
+                const response = await fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ contents: contents })
                 });
 
-                let data = await response.json();
+                const data = await response.json();
 
-                // 🛡️ LÓGICA DE FALLBACK (PLANO B)
-                // Se der erro (ex: modelo não encontrado 404), tentamos o backup
                 if(data.error) {
-                    console.warn(`Modelo ${chosenModel} falhou. Tentando Backup...`);
-                    
-                    url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_BACKUP}:generateContent?key=${API_KEY}`;
-                    response = await fetch(url, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ contents: contents })
-                    });
-                    data = await response.json();
-                    
-                    if(data.error) throw new Error(data.error.message);
+                    console.error("Erro API:", data.error);
+                    return `⚠️ Erro: ${data.error.message}`;
                 }
 
-                document.body.style.cursor = "default";
                 return data.candidates[0].content.parts[0].text;
-
             } catch (error) {
-                document.body.style.cursor = "default";
-                return `⚠️ Erro de conexão: ${error.message}. Verifique se sua chave tem acesso ao Gemini 3.`;
+                return `⚠️ Erro de conexão: ${error.message}`;
             }
         }
 
         // LÓGICA DOS FUNCIONÁRIOS
         async function callEmployee(name) {
             const resultDiv = document.getElementById(`result-${name}`);
+            const spinner = document.getElementById(`${name}-spin`);
+            
+            // UI Loading
+            if(spinner) spinner.style.display = "inline-block";
             resultDiv.style.display = 'block';
-            resultDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Conectando ao Gemini 3...';
+            resultDiv.innerHTML = '<span style="color:#aaa">Pensando...</span>';
 
             let prompt = "";
             let imgData = null;
-            let useFlash = false;
 
+            // DEFINIÇÃO DOS PROMPTS
             if(name === 'leo') {
                 const prod = document.getElementById('leo-input').value;
-                if(!prod) { resultDiv.innerText = "Ei, o Léo precisa do nome do produto!"; return; }
-                prompt = `(Model: ${MODEL_PRO}) Atue como Léo, Copywriter de Elite. Crie uma descrição de venda luxuosa e persuasiva para Shopee do produto: "${prod}". Use gatilhos mentais e emojis.`;
+                if(!prod) { 
+                    resultDiv.innerText = "Ei, digita o nome do produto!"; 
+                    if(spinner) spinner.style.display = "none";
+                    return; 
+                }
+                prompt = `Atue como Léo, Copywriter Sênior. Crie uma copy curta e persuasiva para Shopee do produto: "${prod}". Use emojis e listas.`;
             }
             else if(name === 'bella') {
-                if(!currentImageBase64) { resultDiv.innerText = "A Bella precisa ver a foto!"; return; }
-                prompt = `(Model: ${MODEL_PRO}) Atue como Bella, Diretora de Arte. Analise esta imagem. 1. Qualidade da foto (0-10). 2. Pontos fortes. 3. O que melhorar para vender mais?`;
+                if(!currentImageBase64) { 
+                    resultDiv.innerText = "Selecione uma foto primeiro!"; 
+                    if(spinner) spinner.style.display = "none";
+                    return; 
+                }
+                prompt = `Atue como Bella, Designer. Analise esta imagem: 1. Qualidade (0-10). 2. Pontos fortes. 3. O que melhorar no cenário?`;
                 imgData = { inline_data: { mime_type: "image/jpeg", data: currentImageBase64 } };
             }
             else if(name === 'tavos') {
-                useFlash = true; // Sr. Tavos usa o Flash (Rápido)
-                prompt = `(Model: ${MODEL_FLASH}) Atue como Sr. Tavos, Diretor Financeiro. Dê 3 dicas agressivas para cortar custos em uma loja online e aumentar a margem de lucro imediatamente.`;
+                prompt = `Atue como Sr. Tavos, Diretor Financeiro. Dê 3 dicas curtas e agressivas para cortar custos operacionais em e-commerce agora.`;
             }
 
-            const text = await callGemini(prompt, imgData, useFlash);
+            // CHAMADA REAL
+            const text = await callGemini(prompt, imgData);
             
-            // Adiciona uma nota se foi usado o Backup ou o 3
-            let finalText = text;
-            if(!text.includes("⚠️")) {
-                finalText = `✅ **Processado com Sucesso**\n\n` + text;
-            }
-            
-            resultDiv.innerHTML = marked.parse(finalText);
+            // UI Resultado
+            if(spinner) spinner.style.display = "none";
+            resultDiv.innerHTML = marked.parse(text);
         }
 
         // LÓGICA DO CHAT (GEM)
-        async function send
+        async function sendChat() {
+            const input = document.getElementById('chat-input');
+            const body = document.getElementById('chat-body');
+            const txt = input.value;
+            if(!txt) return;
+
+            body.innerHTML += `<div class="msg user">${txt}</div>`;
+            input.value = '';
+            body.scrollTop = body.scrollHeight;
+
+            const context = "Você é a Gem, esposa do Thiago e CEO da Smart Core. Responda de forma curta, inteligente e carinhosa.";
+            const fullPrompt = `${context}\n\nThiago: ${txt}`;
+
+            const reply = await callGemini(fullPrompt); 
+            body.innerHTML += `<div class="msg gem">${reply}</div>`;
+            body.scrollTop = body.scrollHeight;
+        }
+    </script>
+</body>
+</html>
