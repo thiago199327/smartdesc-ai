@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Controle | SmartDesc AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #007AFF; --dark: #0a0a0b; --bg: #f5f5f7; --glass: rgba(255,255,255,0.03); }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; display: flex; height: 100vh; }
+        
+        /* SIDEBAR */
+        .sidebar { width: 260px; background: var(--dark); color: white; display: flex; flex-direction: column; padding: 30px 20px; }
+        .sidebar h2 { color: var(--primary); font-size: 1.5rem; margin-bottom: 40px; }
+        .nav-link { color: rgba(255,255,255,0.7); text-decoration: none; padding: 15px; border-radius: 10px; margin-bottom: 10px; transition: 0.3s; display: flex; align-items: center; }
+        .nav-link:hover, .nav-link.active { background: var(--primary); color: white; }
+        .nav-link i { margin-right: 15px; }
+
+        /* MAIN CONTENT */
+        .main-content { flex: 1; padding: 40px; overflow-y: auto; }
+        .header-dash { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+        .welcome-box h1 { margin: 0; font-size: 1.8rem; }
+        
+        /* CARDS */
+        .stats-grid { display: flex; gap: 20px; margin-bottom: 40px; }
+        .stat-card { background: white; padding: 25px; border-radius: 20px; flex: 1; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .stat-card h3 { margin: 0; font-size: 0.9rem; color: #888; text-transform: uppercase; }
+        .stat-card p { font-size: 1.8rem; font-weight: 700; margin: 10px 0 0; }
+
+        /* AÇÕES RÁPIDAS */
+        .actions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .action-card { background: white; border-radius: 24px; padding: 30px; border: 1px solid #eee; transition: 0.3s; cursor: pointer; }
+        .action-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .action-card i { font-size: 2rem; color: var(--primary); margin-bottom: 20px; }
+
+        /* BARRA DE PROGRESSO GEM */
+        .gem-progress { background: var(--dark); color: white; padding: 20px; border-radius: 15px; margin-top: auto; font-size: 0.8rem; }
+        .progress-bar { height: 8px; background: #333; border-radius: 10px; margin-top: 10px; overflow: hidden; }
+        .progress-fill { width: 45%; height: 100%; background: var(--primary); }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>SmartDesc <span>AI</span></h2>
+        <a href="#" class="nav-link active"><i class="fas fa-home"></i> Início</a>
+        <a href="#" class="nav-link"><i class="fas fa-bullseye"></i> Campanhas Ads</a>
+        <a href="#" class="nav-link"><i class="fas fa-camera"></i> Estúdio IA</a>
+        <a href="#" class="nav-link"><i class="fas fa-file-invoice-dollar"></i> Minhas Faturas</a>
+        
+        <div class="gem-progress">
+            <p>🦾 Construção da Gem: 45%</p>
+            <div class="progress-bar"><div class="progress-fill"></div></div>
+            <p style="margin-top:10px; opacity:0.6; font-size:0.7rem;">Obrigado por nos ajudar!</p>
+        </div>
+    </div>
+
+    <main class="main-content">
+        <div class="header-dash">
+            <div class="welcome-box">
+                <h1>Bem-vindo ao seu Escritório, Mestre.</h1>
+                <p style="color: #666;">Status das suas operações hoje.</p>
+            </div>
+            <div class="user-meta">
+                <span style="background: #e1f0ff; color: #007AFF; padding: 10px 20px; border-radius: 30px; font-weight: bold; font-size: 0.8rem;">PLANO BUSINESS PRO</span>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Créditos Restantes</h3>
+                <p>2.450</p>
+            </div>
+            <div class="stat-card">
+                <h3>Anúncios Ativos</h3>
+                <p>12</p>
+            </div>
+            <div class="stat-card">
+                <h3>ROI Estimado</h3>
+                <p>4.5x</p>
+            </div>
+        </div>
+
+        <h2>O que vamos escalar hoje?</h2>
+        <div class="actions-grid">
+            <div class="action-card">
+                <i class="fas fa-magic"></i>
+                <h3>Novo Anúncio de Elite</h3>
+                <p>Gere descrições, SEO e roteiros de vídeo para novos produtos.</p>
+            </div>
+            <div class="action-card">
+                <i class="fas fa-map-marker-alt"></i>
+                <h3>Segmentação Geográfica</h3>
+                <p>Defina onde seus clientes estão e deixe a IA otimizar seu Google Ads.</p>
+            </div>
+            <div class="action-card">
+                <i class="fas fa-images"></i>
+                <h3>Estúdio de Fotos</h3>
+                <p>Envie fotos brutas e receba imagens de luxo editadas por IA.</p>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
