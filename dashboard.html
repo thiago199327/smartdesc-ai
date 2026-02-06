@@ -95,11 +95,11 @@
 
 <script>
     // 1. SUPABASE
-    const urlSupabase = 'SUA_URL_SUPABASE'; 
-    const chaveSupabase = 'SUA_CHAVE_ANON';
+    const urlSupabase = 'https://qlrxmefmfqmgkgkwijqd.supabase.co'; 
+    const chaveSupabase = 'sb_publishable_wrqumZD9tdNh9B2wQVa3JQ_2CE1ZUXq';
     let clienteSupabase;
 
-    if(urlSupabase !== 'SUA_URL_SUPABASE') {
+    if(urlSupabase !== 'https://qlrxmefmfqmgkgkwijqd.supabase.co') {
         clienteSupabase = supabase.createClient(urlSupabase, chaveSupabase);
         verificarLogin();
     } else {
