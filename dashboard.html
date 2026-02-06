@@ -21,7 +21,6 @@
         .sidebar { width: 260px; background: var(--primary); color: white; display: flex; flex-direction: column; padding: 25px; z-index: 10; }
         .logo { font-size: 1.4rem; font-weight: 700; margin-bottom: 40px; color: #00ff88; }
         
-        /* Links da Lateral - Agora funcionam como botões de navegação */
         .menu-item { padding: 12px 15px; color: #94a3b8; text-decoration: none; display: flex; align-items: center; gap: 12px; border-radius: 8px; margin-bottom: 5px; cursor: pointer; transition: 0.3s; border: none; background: none; width: 100%; font-size: 1rem; text-align: left; }
         .menu-item:hover, .menu-item.active { background: rgba(255,255,255,0.1); color: white; }
         
@@ -40,9 +39,8 @@
         button.btn-run { background: var(--primary); color: white; border: none; font-weight: 600; cursor: pointer; }
         button.btn-run:hover { background: var(--accent); }
 
-        .result-area { margin-top: 15px; padding: 15px; background: #f8fafc; border-radius: 10px; border-left: 4px solid var(--accent); display: none; }
+        .result-area { margin-top: 15px; padding: 15px; background: #f8fafc; border-radius: 10px; border-left: 4px solid var(--accent); display: none; overflow-wrap: break-word; }
 
-        /* WhatsApp oficial */
         .wa-float { position: fixed; bottom: 30px; right: 30px; background: var(--whatsapp); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); text-decoration: none; z-index: 100; }
     </style>
 </head>
@@ -101,24 +99,29 @@
 <a href="https://wa.me/5541999999999" class="wa-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
 <script>
+    // CHAVE E URL INTEGRADAS
     const GEMINI_KEY = 'AIzaSyBR1VQb1ylcXiW9ByapVVcGHQyQPtyop9Q'; 
-    const URL_BASE = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=" + GEMINI_KEY;
+    const URL_BASE = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + GEMINI_KEY;
 
     async function callAPI(type) {
         let resDiv, prompt;
         if(type === 'ads') {
             resDiv = document.getElementById('res-ads');
-            prompt = "Crie uma copy agressiva de vendas para: " + document.getElementById('prod-ads').value;
+            let input = document.getElementById('prod-ads').value;
+            if(!input) return alert("Descreva o produto!");
+            prompt = "Crie uma copy agressiva de vendas para Shopee/ML para este produto: " + input;
         } else if(type === 'financeiro') {
             resDiv = document.getElementById('res-fin');
-            prompt = "Simule o ROI e lucro de um investimento de R$ " + document.getElementById('investimento').value + " em Facebook Ads.";
+            let valor = document.getElementById('investimento').value;
+            if(!valor) return alert("Insira um valor!");
+            prompt = "Simule detalhadamente o ROI, CPC e lucro estimado de um investimento de R$ " + valor + " em anúncios de e-commerce.";
         } else {
             resDiv = document.getElementById('res-vision');
-            prompt = "Quais as melhores técnicas de edição de foto para esse produto vender mais?";
+            prompt = "Dê 3 dicas técnicas de edição de imagem/vídeo para aumentar a conversão de anúncios online.";
         }
 
         resDiv.style.display = 'block';
-        resDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Inteligência Híbrida em ação...';
+        resDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Inteligência SmartDesc processando...';
 
         try {
             const resp = await fetch(URL_BASE, {
@@ -127,13 +130,23 @@
                 body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
             });
             const data = await resp.json();
-            resDiv.innerHTML = marked.parse(data.candidates[0].content.parts[0].text);
+            
+            if (data.candidates && data.candidates[0].content) {
+                const textoFinal = data.candidates[0].content.parts[0].text;
+                resDiv.innerHTML = marked.parse(textoFinal);
+            } else {
+                resDiv.innerHTML = "Erro: A IA não respondeu corretamente. Verifique o limite da chave.";
+            }
         } catch (e) {
-            resDiv.innerHTML = "Erro: Verifique sua chave API.";
+            resDiv.innerHTML = "Erro crítico: Não foi possível conectar ao motor da IA.";
+            console.error(e);
         }
     }
 
-    function fazerLogout() { window.location.href = 'login.html'; }
+    function fazerLogout() { 
+        alert("Saindo do Painel Enterprise...");
+        window.location.href = 'login.html'; 
+    }
 </script>
 </body>
 </html>
