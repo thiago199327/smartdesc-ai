@@ -128,26 +128,59 @@
         box.style.display = box.style.display === 'flex' ? 'none' : 'flex';
     }
 
-    async function callAPI(type) {
-        const resDiv = document.getElementById(`res-${type}`);
-        resDiv.style.display = 'block';
-        resDiv.innerHTML = "Processando...";
+    // CONFIGURAÇÃO DAS MÁQUINAS
+const API_KEY = "AIzaSyBR1VQb1ylcXiW9ByapVVcGHQyQPtyop9Q"; 
+const URL_BASE = "https://generativelanguage.googleapis.com/v1beta/models/";
 
-        let prompt = "";
-        if(type === 'ads') prompt = `Crie uma copy para Shopee do produto: ${document.getElementById('prod-ads').value}`;
+// A FUNÇÃO HÍBRIDA (TRABALHO EM EQUIPE)
+async function callAPI(type) {
+    const resDiv = document.getElementById(`res-${type}`);
+    const errDiv = document.getElementById(`err-${type}`);
+    
+    resDiv.style.display = 'block';
+    resDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Acionando os motores...';
+    errDiv.style.display = 'none';
+
+    try {
+        // ETAPA 1: O "Irmão Mais Velho" (1.5 Flash) prepara o terreno
+        // Ele vai limpar o texto e entender o que o cliente quer.
+        const inputUsuario = document.getElementById('prod-ads').value;
         
-        try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-            });
-            const data = await response.json();
-            resDiv.innerHTML = marked.parse(data.candidates[0].content.parts[0].text);
-        } catch (e) {
-            resDiv.innerHTML = "Erro ao conectar com a IA.";
-        }
+        const promptTriagem = `Limpe e organize os dados deste produto para um anúncio, remova erros e deixe apenas as especificações: ${inputUsuario}`;
+        
+        const respWorker = await fetch(`${URL_BASE}gemini-1.5-flash:generateContent?key=${API_KEY}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts: [{ text: promptTriagem }] }] })
+        });
+        
+        const dataWorker = await respWorker.json();
+        const textoLimpo = dataWorker.candidates[0].content.parts[0].text;
+
+        resDiv.innerHTML = '<i class="fas fa-magic"></i> 1.5 Flash organizou os dados. Gemini 3 finalizando copy...';
+
+        // ETAPA 2: O "Caçula Elite" (Gemini 3) entra para dar o brilho final
+        // Ele recebe o texto já mastigado pelo 1.5.
+        const promptElite = `Com base nestes dados organizados: ${textoLimpo}, crie uma copy de ELITE para Shopee, focada em gatilhos mentais e alta conversão.`;
+
+        const respElite = await fetch(`${URL_BASE}gemini-3-flash-preview:generateContent?key=${API_KEY}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts: [{ text: promptElite }] }] })
+        });
+
+        const dataElite = await respElite.json();
+        const copyFinal = dataElite.candidates[0].content.parts[0].text;
+
+        // RESULTADO FINAL
+        resDiv.innerHTML = marked.parse(copyFinal);
+
+    } catch (error) {
+        resDiv.style.display = 'none';
+        errDiv.style.display = 'block';
+        errDiv.innerHTML = `<strong>Erro na Operação:</strong> ${error.message}`;
     }
+}
 </script>
 
 </body>
