@@ -14,124 +14,142 @@
         :root {
             --primary: #0f172a; --accent: #3b82f6; --bg: #f1f5f9;
             --surface: #ffffff; --text: #334155; --border: #cbd5e1;
-            --error: #ef4444; --success: #22c55e;
+            --error: #ef4444; --success: #22c55e; --whatsapp: #25d366;
         }
         body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
+        
+        /* Sidebar */
         .sidebar { width: 260px; background: var(--primary); color: white; display: flex; flex-direction: column; padding: 25px; z-index: 10; }
-        .logo { font-size: 1.4rem; font-weight: 700; margin-bottom: 40px; }
-        .menu-item { padding: 12px 15px; color: #94a3b8; text-decoration: none; display: flex; align-items: center; gap: 12px; border-radius: 8px; margin-bottom: 5px; cursor: pointer; }
-        .menu-item.active { background: rgba(255,255,255,0.1); color: white; }
+        .logo { font-size: 1.4rem; font-weight: 700; margin-bottom: 40px; color: #00ff88; }
+        .menu-item { padding: 12px 15px; color: #94a3b8; text-decoration: none; display: flex; align-items: center; gap: 12px; border-radius: 8px; margin-bottom: 5px; cursor: pointer; transition: 0.3s; }
+        .menu-item:hover, .menu-item.active { background: rgba(255,255,255,0.1); color: white; }
         .btn-logout { margin-top: auto; color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); }
+
+        /* Main Content */
         .main { flex: 1; padding: 40px; overflow-y: auto; }
-        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
         .status-badge { background: white; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; border: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
-        .dot { width: 8px; height: 8px; background: var(--success); border-radius: 50%; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
-        .tool-card { background: var(--surface); padding: 25px; border-radius: 16px; border: 1px solid var(--border); }
-        input, button.btn-run { width: 100%; padding: 12px; border-radius: 8px; box-sizing: border-box; margin-bottom: 15px; }
-        button.btn-run { background: var(--primary); color: white; border: none; font-weight: 600; cursor: pointer; }
-        .result-area { margin-top: 20px; padding: 15px; background: #f8fafc; border-radius: 10px; border-left: 4px solid var(--accent); display: none; }
+        .dot { width: 8px; height: 8px; background: var(--success); border-radius: 50%; box-shadow: 0 0 10px var(--success); }
+
+        /* Banner de Propaganda Interna */
+        .promo-banner { background: linear-gradient(90deg, #1e293b, #3b82f6); color: white; padding: 20px; border-radius: 16px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; }
+
+        /* Grid de Ferramentas */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .tool-card { background: var(--surface); padding: 20px; border-radius: 16px; border: 1px solid var(--border); transition: 0.3s; }
+        .tool-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .card-icon { font-size: 1.5rem; color: var(--accent); margin-bottom: 15px; }
+
+        input, select, textarea, button.btn-run { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 10px; font-family: inherit; }
+        button.btn-run { background: var(--primary); color: white; border: none; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        button.btn-run:hover { background: var(--accent); }
+
+        .result-area { margin-top: 15px; padding: 15px; background: #f8fafc; border-radius: 10px; border-left: 4px solid var(--accent); display: none; font-size: 0.9rem; }
+
+        /* WhatsApp Flutuante */
+        .wa-float { position: fixed; bottom: 30px; right: 30px; background: var(--whatsapp); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); cursor: pointer; z-index: 100; transition: 0.3s; }
+        .wa-float:hover { transform: scale(1.1); }
     </style>
 </head>
 <body>
 
 <div class="sidebar">
-    <div class="logo"><i class="fas fa-layer-group"></i> SmartDesc Ai</div>
-    <div class="menu-item active"><i class="fas fa-chart-pie"></i> Dashboard</div>
+    <div class="logo"><i class="fas fa-layer-group"></i> SmartDesc <span>AI</span></div>
+    <div class="menu-item active"><i class="fas fa-home"></i> Home</div>
+    <div class="menu-item"><i class="fas fa-wallet"></i> Financeiro</div>
+    <div class="menu-item"><i class="fas fa-bullhorn"></i> Marketing</div>
+    <div class="menu-item"><i class="fas fa-image"></i> Editor Vision</div>
     <div class="menu-item btn-logout" onclick="fazerLogout()"><i class="fas fa-sign-out-alt"></i> Sair</div>
 </div>
 
 <main class="main">
     <div class="top-bar">
-        <h1>Painel de Controle</h1>
+        <h1>Dashboard <span style="font-weight: 400; color: #64748b;">Enterprise</span></h1>
         <div style="display: flex; align-items: center;">
-            <span id="user-display" style="margin-right: 15px;">Acessando...</span>
-            <div class="status-badge"><div class="dot"></div> Sistema Híbrido Ativo</div>
+            <span id="user-display" style="margin-right: 15px; font-weight: 600;">Thiago | Admin</span>
+            <div class="status-badge"><div class="dot"></div> Rede Neural Ativa</div>
         </div>
+    </div>
+
+    <div class="promo-banner">
+        <div>
+            <h3 style="margin: 0;">Plano Vision Pro Ativo</h3>
+            <p style="margin: 5px 0 0; opacity: 0.8;">Você tem acesso ilimitado à edição de vídeos e análise de ROI.</p>
+        </div>
+        <button style="background: white; color: var(--primary); border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor:pointer;">VER UPGRADES</button>
     </div>
 
     <div class="grid">
         <div class="tool-card">
             <div class="card-icon"><i class="fas fa-pen-nib"></i></div>
-            <h3>Gerador de Copy (1.5 + 3.0)</h3>
-            <input type="text" id="prod-ads" placeholder="Ex: Fone Bluetooth Pro">
-            <button class="btn-run" onclick="callAPI('ads')"><i class="fas fa-bolt"></i> Gerar Copy de Elite</button>
+            <h3>Copywriting de Elite</h3>
+            <textarea id="prod-ads" placeholder="Descreva o produto ou cole o link..."></textarea>
+            <button class="btn-run" onclick="callAPI('ads')">GERAR COPY HÍBRIDA</button>
             <div id="res-ads" class="result-area"></div>
+        </div>
+
+        <div class="tool-card">
+            <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+            <h3>Financeiro & Marketing</h3>
+            <input type="number" id="investimento" placeholder="Investimento em Ads (R$)">
+            <button class="btn-run" style="background: #1e293b;" onclick="callAPI('financeiro')">CALCULAR PREVISÃO ROI</button>
+            <div id="res-fin" class="result-area"></div>
+        </div>
+
+        <div class="tool-card">
+            <div class="card-icon"><i class="fas fa-video"></i></div>
+            <h3>Vision Editor (Imagens/Vídeos)</h3>
+            <input type="file" id="media-upload">
+            <button class="btn-run" style="background: #8b5cf6;" onclick="callAPI('vision')">PROCESSAR MÍDIA</button>
+            <div id="res-vision" class="result-area"></div>
         </div>
     </div>
 </main>
 
+<a href="https://wa.me/5541999999999" class="wa-float" target="_blank">
+    <i class="fab fa-whatsapp"></i>
+</a>
+
 <script>
-    // ==========================================
-    // 1. CONFIGURAÇÕES (AS CHAVES DO IMPÉRIO)
-    // ==========================================
-    const SUPABASE_URL = 'https://qlrxmefmfqmgkgkwijqd.supabase.co';
-    const SUPABASE_KEY = 'sb_publishable_wrqumZD9tdNh9B2wQVa3JQ_2CE1ZUXq';
-    const GEMINI_KEY   = 'AIzaSyBR1VQb1ylcXiW9ByapVVcGHQyQPtyop9Q'; 
-    const URL_BASE     = "https://generativelanguage.googleapis.com/v1beta/models/";
+    const GEMINI_KEY = 'AIzaSyBR1VQb1ylcXiW9ByapVVcGHQyQPtyop9Q'; 
+    const URL_BASE   = "https://generativelanguage.googleapis.com/v1beta/models/";
 
-    const clienteSupabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    // ==========================================
-    // 2. SEGURANÇA (LOGIN)
-    // ==========================================
-    async function verificarLogin() {
-        try {
-            const { data } = await clienteSupabase.auth.getSession();
-            if (!data.session) {
-                document.getElementById('user-display').innerText = "Modo de Teste";
-            } else {
-                document.getElementById('user-display').innerText = data.session.user.email;
-            }
-        } catch (e) {
-            document.getElementById('user-display').innerText = "Erro no Supabase";
-        }
-    }
-    verificarLogin();
-
-    async function fazerLogout() {
-        await clienteSupabase.auth.signOut();
-        window.location.href = 'login.html';
-    }
-
-    // ==========================================
-    // 3. INTELIGÊNCIA HÍBRIDA (OS DOIS IRMÃOS)
-    // ==========================================
     async function callAPI(type) {
-        const resDiv = document.getElementById(`res-ads`);
-        const inputUsuario = document.getElementById('prod-ads').value;
-
-        if(!inputUsuario) return alert("Digite o nome do produto!");
+        let resDiv, prompt;
+        
+        if(type === 'ads') {
+            resDiv = document.getElementById('res-ads');
+            const input = document.getElementById('prod-ads').value;
+            prompt = `Crie uma copy de alta conversão para Shopee/ML usando gatilhos mentais: ${input}`;
+        } else if(type === 'financeiro') {
+            resDiv = document.getElementById('res-fin');
+            const valor = document.getElementById('investimento').value;
+            prompt = `Com um investimento de R$ ${valor} em anúncios, qual a previsão detalhada de retorno (ROI), CPC e CPA médio para o nicho de e-commerce atual?`;
+        } else {
+            resDiv = document.getElementById('res-vision');
+            prompt = "Análise técnica: Como editar uma foto de produto para aumentar a taxa de cliques em 40%?";
+        }
 
         resDiv.style.display = 'block';
-        resDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 1.5 Flash limpando os dados...';
+        resDiv.innerHTML = '<i class="fas fa-sync fa-spin"></i> Processando com Inteligência Híbrida...';
 
         try {
-            // ETAPA 1: O Irmão mais velho (1.5) organiza
-            const resp15 = await fetch(`${URL_BASE}gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`, {
+            const resp = await fetch(`${URL_BASE}gemini-3-flash-preview:generateContent?key=${GEMINI_KEY}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ contents: [{ parts: [{ text: `Organize os dados técnicos para anúncio: ${inputUsuario}` }] }] })
+                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
             });
-            const data15 = await resp15.json();
-            const dadosLimpos = data15.candidates[0].content.parts[0].text;
-
-            resDiv.innerHTML = '<i class="fas fa-magic"></i> Dados prontos. Gemini 3 criando a copy...';
-
-            // ETAPA 2: O Caçula Elite (3.0) finaliza
-            const resp3 = await fetch(`${URL_BASE}gemini-3-flash-preview:generateContent?key=${GEMINI_KEY}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ contents: [{ parts: [{ text: `Crie uma copy de elite para Shopee com estes dados: ${dadosLimpos}` }] }] })
-            });
-            const data3 = await resp3.json();
-            const copyFinal = data3.candidates[0].content.parts[0].text;
-
-            resDiv.innerHTML = marked.parse(copyFinal);
-
-        } catch (error) {
-            resDiv.innerHTML = "Erro na operação. Verifique as chaves de API.";
+            const data = await resp.json();
+            const final = data.candidates[0].content.parts[0].text;
+            resDiv.innerHTML = marked.parse(final);
+        } catch (e) {
+            resDiv.innerHTML = "Erro de conexão. Verifique sua chave API.";
         }
+    }
+
+    function fazerLogout() {
+        alert("Saindo do sistema...");
+        window.location.href = 'login.html';
     }
 </script>
 </body>
