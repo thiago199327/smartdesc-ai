@@ -4,7 +4,124 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Enterprise | SmartDesc Ai</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    // ==========================================
+// 1. CONFIGURAÇÃO SUPABASE
+// ==========================================
+
+// --- Thiago, coloque suas chaves reais aqui quando for subir ---
+const urlSupabase = 'SUA_URL_SUPABASE_AQUI'; 
+const chaveSupabase = 'SUA_CHAVE_ANON_AQUI';
+
+let clienteSupabase;
+
+try {
+    // Só tenta criar o cliente se as chaves não forem as padrão
+    if(urlSupabase !== 'SUA_URL_SUPABASE_AQUI') {
+        clienteSupabase = supabase.createClient(urlSupabase, chaveSupabase);
+        verificarLogin();
+    } else {
+        console.warn("Chaves do Supabase não configuradas. O login não funcionará.");
+        document.getElementById('user-display').innerText = "Modo Offline (Sem Supabase)";
+    }
+} catch (e) {
+    console.error("Erro ao carregar Supabase:", e);
+}
+
+async function verificarLogin() {
+    const { data, error } = await clienteSupabase.auth.getSession();
+    if (error || !data.session) {
+        window.location.href = 'login.html';
+    } else {
+        document.getElementById('user-display').innerText = data.session.user.email;
+    }
+}
+
+async function fazerLogout() {
+    if(clienteSupabase) {
+        await clienteSupabase.auth.signOut();
+        window.location.href = 'login.html';
+    }
+}
+
+// ==========================================
+// 2. CONFIGURAÇÃO IA (GEMINI)
+// ==========================================
+
+// Use o modelo 1.5-flash para garantir estabilidade agora
+const API_KEY = "SUA_API_KEY_AQUI"; // Thiago, use uma variável de ambiente se puder!
+const MODEL = "gemini-1.5-flash"; 
+const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}`;
+
+function toggleChat() {
+    const box = document.getElementById('chat-box');
+    box.style.display = (box.style.display === 'flex') ? 'none' : 'flex';
+}
+
+let base64Img = null;
+document.getElementById('file-vision').addEventListener('change', function(e){
+    const file = e.target.files[0];
+    if(file){
+        const r = new FileReader();
+        r.onload = function(evt){
+            base64Img = evt.target.result.split(',')[1];
+            const img = document.getElementById('img-show');
+            img.src = evt.target.result;
+            img.style.display = 'block';
+            document.querySelector('#preview-vision span').style.display = 'none';
+        }
+        r.readAsDataURL(file);
+    }
+});
+
+async function callAPI(type) {
+    const resDiv = document.getElementById(`res-${type}`);
+    const errDiv = document.getElementById(`err-${type}`);
+    
+    resDiv.style.display = 'block';
+    resDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
+    errDiv.style.display = 'none';
+    
+    let contents = [];
+    
+    if (type === 'ads') {
+        const prod = document.getElementById('prod-ads').value;
+        if(!prod) {
+            resDiv.style.display = 'none';
+            return alert("Digite o nome do produto.");
+        }
+        contents = [{ parts: [{ text: `Crie um anúncio profissional para Shopee do produto: ${prod}. Foque em benefícios e use emojis.` }] }];
+    } 
+    else if (type === 'vision') {
+        if(!base64Img) {
+            resDiv.style.display = 'none';
+            return alert("Selecione uma imagem primeiro.");
+        }
+        contents = [{ parts: [{ text: "Analise a qualidade desta imagem para um anúncio de e-commerce. Dê nota de 0 a 10 e diga o que melhorar." }, { inline_data: { mime_type: "image/jpeg", data: base64Img } }] }];
+    }
+    else if (type === 'finance') {
+        contents = [{ parts: [{ text: "Dê 3 dicas práticas para reduzir o CAC (Custo de Aquisição de Cliente) na Shopee." }] }];
+    }
+
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: contents })
+        });
+
+        const data = await response.json();
+
+        if(data.error) throw new Error(data.error.message);
+
+        const textResponse = data.candidates[0].content.parts[0].text;
+        resDiv.innerHTML = marked.parse(textResponse);
+
+    } catch (error) {
+        resDiv.style.display = 'none';
+        errDiv.style.display = 'block';
+        errDiv.innerHTML = `<strong>Erro:</strong> ${error.message}. Verifique sua API Key.`;
+    }
+}
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
