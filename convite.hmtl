@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convidar - Elo Digital</title>
+    <style>
+        :root { --primary: #7B2CBF; --secondary: #E63946; --glass: rgba(255, 255, 255, 0.8); }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh;
+        }
+
+        .header { padding: 40px 20px; text-align: center; }
+        .header h1 { color: var(--primary); margin: 0; font-size: 1.8rem; }
+
+        .invite-card {
+            background: var(--glass); backdrop-filter: blur(15px);
+            border-radius: 30px; padding: 30px; width: 90%; max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.3);
+            text-align: center;
+        }
+
+        .input-group { margin-bottom: 20px; text-align: left; }
+        label { display: block; font-size: 0.8rem; font-weight: bold; color: #555; margin-bottom: 8px; margin-left: 10px; }
+        
+        input { 
+            width: 100%; padding: 15px; border-radius: 15px; border: 1px solid rgba(0,0,0,0.1); 
+            background: white; outline: none; font-size: 1rem; box-sizing: border-box;
+        }
+
+        .btn-generate { 
+            background: var(--primary); color: white; border: none; padding: 15px 30px; 
+            border-radius: 15px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s;
+        }
+
+        #resultArea { display: none; margin-top: 25px; animation: fadeIn 0.5s ease; }
+        .link-box { 
+            background: #eee; padding: 15px; border-radius: 10px; font-size: 0.8rem; 
+            word-break: break-all; margin-bottom: 15px; color: #444; border: 1px dashed #ccc;
+        }
+
+        .btn-whatsapp { 
+            background: #25D366; color: white; border: none; padding: 12px; 
+            border-radius: 10px; width: 100%; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+
+        /* Menu de Navegação */
+        .nav-menu { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; height: 70px; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(15px); display: flex; justify-content: space-around; align-items: center; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .nav-item { text-decoration: none; color: #888; font-size: 1.5rem; }
+        .nav-item.active { color: var(--primary); }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>🤝 Gerar Convite</h1>
+        <p style="color: #666; font-size: 0.9rem;">Expanda a rede de honra</p>
+    </div>
+
+    <div class="invite-card">
+        <div class="input-group">
+            <label>NOME DO FUTURO ELO</label>
+            <input type="text" id="nomeAmigo" placeholder="Ex: João Silva">
+        </div>
+
+        <button class="btn-generate" onclick="gerarLink()">GERAR LINK EXCLUSIVO</button>
+
+        <div id="resultArea">
+            <p style="font-size: 0.8rem; color: #333;">Envie este link para seu convidado:</p>
+            <div class="link-box" id="linkFinal"></div>
+            <button class="btn-whatsapp" id="btnZap">
+                <span>📱</span> Enviar via WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <div class="nav-menu">
+        <a href="index.html" class="nav-item">🏠</a>
+        <a href="explorar.html" class="nav-item">🌎</a>
+        <a href="convite.html" class="nav-item active">🤝</a>
+        <a href="perfil.html" class="nav-item">👤</a>
+        <a href="configuracoes.html" class="nav-item">⚙️</a>
+    </div>
+
+    <script>
+        function gerarLink() {
+            const nome = document.getElementById('nomeAmigo').value;
+            if(!nome) return alert("Por favor, digite o nome do convidado.");
+
+            // Pega a URL atual do site e aponta para o adicionar.html
+            const urlBase = window.location.href.replace('convite.html', 'adicionar.html');
+            const linkCompleto = `${urlBase}?origem=thiago&quem=${encodeURIComponent(nome)}`;
+
+            document.getElementById('linkFinal').innerText = linkCompleto;
+            document.getElementById('resultArea').style.display = "block";
+
+            // Configura o botão do WhatsApp
+            const textoZap = `Olá ${nome}! Tenho a honra de te convidar para fazer parte da minha rede no Elo Digital. Acesse aqui: ${linkCompleto}`;
+            document.getElementById('btnZap').onclick = () => {
+                window.open(`https://wa.me/?text=${encodeURIComponent(textoZap)}`, '_blank');
+            };
+        }
+    </script>
+</body>
+</html>
