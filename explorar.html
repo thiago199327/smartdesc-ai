@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorar Elos - Elo Digital</title>
+    <style>
+        :root { --primary: #7B2CBF; --secondary: #E63946; --gold: #FFD700; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0; padding-bottom: 100px; display: flex; flex-direction: column; align-items: center;
+        }
+
+        .header { padding: 40px 20px; text-align: center; }
+        .header h1 { color: var(--primary); margin: 0; font-size: 1.8rem; }
+
+        .ranking-container { width: 90%; max-width: 500px; background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); border-radius: 25px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+
+        .ranking-item { 
+            display: flex; align-items: center; padding: 15px; 
+            background: white; margin-bottom: 10px; border-radius: 15px;
+            transition: 0.3s; border: 1px solid rgba(0,0,0,0.05);
+        }
+        .ranking-item:hover { transform: scale(1.02); }
+
+        .posicao { width: 40px; font-weight: 900; font-size: 1.2rem; color: #888; }
+        .medalha { font-size: 1.5rem; margin-right: 10px; }
+        
+        .info { flex-grow: 1; }
+        .info h4 { margin: 0; color: #333; }
+        .info span { font-size: 0.8rem; color: #999; }
+
+        .score-pill { 
+            background: var(--primary); color: white; 
+            padding: 5px 12px; border-radius: 20px; 
+            font-weight: bold; font-size: 0.9rem;
+        }
+
+        /* Navegação */
+        .nav-menu { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; height: 70px; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(15px); display: flex; justify-content: space-around; align-items: center; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .nav-item { text-decoration: none; color: #888; font-size: 1.5rem; }
+        .nav-item.active { color: var(--primary); }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>🏆 Ranking de Honra</h1>
+        <p style="color: #666; font-size: 0.9rem;">Os Elos mais fortes da rede</p>
+    </div>
+
+    <div class="ranking-container" id="rankingList">
+        <p style="text-align:center; opacity:0.5;">Calculando méritos...</p>
+    </div>
+
+    <div class="nav-menu">
+        <a href="index.html" class="nav-item">🏠</a>
+        <a href="biblioteca.html" class="nav-item">📚</a>
+        <a href="explorar.html" class="nav-item active">🌎</a>
+        <a href="perfil.html" class="nav-item">👤</a>
+    </div>
+
+    <script>
+        const BASE_URL = "https://thiago19932-elo-digital-33.deno.dev";
+
+        async function carregarRanking() {
+            try {
+                const res = await fetch(`${BASE_URL}/elos`);
+                const elos = await res.json();
+                
+                // Buscar scores de todos e ordenar
+                const elosComScore = await Promise.all(elos.map(async (elo) => {
+                    const resScore = await fetch(`${BASE_URL}/score/${elo.email}`);
+                    const data = await resScore.json();
+                    return { ...elo, score: data.media || 0 };
+                }));
+
+                // Ordenar do maior para o menor
+                elosComScore.sort((a, b) => b.score - a.score);
+
+                const list = document.getElementById('rankingList');
+                list.innerHTML = "";
+
+                elosComScore.forEach((elo, index) => {
+                    let medalha = "";
+                    if(index === 0) medalha = "🥇";
+                    else if(index === 1) medalha = "🥈";
+                    else if(index === 2) medalha = "🥉";
+
+                    const item = document.createElement('div');
+                    item.className = 'ranking-item';
+                    item.innerHTML = `
+                        <div class="posicao">${index + 1}º</div>
+                        <div class="medalha">${medalha}</div>
+                        <div class="info">
+                            <h4>${elo.nome}</h4>
+                            <span>${elo.local || 'Global'}</span>
+                        </div>
+                        <div class="score-pill">${elo.score}%</div>
+                    `;
+                    list.appendChild(item);
+                });
+            } catch (e) {
+                document.getElementById('rankingList').innerHTML = "Erro ao carregar ranking.";
+            }
+        }
+
+        carregarRanking();
+    </script>
+</body>
+</html>
